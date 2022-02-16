@@ -5,4 +5,9 @@
     <string name="mobile_no">Mobile No.</string>
     <string name="your_bd">Your Birth Date</string>
     <string name="Submit">Submit</string>
+    <string name="Gift">Gift</string>
+    <string name="Favourite">Favourite</string>
+    <string name="Home">Home</string>
+    <string name="Notification">Notification</string>
+    <string name="About">About</string>
 </resources>

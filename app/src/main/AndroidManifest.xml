@@ -24,5 +24,10 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/FullScreenTheme" />
+        <activity
+            android:name=".ui.activity.HomeActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullScreenTheme" />
     </application>
 </manifest>

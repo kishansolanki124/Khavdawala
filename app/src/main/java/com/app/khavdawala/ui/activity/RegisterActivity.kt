@@ -1,5 +1,6 @@
 package com.app.khavdawala.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.app.khavdawala.databinding.ActivityRegisterBinding
@@ -22,6 +23,9 @@ class RegisterActivity : AppCompatActivity() {
 //        })
 
         binding.btSubmitRegister.setOnClickListener {
+
+            startActivity(Intent(this, HomeActivity::class.java))
+
 //            if (areFieldsValid()) {
 //                if (isConnected(this)) {
 //                    pbRegister.visibility = View.VISIBLE
