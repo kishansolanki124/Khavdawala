@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:background="@drawable/splash"
+    android:gravity="bottom|center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/dp_20"
+    tools:context=".ui.activity.RegisterActivity">
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etName"
+        style="@style/CommonEditText"
+        android:hint="@string/your_name"
+        android:imeOptions="actionNext"
+        android:inputType="textCapWords"
+        android:maxLength="30" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etCity"
+        style="@style/CommonEditText"
+        android:hint="@string/mobile_no"
+        android:imeOptions="actionNext"
+        android:inputType="textCapWords"
+        android:maxLength="30" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etContact"
+        style="@style/CommonEditText"
+        android:hint="@string/your_bd"
+        android:imeOptions="actionDone"
+        android:inputType="numberSigned"
+        android:maxLength="10" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btSubmitRegister"
+            style="@style/CommonButton"
+            android:text="@string/Submit"
+            android:textAllCaps="false"
+            tools:ignore="MissingConstraints" />
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/pbRegister"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:indeterminateTint="@color/btnBG"
+            android:indeterminateTintMode="multiply"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/btSubmitRegister"
+            app:layout_constraintEnd_toEndOf="@+id/btSubmitRegister"
+            app:layout_constraintStart_toStartOf="@+id/btSubmitRegister"
+            app:layout_constraintTop_toTopOf="@+id/btSubmitRegister" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
