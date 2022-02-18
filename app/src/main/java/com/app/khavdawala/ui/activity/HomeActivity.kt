@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction
 import com.app.khavdawala.R
 import com.app.khavdawala.databinding.ActivityHomeBinding
 import com.app.khavdawala.ui.fragment.HomeFragment
+import com.app.khavdawala.ui.fragment.NotificationListFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
@@ -117,7 +118,7 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     switchFragment(HomeFragment(), false)
                 }
                 R.id.navigation_not -> {
-                    //switchFragment(ShraddhanjaliHomeFragment(), false)
+                    switchFragment(NotificationListFragment(), false)
                 }
                 R.id.navigation_about -> {
                     //switchFragment(EMagazineFragment(), false)
