@@ -9,10 +9,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.app.khavdawala.R
 import com.app.khavdawala.databinding.FragmentProductDetailBinding
 import com.app.khavdawala.pojo.CustomClass
+import com.app.khavdawala.ui.adapter.DemoCollectionAdapter
 import com.app.khavdawala.ui.adapter.HorizontalProductListAdapter
 import com.app.khavdawala.ui.adapter.IntroAdapter
 import com.google.android.material.tabs.TabLayoutMediator
@@ -36,13 +36,15 @@ class ProductDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        demoCollectionAdapter = DemoCollectionAdapter(this)
+        val fragmmentList: ArrayList<Fragment> = ArrayList()
+        fragmmentList.add(ProductDescriptinoFragment())
+        fragmmentList.add(ProductDescriptinoFragment())
+        demoCollectionAdapter = DemoCollectionAdapter(this, fragmmentList, 2)
         binding.pager.adapter = demoCollectionAdapter
 
         TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
             tab.text = "OBJECT ${(position + 1)}"
         }.attach()
-
 
         val imageList: ArrayList<Drawable> = ArrayList()
         imageList.add(ContextCompat.getDrawable(requireContext(), R.drawable.banner_1)!!)
@@ -127,15 +129,5 @@ class ProductDetailFragment : Fragment() {
 //                handler.post(update)
 //            }
 //        }, 4000, 4000)
-    }
-
-}
-
-class DemoCollectionAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-
-    override fun getItemCount(): Int = 2
-
-    override fun createFragment(position: Int): Fragment {
-        return ProductDescriptinoFragment()
     }
 }
