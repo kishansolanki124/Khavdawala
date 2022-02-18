@@ -1,5 +1,6 @@
 package com.app.khavdawala.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +29,10 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         binding.bottomNavigationView.setOnNavigationItemSelectedListener(this)
 
         switchFragment(HomeFragment(), false)
+
+        binding.toolbar.ivCart.setOnClickListener {
+            startActivity(Intent(this, CartActivity::class.java))
+        }
 
 //        newsViewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
 //
@@ -124,7 +129,12 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     fun switchFragment(fragment: Fragment, addToBackStack: Boolean) {
         if (fragment is HomeFragment) {
-            binding.ivHome.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.home_icon_active))
+            binding.ivHome.setImageDrawable(
+                ContextCompat.getDrawable(
+                    this,
+                    R.drawable.home_icon_active
+                )
+            )
         } else {
             binding.ivHome.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.home_icon))
         }

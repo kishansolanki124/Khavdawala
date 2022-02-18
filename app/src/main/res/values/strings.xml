@@ -8,6 +8,8 @@
     <string name="Gift">Gift</string>
     <string name="Favourite">Favourite</string>
     <string name="Home">Home</string>
+    <string name="Checkout">Checkout</string>
+    <string name="Clear_Cart">Clear Cart</string>
     <string name="Notification">Notification</string>
     <string name="About">About</string>
 </resources>
