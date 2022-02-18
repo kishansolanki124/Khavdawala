@@ -122,7 +122,7 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         return true
     }
 
-    private fun switchFragment(fragment: Fragment, addToBackStack: Boolean) {
+    fun switchFragment(fragment: Fragment, addToBackStack: Boolean) {
         if (fragment is HomeFragment) {
             binding.ivHome.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.home_icon_active))
         } else {
