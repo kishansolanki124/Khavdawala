@@ -1,4 +1,4 @@
-package com.app.khavdawala
+package com.app.khavdawala.pojo
 
 import android.graphics.drawable.Drawable
 
