@@ -5,22 +5,28 @@
       <map>
         <entry key="app/src/main/res/drawable-xxhdpi/ic_launcher_background.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/bottom_tab_color.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable/nonselecteditem_dot.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/red_arc.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/red_circle.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable/selected_dot.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/selector_bottom_navigation_chat.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/selector_bottom_navigation_home.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/selector_bottom_navigation_inventory.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/selector_bottom_navigation_news.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/selector_bottom_navigation_profile.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/spinner_dropdown.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable/tab_selector.xml" value="0.1655" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.34981458590852904" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.18" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.25" />
         <entry key="app/src/main/res/layout/category_product_list_item.xml" value="0.2916666666666667" />
         <entry key="app/src/main/res/layout/common_toolbar.xml" value="0.262037037037037" />
         <entry key="app/src/main/res/layout/dharasabhyo_item.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/fragment_category_product_list.xml" value="0.2916666666666667" />
+        <entry key="app/src/main/res/layout/fragment_category_product_list.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/fragment_product_description.xml" value="0.2916666666666667" />
+        <entry key="app/src/main/res/layout/fragment_product_detail.xml" value="0.14" />
+        <entry key="app/src/main/res/layout/horizontal_product_list_item.xml" value="0.2265625" />
         <entry key="app/src/main/res/layout/intro_item.xml" value="0.2916666666666667" />
         <entry key="app/src/main/res/layout/simple_spinner_dropdown_item.xml" value="0.2916666666666667" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.34791666666666665" />
