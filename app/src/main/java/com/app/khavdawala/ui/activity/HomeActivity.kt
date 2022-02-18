@@ -3,6 +3,7 @@ package com.app.khavdawala.ui.activity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.app.khavdawala.R
@@ -35,8 +36,6 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 //        })
 
         //fetchNewsCategories()
-
-        //backstackFragments()
     }
 
 //    private fun fetchNewsCategories() {
@@ -82,28 +81,6 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 //        }
 //    }
 
-//    private fun backstackFragments() {
-//        supportFragmentManager.findFragmentById(R.id.fragmentContainer)?.let {
-//            when (it) {
-//                !is NewsHomeFragment -> {
-//                    hideNavigationButton()
-//                }
-////                is MenuFragment -> {
-////
-////                }
-////                is ShraddhanjaliHomeFragment -> {
-////
-////                }
-////                is EMagazineFragment -> {
-////
-////                }
-////                is OpinionPollFragment -> {
-////
-////                }
-//            }
-//        }
-//    }
-
 //    private fun setupListener() {
 //        binding.ivNavigation.setOnClickListener {
 //            if (newsCategoryList.isNullOrEmpty()) {
@@ -125,19 +102,19 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         if (binding.bottomNavigationView.selectedItemId != item.itemId) {
             when (item.itemId) {
-                R.id.navigation_news -> {
-                    switchFragment(HomeFragment(), false)
+                R.id.navigation_gift -> {
+                    //switchFragment(HomeFragment(), false)
                 }
-                R.id.navigation_opinion_poll -> {
+                R.id.navigation_fav -> {
                     //switchFragment(OpinionPollFragment(), false)
                 }
-                R.id.navigation_menu -> {
-                    //switchFragment(MenuFragment(), false)
+                R.id.navigation_home -> {
+                    switchFragment(HomeFragment(), false)
                 }
-                R.id.navigation_shraddhanjali -> {
+                R.id.navigation_not -> {
                     //switchFragment(ShraddhanjaliHomeFragment(), false)
                 }
-                R.id.navigation_magazine -> {
+                R.id.navigation_about -> {
                     //switchFragment(EMagazineFragment(), false)
                 }
             }
@@ -146,6 +123,12 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     private fun switchFragment(fragment: Fragment, addToBackStack: Boolean) {
+        if (fragment is HomeFragment) {
+            binding.ivHome.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.home_icon_active))
+        } else {
+            binding.ivHome.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.home_icon))
+        }
+
         mTransaction = supportFragmentManager.beginTransaction()
         mTransaction.replace(R.id.fragmentContainer, fragment)
         if (addToBackStack) {

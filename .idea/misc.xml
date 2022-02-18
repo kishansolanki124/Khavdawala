@@ -5,11 +5,14 @@
       <map>
         <entry key="app/src/main/res/drawable-xxhdpi/ic_launcher_background.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/bottom_tab_color.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable/red_arc.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable/red_circle.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/selector_bottom_navigation_chat.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/selector_bottom_navigation_home.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/selector_bottom_navigation_inventory.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/selector_bottom_navigation_news.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/selector_bottom_navigation_profile.xml" value="0.1655" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.34981458590852904" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.18" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.25" />
         <entry key="app/src/main/res/layout/common_toolbar.xml" value="0.262037037037037" />

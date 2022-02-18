@@ -3,31 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/navigation_news"
+        android:id="@+id/navigation_gift"
         android:icon="@drawable/selector_bottom_navigation_gift"
         android:title="@string/Gift"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/navigation_opinion_poll"
+        android:id="@+id/navigation_fav"
         android:icon="@drawable/selector_bottom_navigation_favourite"
         android:title="@string/Favourite"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/navigation_menu"
+        android:id="@+id/navigation_home"
         android:icon="@drawable/selector_bottom_navigation_home"
         android:title="@string/Home"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/navigation_shraddhanjali"
+        android:id="@+id/navigation_not"
         android:icon="@drawable/selector_bottom_navigation_notification"
         android:title="@string/Notification"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/navigation_magazine"
+        android:id="@+id/navigation_about"
         android:icon="@drawable/selector_bottom_navigation_about"
         android:title="@string/About"
         app:showAsAction="always" />
