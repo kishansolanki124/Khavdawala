@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.app.khavdawala.R
 import com.app.khavdawala.databinding.ActivityHomeBinding
+import com.app.khavdawala.ui.fragment.FavoriteListFragment
 import com.app.khavdawala.ui.fragment.HomeFragment
 import com.app.khavdawala.ui.fragment.NotificationListFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -112,7 +113,7 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     //switchFragment(HomeFragment(), false)
                 }
                 R.id.navigation_fav -> {
-                    //switchFragment(OpinionPollFragment(), false)
+                    switchFragment(FavoriteListFragment(), false)
                 }
                 R.id.navigation_home -> {
                     switchFragment(HomeFragment(), false)
