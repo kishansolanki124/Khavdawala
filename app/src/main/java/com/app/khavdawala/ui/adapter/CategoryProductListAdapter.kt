@@ -18,7 +18,7 @@ class CategoryProductListAdapter(
 ) :
     RecyclerView.Adapter<CategoryProductListAdapter.HomeOffersViewHolder>() {
 
-    private var list: ArrayList<CustomClass> = ArrayList()
+    var list: ArrayList<CustomClass> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeOffersViewHolder {
         val binding =
@@ -31,7 +31,7 @@ class CategoryProductListAdapter(
     }
 
     override fun onBindViewHolder(holder: HomeOffersViewHolder, position: Int) {
-        holder.bindForecast(list[position])
+        holder.bindForecast(list[position], position)
     }
 
     fun setItem(list: ArrayList<CustomClass>) {
@@ -60,7 +60,8 @@ class CategoryProductListAdapter(
 
         @SuppressLint("SetTextI18n")
         fun bindForecast(
-            newsPortal: CustomClass
+            newsPortal: CustomClass,
+            position: Int
         ) {
             with(newsPortal) {
 
@@ -70,7 +71,11 @@ class CategoryProductListAdapter(
                     .load(newsPortal.image)
                     .into(binding.ivMLA)
 
-                setupSpinner(binding.spStateGujaratiSamaj)
+                if (!newsPortal.spinnerInitialised) {
+                    setupSpinner(binding.spStateGujaratiSamaj)
+                    newsPortal.spinnerInitialised = true
+                }
+
 //
 //                if (newsPortal.name.isNullOrEmpty()) {
 //                    binding.tvNewsPortalTitle.visibility = View.GONE
@@ -120,7 +125,7 @@ class CategoryProductListAdapter(
             }
         }
 
-        private fun setupSpinner(spStateGujaratiSamaj: AppCompatSpinner) {
+        fun setupSpinner(spStateGujaratiSamaj: AppCompatSpinner) {
             val stateList: ArrayList<String> = ArrayList()
             //stateList.add(GujratiSamajResponse.State("", getString(R.string.select_state)))
             //stateList.addAll(gujratiSamajResponse.state_list)
