@@ -3,6 +3,7 @@ package com.app.khavdawala.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -33,6 +34,10 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         binding.toolbar.ivCart.setOnClickListener {
             startActivity(Intent(this, CartActivity::class.java))
+        }
+
+        binding.toolbar.ibBack.setOnClickListener {
+            onBackPressed()
         }
 
         binding.bottomNavigationView.selectedItemId = R.id.navigation_home
@@ -113,18 +118,28 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             when (item.itemId) {
                 R.id.navigation_gift -> {
                     //switchFragment(HomeFragment(), false)
+                    binding.toolbar.ivShare.visibility = View.VISIBLE
+                    binding.toolbar.ibBack.visibility = View.GONE
                 }
                 R.id.navigation_fav -> {
                     switchFragment(FavoriteListFragment(), false)
+                    binding.toolbar.ivShare.visibility = View.VISIBLE
+                    binding.toolbar.ibBack.visibility = View.GONE
                 }
                 R.id.navigation_home -> {
                     switchFragment(HomeFragment(), false)
+                    binding.toolbar.ivShare.visibility = View.VISIBLE
+                    binding.toolbar.ibBack.visibility = View.GONE
                 }
                 R.id.navigation_not -> {
                     switchFragment(NotificationListFragment(), false)
+                    binding.toolbar.ivShare.visibility = View.VISIBLE
+                    binding.toolbar.ibBack.visibility = View.GONE
                 }
                 R.id.navigation_about -> {
                     switchFragment(AboutFragment(), false)
+                    binding.toolbar.ivShare.visibility = View.VISIBLE
+                    binding.toolbar.ibBack.visibility = View.GONE
                 }
             }
         }
@@ -149,31 +164,38 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             mTransaction.addToBackStack(null)
         }
         mTransaction.commit()
+
+        binding.toolbar.ibBack.visibility = View.VISIBLE
+        binding.toolbar.ivShare.visibility = View.GONE
     }
 
-//    override fun onBackPressed() {
-//        super.onBackPressed()
-//
-////        supportFragmentManager.findFragmentById(R.id.fragmentContainer)?.let {
-////            // the fragment exists
-////            when (it) {
-//
-////        when (supportFragmentManager.fragments.last()) {
-////            is NewsHomeFragment -> {
-////                bottomNavigationView.selectedItemId = R.id.navigation_news
-////            }
-////            is MenuFragment -> {
-////                bottomNavigationView.selectedItemId = R.id.navigation_menu
-////            }
-////            is ShraddhanjaliHomeFragment -> {
-////                bottomNavigationView.selectedItemId = R.id.navigation_shraddhanjali
-////            }
-////            is EMagazineFragment -> {
-////                bottomNavigationView.selectedItemId = R.id.navigation_magazine
-////            }
-////            is OpinionPollFragment -> {
-////                bottomNavigationView.selectedItemId = R.id.navigation_opinion_poll
-////            }
-////        }
-//    }
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        supportFragmentManager.findFragmentById(R.id.fragmentContainer)?.let {
+            // the fragment exists
+            when (it) {
+                is FavoriteListFragment -> {
+                    binding.toolbar.ivShare.visibility = View.VISIBLE
+                    binding.toolbar.ibBack.visibility = View.GONE
+                }
+                is HomeFragment -> {
+                    binding.toolbar.ivShare.visibility = View.VISIBLE
+                    binding.toolbar.ibBack.visibility = View.GONE
+                }
+                is NotificationListFragment -> {
+                    binding.toolbar.ivShare.visibility = View.VISIBLE
+                    binding.toolbar.ibBack.visibility = View.GONE
+                }
+                is AboutFragment -> {
+                    binding.toolbar.ivShare.visibility = View.VISIBLE
+                    binding.toolbar.ibBack.visibility = View.GONE
+                }
+                else -> {
+                    binding.toolbar.ivShare.visibility = View.GONE
+                    binding.toolbar.ibBack.visibility = View.VISIBLE
+                }
+            }
+        }
+    }
 }

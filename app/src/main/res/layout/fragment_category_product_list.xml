@@ -11,12 +11,12 @@
         android:layout_height="@dimen/dp_200"
         android:background="@color/black"
         android:nestedScrollingEnabled="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/banner_top6" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/banner_top1" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMLAs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/dharasabhyo_item" />
+        tools:listitem="@layout/category_product_list_item" />
 </androidx.appcompat.widget.LinearLayoutCompat>
