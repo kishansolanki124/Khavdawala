@@ -16,6 +16,7 @@
         <entry key="app/src/main/res/drawable/selector_bottom_navigation_profile.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/spinner_dropdown.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/tab_selector.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable/white_rounded_corner_bg.xml" value="0.1655" />
         <entry key="app/src/main/res/layout/activity_cart.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_checkout.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.2" />

@@ -23,21 +23,21 @@
             android:name=".ui.activity.RegisterActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/FullScreenTheme" />
+            android:theme="@style/AppTheme.New" />
         <activity
             android:name=".ui.activity.HomeActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/FullScreenTheme" />
+            android:theme="@style/AppTheme.New" />
         <activity
             android:name=".ui.activity.CartActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/FullScreenTheme" />
+            android:theme="@style/AppTheme.New" />
         <activity
             android:name=".ui.activity.CheckoutActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/FullScreenTheme" />
+            android:theme="@style/AppTheme.New" />
     </application>
 </manifest>

@@ -9,21 +9,25 @@
         <item name="colorControlActivated">@color/colorPrimary</item>
         <item name="colorControlHighlight">@color/colorPrimary</item>
         <item name="windowActionBar">false</item>
-        <!--        <item name="android:windowBackground">@android:color/white</item>-->
-<!--        todo work here-->
-        <item name="android:windowBackground">#F1F1F1</item>
+        <item name="android:windowBackground">@android:color/white</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowLightStatusBar">true</item>
         <!--        <item name="android:windowBackground">@android:color/white</item>-->
-
     </style>
 
     <style name="FullScreenTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/white</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowFullscreen">true</item>
-        <item name="android:windowBackground">@android:color/white</item>
         <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="AppTheme.New" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@color/black</item>
+        <!--        todo work here-->
+        <item name="android:windowBackground">@color/gray_hint</item>
+        <item name="windowActionBar">false</item>
     </style>
 
     <style name="CommonEditText" parent="Widget.AppCompat.EditText">
