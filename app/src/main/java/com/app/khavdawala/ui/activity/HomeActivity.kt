@@ -31,11 +31,12 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         binding.bottomNavigationView.setOnNavigationItemSelectedListener(this)
 
-        switchFragment(HomeFragment(), false)
-
         binding.toolbar.ivCart.setOnClickListener {
             startActivity(Intent(this, CartActivity::class.java))
         }
+
+        binding.bottomNavigationView.selectedItemId = R.id.navigation_home
+
 
 //        newsViewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
 //
