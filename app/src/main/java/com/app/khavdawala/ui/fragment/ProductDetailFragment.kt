@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,7 +45,16 @@ class ProductDetailFragment : Fragment() {
         binding.pager.adapter = demoCollectionAdapter
 
         TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
-            tab.text = "OBJECT ${(position + 1)}"
+            when (position) {
+                0 -> {
+                    tab.text = "Description"
+                }
+                else -> {
+                    tab.text = "Nutrition Value"
+                }
+
+            }
+
         }.attach()
 
         val imageList: ArrayList<Drawable> = ArrayList()
@@ -53,6 +64,47 @@ class ProductDetailFragment : Fragment() {
         setupHorizontalMainNews(imageList)
 
         setupList()
+        setupSpinner()
+    }
+
+    private fun setupSpinner() {
+        val stateList: ArrayList<String> = ArrayList()
+        //stateList.add(GujratiSamajResponse.State("", getString(R.string.select_state)))
+        //stateList.addAll(gujratiSamajResponse.state_list)
+
+        stateList.add("Rs. 50 (250 Gram)")
+        stateList.add("Rs. 100 (500 Gram)")
+        val adapter: ArrayAdapter<String> = ArrayAdapter(
+            binding.spStateGujaratiSamaj.context,
+            R.layout.simple_spinner_dropdown_item,
+            stateList
+        )
+
+        adapter.setDropDownViewResource(R.layout.display_spinner_dropdown_item)
+
+        binding.spStateGujaratiSamaj.adapter = adapter
+
+        binding.spStateGujaratiSamaj.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    p0: AdapterView<*>?,
+                    p1: View?,
+                    p2: Int,
+                    p3: Long
+                ) {
+//                    stateId = stateList[p2].id!!
+//                    filterCitySpinnerList(stateId)
+
+//                        if (selectionCount++ > 1) {
+//                            //onItemSelected(p2)
+//                            //newsPortal.let { it1 -> itemClickWeb.invoke(it1) }
+//                        }
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                    return
+                }
+            }
     }
 
     private fun setupList() {

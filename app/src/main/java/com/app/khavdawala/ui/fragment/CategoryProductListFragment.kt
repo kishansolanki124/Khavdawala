@@ -13,6 +13,7 @@ import com.app.khavdawala.R
 import com.app.khavdawala.apputils.showToast
 import com.app.khavdawala.databinding.FragmentCategoryProductListBinding
 import com.app.khavdawala.pojo.CustomClass
+import com.app.khavdawala.ui.activity.HomeActivity
 import com.app.khavdawala.ui.adapter.CategoryProductListAdapter
 
 class CategoryProductListFragment : Fragment() {
@@ -37,9 +38,9 @@ class CategoryProductListFragment : Fragment() {
         binding.rvMLAs.layoutManager = layoutManager
 
         govtWorkNewsAdapter = CategoryProductListAdapter {
-            requireContext().showToast("clicked")
+            (requireActivity() as HomeActivity).switchFragment(ProductDetailFragment(), false)
         }
-        //(requireActivity() as HomeActivity).switchFragment(ProductDetailFragment(), false)
+
         binding.rvMLAs.adapter = govtWorkNewsAdapter
 
         govtWorkNewsAdapter.reset()
