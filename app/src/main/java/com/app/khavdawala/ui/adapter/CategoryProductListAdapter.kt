@@ -1,12 +1,10 @@
 package com.app.khavdawala.ui.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.appcompat.widget.AppCompatSpinner
 import androidx.recyclerview.widget.RecyclerView
 import com.app.khavdawala.R
 import com.app.khavdawala.databinding.CategoryProductListItemBinding
@@ -31,7 +29,7 @@ class CategoryProductListAdapter(
     }
 
     override fun onBindViewHolder(holder: HomeOffersViewHolder, position: Int) {
-        holder.bindForecast(list[position], position)
+        holder.bindForecast(list[position], position, itemClickWeb)
     }
 
     fun setItem(list: ArrayList<CustomClass>) {
@@ -51,17 +49,10 @@ class CategoryProductListAdapter(
         private val itemClickCall: (CustomClass) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-//        constructor(parent: ViewGroup) : this(
-//            LayoutInflater.from(parent.context).inflate(
-//                R.layout.item_vatan_nu_gham,
-//                parent, false
-//            )
-//        )
-
-        @SuppressLint("SetTextI18n")
         fun bindForecast(
             newsPortal: CustomClass,
-            position: Int
+            position: Int,
+            itemClickWeb: (CustomClass) -> Unit
         ) {
             with(newsPortal) {
 
@@ -71,37 +62,52 @@ class CategoryProductListAdapter(
                     .load(newsPortal.image)
                     .into(binding.ivMLA)
 
-                if (!newsPortal.spinnerInitialised) {
-                    setupSpinner(binding.spStateGujaratiSamaj)
-                    newsPortal.spinnerInitialised = true
-                }
-
-//
-//                if (newsPortal.name.isNullOrEmpty()) {
-//                    binding.tvNewsPortalTitle.visibility = View.GONE
-//                }
-//                if (newsPortal.address.isNullOrEmpty()) {
-//                    binding.llNewsPortalAddress.visibility = View.GONE
-//                }
-//                if (newsPortal.contact_no.isNullOrEmpty()) {
-//                    binding.llNewsPortalPhone.visibility = View.GONE
-//                }
-//                if (newsPortal.email.isNullOrEmpty()) {
-//                    binding.llNewsPortalEmail.visibility = View.GONE
-//                }
-//                if (newsPortal.website.isNullOrEmpty()) {
-//                    binding.llNewsPortalWebsite.visibility = View.GONE
-//                }
-//
-//                binding.tvNewsPortalTitle.text = newsPortal.name
-//                binding.tvNewsPortalAddress.text = newsPortal.address
-//                binding.tvNewsPortalPhone.text = newsPortal.contact_no
-//                binding.tvNewsPortalEmail.text = newsPortal.email
-//                binding.tvNewsPortalWebsite.text = newsPortal.website
-//
                 binding.root.setOnClickListener {
                     itemClickCall(this)
                 }
+
+                //binding.spStateGujaratiSamaj.tag = position
+
+                val stateList: ArrayList<String> = ArrayList()
+                //stateList.add(GujratiSamajResponse.State("", getString(R.string.select_state)))
+                //stateList.addAll(gujratiSamajResponse.state_list)
+
+                stateList.add("Rs. 50 (250 Gram)")
+                stateList.add("Rs. 100 (500 Gram)")
+                val adapter: ArrayAdapter<String> = ArrayAdapter(
+                    binding.spStateGujaratiSamaj.context,
+                    R.layout.simple_spinner_dropdown_item,
+                    stateList
+                )
+
+                adapter.setDropDownViewResource(R.layout.display_spinner_dropdown_item)
+
+                binding.spStateGujaratiSamaj.adapter = adapter
+
+                binding.spStateGujaratiSamaj.onItemSelectedListener =
+                    object : AdapterView.OnItemSelectedListener {
+                        override fun onItemSelected(
+                            p0: AdapterView<*>?,
+                            p1: View?,
+                            p2: Int,
+                            p3: Long
+                        ) {
+//                    stateId = stateList[p2].id!!
+//                    filterCitySpinnerList(stateId)
+
+                            newsPortal.selectedItemPosition = p2
+//                        if (selectionCount++ > 1) {
+//                            //onItemSelected(p2)
+//                            //newsPortal.let { it1 -> itemClickWeb.invoke(it1) }
+//                        }
+                        }
+
+                        override fun onNothingSelected(p0: AdapterView<*>?) {
+                            return
+                        }
+                    }
+
+                binding.spStateGujaratiSamaj.setSelection(newsPortal.selectedItemPosition)
 
                 binding.tvMinus.setOnClickListener {
                     var currentProductCount = binding.tvProductCount.text.toString().toInt()
@@ -118,43 +124,7 @@ class CategoryProductListAdapter(
                     }
                     binding.tvProductCount.text = currentProductCount.toString()
                 }
-//
-//                binding.ivWeb.setOnClickListener {
-//                    itemClickWeb(this)
-//                }
             }
-        }
-
-        fun setupSpinner(spStateGujaratiSamaj: AppCompatSpinner) {
-            val stateList: ArrayList<String> = ArrayList()
-            //stateList.add(GujratiSamajResponse.State("", getString(R.string.select_state)))
-            //stateList.addAll(gujratiSamajResponse.state_list)
-
-            stateList.add("Rs. 50 (250 Gram)")
-            stateList.add("Rs. 100 (500 Gram)")
-            val adapter: ArrayAdapter<String> = ArrayAdapter(
-                spStateGujaratiSamaj.context,
-                R.layout.simple_spinner_dropdown_item,
-                stateList
-            )
-
-            adapter.setDropDownViewResource(R.layout.display_spinner_dropdown_item)
-
-            spStateGujaratiSamaj.adapter = adapter
-
-            spStateGujaratiSamaj.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-//                    stateId = stateList[p2].id!!
-//                    filterCitySpinnerList(stateId)
-                    }
-
-                    override fun onNothingSelected(p0: AdapterView<*>?) {
-                        return
-                    }
-                }
-            //resetSpinners = false
         }
     }
 }
-//todo work here, state not maintained

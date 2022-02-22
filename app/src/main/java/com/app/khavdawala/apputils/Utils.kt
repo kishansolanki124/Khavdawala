@@ -89,9 +89,12 @@ import java.util.regex.Pattern
 //    }
 //}
 //
-//fun showToast(text: String, context: Context) {
-//    Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
-//}
+fun showToast(text: String, context: Context) {
+    Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+}
+fun Context.showToast(text: String) {
+    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+}
 //
 //fun hideKeyboard(activity: Activity) {
 //    val imm =
