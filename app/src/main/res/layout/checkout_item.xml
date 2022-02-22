@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/dp_10"
+    android:layout_margin="@dimen/dp_5"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -12,31 +11,33 @@
         android:id="@+id/tvMLAName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/dp_5"
+        android:paddingHorizontal="@dimen/dp_5"
+        android:text="Khajli Pakwan"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_20"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="Khajli Pakwan" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_weight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/dp_5"
+        android:paddingHorizontal="@dimen/dp_5"
+        android:text="(250 gm)"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_16"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvMLAName"
-        android:text="(250 gm)" />
+        app:layout_constraintTop_toBottomOf="@id/tvMLAName" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/ll_item_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="@drawable/white_rounded_corner_bg"
         android:orientation="horizontal"
+        android:paddingHorizontal="@dimen/dp_10"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -78,18 +79,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/dp_5"
+        android:text="Rs. 50"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_20"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/iv_delete"
         app:layout_constraintStart_toEndOf="@id/ll_item_count"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="Rs. 50" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/delete_icon"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
