@@ -5,13 +5,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.app.khavdawala.pojo.CustomClass
-import com.app.khavdawala.databinding.DharasabhyoItemBinding
+import com.app.khavdawala.databinding.CategoryItemBinding
 import com.bumptech.glide.Glide
 
-class DharasabhyoAdapter(
+class ProductCategoryAdapter(
     private val itemClickWeb: (CustomClass) -> Unit
 ) :
-    RecyclerView.Adapter<DharasabhyoAdapter.HomeOffersViewHolder>() {
+    RecyclerView.Adapter<ProductCategoryAdapter.HomeOffersViewHolder>() {
 
     private var list: ArrayList<CustomClass> = ArrayList()
 
@@ -24,7 +24,7 @@ class DharasabhyoAdapter(
 //        )
 
         val binding =
-            DharasabhyoItemBinding.inflate(
+            CategoryItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -49,7 +49,7 @@ class DharasabhyoAdapter(
     override fun getItemCount(): Int = list.size
 
     class HomeOffersViewHolder(
-        private val binding: DharasabhyoItemBinding,
+        private val binding: CategoryItemBinding,
         private val itemClickCall: (CustomClass) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
 

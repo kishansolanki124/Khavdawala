@@ -9,10 +9,9 @@
     android:orientation="vertical">
 
     <FrameLayout
-        android:layout_width="@dimen/dp_200"
-        android:layout_height="@dimen/dp_200"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="@dimen/dp_20"
+        android:layout_width="@dimen/dp_150"
+        android:layout_height="@dimen/dp_150"
+        android:layout_gravity="center_horizontal"
         android:background="@drawable/border"
         android:padding="@dimen/dp_1">
 
@@ -31,10 +30,9 @@
         android:id="@+id/tvMLAName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:lines="2"
-        android:padding="@dimen/dp_5"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:paddingBottom="@dimen/dp_5"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_20"
         android:textStyle="bold"

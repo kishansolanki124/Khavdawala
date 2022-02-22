@@ -138,7 +138,7 @@ class CategoryProductListAdapter(
                 stateList
             )
 
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            adapter.setDropDownViewResource(R.layout.display_spinner_dropdown_item)
 
             spStateGujaratiSamaj.adapter = adapter
 

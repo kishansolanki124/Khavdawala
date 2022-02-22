@@ -18,5 +18,5 @@
         android:id="@+id/rvMLAs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/dharasabhyo_item" />
+        tools:listitem="@layout/category_item" />
 </androidx.appcompat.widget.LinearLayoutCompat>

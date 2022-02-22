@@ -13,12 +13,12 @@ import com.app.khavdawala.R
 import com.app.khavdawala.databinding.FragmentHomeBinding
 import com.app.khavdawala.pojo.CustomClass
 import com.app.khavdawala.ui.activity.HomeActivity
-import com.app.khavdawala.ui.adapter.DharasabhyoAdapter
+import com.app.khavdawala.ui.adapter.ProductCategoryAdapter
 import com.app.khavdawala.ui.adapter.IntroAdapter
 
 class HomeFragment : Fragment() {
 
-    private lateinit var govtWorkNewsAdapter: DharasabhyoAdapter
+    private lateinit var govtWorkNewsAdapter: ProductCategoryAdapter
     private lateinit var binding: FragmentHomeBinding
     private lateinit var layoutManager: LinearLayoutManager
 
@@ -37,7 +37,7 @@ class HomeFragment : Fragment() {
         layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvMLAs.layoutManager = layoutManager
 
-        govtWorkNewsAdapter = DharasabhyoAdapter {
+        govtWorkNewsAdapter = ProductCategoryAdapter {
             (requireActivity() as HomeActivity).switchFragment(CategoryProductListFragment(), true)
         }
         binding.rvMLAs.adapter = govtWorkNewsAdapter

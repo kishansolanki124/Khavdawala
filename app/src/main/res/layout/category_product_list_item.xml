@@ -9,8 +9,8 @@
     android:orientation="vertical">
 
     <FrameLayout
-        android:layout_width="@dimen/dp_200"
-        android:layout_height="@dimen/dp_200"
+        android:layout_width="@dimen/dp_150"
+        android:layout_height="@dimen/dp_150"
         android:layout_centerHorizontal="true"
         android:background="@drawable/border"
         android:padding="@dimen/dp_1">
@@ -32,35 +32,37 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:lines="2"
-        android:paddingHorizontal="@dimen/dp_5"
+        android:paddingBottom="@dimen/dp_5"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_20"
         android:textStyle="bold"
         tools:text="Sweet" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/dp_160"
         android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ll_buttons"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_10"
-            android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/spStateGujaratiSamaj">
 
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/llPlusMin"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/dp_50"
                 android:layout_gravity="center"
                 android:background="@drawable/white_rounded_corner_bg"
                 android:orientation="horizontal"
-                android:paddingHorizontal="@dimen/dp_10">
+                android:paddingHorizontal="@dimen/dp_5"
+                app:layout_constraintBottom_toBottomOf="@id/iv_fav_icon"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/iv_fav_icon">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_minus"
@@ -70,18 +72,17 @@
                     android:gravity="center"
                     android:text="-"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/sp_24" />
+                    android:textSize="@dimen/sp_20" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_product_count"
-                    android:layout_width="@dimen/dp_50"
+                    android:layout_width="@dimen/dp_40"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:paddingHorizontal="@dimen/dp_10"
                     android:text="1"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/sp_20" />
+                    android:textSize="@dimen/sp_16" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_plus"
@@ -91,21 +92,27 @@
                     android:gravity="center"
                     android:text="+"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/sp_24" />
+                    android:textSize="@dimen/sp_20" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/dp_20"
-                android:src="@drawable/cart_button" />
+                android:src="@drawable/cart_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/iv_fav_icon"
+                app:layout_constraintStart_toEndOf="@+id/llPlusMin"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_fav_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/favorite_button" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                android:src="@drawable/favorite_button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/spStateGujaratiSamaj"
@@ -115,18 +122,5 @@
             app:layout_constraintEnd_toEndOf="@id/ll_buttons"
             app:layout_constraintStart_toStartOf="@id/ll_buttons"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_spinner"
-            style="@style/Widget.AppCompat.Spinner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
-            android:background="@drawable/spinner_dropdown"
-            android:textColor="@color/black"
-            android:textSize="@dimen/sp_14"
-            app:layout_constraintEnd_toEndOf="@id/ll_buttons"
-            app:layout_constraintStart_toStartOf="@id/ll_buttons"
-            app:layout_constraintTop_toBottomOf="@id/ll_buttons" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>
