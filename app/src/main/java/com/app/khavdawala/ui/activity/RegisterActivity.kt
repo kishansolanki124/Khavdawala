@@ -16,6 +16,8 @@ class RegisterActivity : AppCompatActivity() {
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        animation()
+
 //        signupViewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
 //
 //        signupViewModel.registerResponse().observe(this, Observer {
@@ -42,6 +44,10 @@ class RegisterActivity : AppCompatActivity() {
 //                }
 //        }
         }
+    }
+
+    private fun animation() {
+
     }
 
 //    private fun areFieldsValid(): Boolean {
