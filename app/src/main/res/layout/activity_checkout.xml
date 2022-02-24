@@ -3,127 +3,141 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/bg_image"
     android:orientation="vertical"
     tools:context=".ui.activity.CheckoutActivity">
-
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/common_toolbar" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/newsHomeViewPager"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_200"
-        android:scaleType="centerCrop"
         android:background="@color/black"
         android:nestedScrollingEnabled="true"
+        android:scaleType="centerCrop"
         android:src="@drawable/banner_top3" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/newsHomeViewPager"
-        tools:context=".ui.activity.CheckoutActivity">
+        android:layout_marginVertical="@dimen/dp_5">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/dp_10">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_subtotal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:padding="@dimen/dp_5"
-                android:text="Subtotal"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp_20"
-                android:textStyle="bold" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tvQty"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:padding="@dimen/dp_5"
-                android:text=""
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp_20"
-                android:textStyle="bold" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_total_amount"
+            <RelativeLayout
+                android:id="@+id/rl_sbtotal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/tvQty"
-                android:gravity="end"
-                android:padding="@dimen/dp_5"
-                android:text="Rs. 150"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp_20"
-                android:textStyle="bold" />
+                android:layout_marginVertical="@dimen/dp_5"
+                android:background="@drawable/white_rounded_corner_bg"
+                android:paddingHorizontal="@dimen/dp_10">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_delivery_charge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_subtotal"
-                android:gravity="center_horizontal"
-                android:padding="@dimen/dp_5"
-                android:text="Delivery Charge"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp_20"
-                android:textStyle="bold" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_subtotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:padding="@dimen/dp_5"
+                    android:text="Subtotal"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_20"
+                    android:textStyle="bold" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_delivery_charge_amount"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_total_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/tv_subtotal"
+                    android:gravity="end"
+                    android:padding="@dimen/dp_5"
+                    android:text="Rs. 150"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_20"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_delivery_charge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_subtotal"
-                android:layout_toEndOf="@id/tvQty"
-                android:gravity="end"
-                android:padding="@dimen/dp_5"
-                android:text="Rs. 20"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp_20"
-                android:textStyle="bold" />
+                android:layout_below="@id/rl_sbtotal"
+                android:layout_marginVertical="@dimen/dp_5"
+                android:background="@drawable/white_rounded_corner_bg"
+                android:paddingHorizontal="@dimen/dp_10">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_grand_total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_delivery_charge"
-                android:gravity="center_horizontal"
-                android:padding="@dimen/dp_5"
-                android:text="Grand Total"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp_20"
-                android:textStyle="bold" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_delivery_charge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:padding="@dimen/dp_5"
+                    android:text="Delivery Charge"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_20"
+                    android:textStyle="bold" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_grand_total_amount"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_delivery_charge_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/tv_delivery_charge"
+                    android:gravity="end"
+                    android:padding="@dimen/dp_5"
+                    android:text="Rs. 20"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_20"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_grand_total"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_delivery_charge"
-                android:layout_toEndOf="@id/tvQty"
-                android:gravity="end"
-                android:padding="@dimen/dp_5"
-                android:text="Rs. 170"
-                android:textColor="@color/black"
-                android:textSize="@dimen/sp_20"
-                android:textStyle="bold" />
+                android:layout_below="@id/rl_delivery_charge"
+                android:layout_marginVertical="@dimen/dp_5"
+                android:background="@drawable/red_rounded_corner_bg"
+                android:paddingHorizontal="@dimen/dp_10">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_grand_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:padding="@dimen/dp_5"
+                    android:text="Grand Total"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_20"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_grand_total_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/tv_grand_total"
+                    android:gravity="end"
+                    android:padding="@dimen/dp_5"
+                    android:text="Rs. 170"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_20"
+                    android:textStyle="bold" />
+            </RelativeLayout>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_grand_total"
+                android:layout_below="@id/rl_grand_total"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/dp_5"
                     android:gravity="center_horizontal"
                     android:padding="@dimen/dp_5"
+                    android:paddingHorizontal="@dimen/dp_10"
                     android:text="CheckOut Details"
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp_20"
@@ -259,6 +273,7 @@
                     android:id="@+id/cbIAgree"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dp_10"
                     android:text="I Agree : (Terms And Condition)"
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp_14" />
@@ -267,10 +282,14 @@
                     style="@style/CommonButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dp_0"
                     android:text="@string/Submit"
                     android:textAllCaps="false" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </RelativeLayout>
     </ScrollView>
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/common_toolbar" />
 </RelativeLayout>

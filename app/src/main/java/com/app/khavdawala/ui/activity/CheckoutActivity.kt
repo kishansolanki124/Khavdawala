@@ -1,14 +1,9 @@
 package com.app.khavdawala.ui.activity
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.app.khavdawala.R
-import com.app.khavdawala.databinding.ActivityCartBinding
 import com.app.khavdawala.databinding.ActivityCheckoutBinding
-import com.app.khavdawala.pojo.CustomClass
-import com.app.khavdawala.ui.adapter.CartProductAdapter
 
 class CheckoutActivity : AppCompatActivity() {
 
@@ -19,5 +14,10 @@ class CheckoutActivity : AppCompatActivity() {
 
         binding = ActivityCheckoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.toolbar.ibBack.visibility = View.VISIBLE
+        binding.toolbar.ibBack.setOnClickListener {
+            onBackPressed()
+        }
     }
 }
