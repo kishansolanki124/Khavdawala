@@ -26,6 +26,13 @@ class AboutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        for (i in 0 until binding.tabLayout.tabCount) {
+            val tab = (binding.tabLayout.getChildAt(0) as ViewGroup).getChildAt(i)
+            val p = tab.layoutParams as ViewGroup.MarginLayoutParams
+            p.setMargins(10, 0, 10, 0)
+            tab.requestLayout()
+        }
+
         val fragmmentList: ArrayList<Fragment> = ArrayList()
         fragmmentList.add(ProductDescriptinoFragment())
         fragmmentList.add(ProductDescriptinoFragment())

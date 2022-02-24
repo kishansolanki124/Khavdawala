@@ -5,18 +5,24 @@
       <map>
         <entry key="../../../../../../../home/kishan/android-sdk/platforms/android-31/data/res/layout/simple_spinner_dropdown_item.xml" value="0.24375" />
         <entry key="app/src/main/res/drawable-xxhdpi/ic_launcher_background.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable/about_tab_background_selected.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable/about_tab_background_unselected.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable/about_tab_selector.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/bottom_tab_color.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/nonselecteditem_dot.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/red_arc.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/red_circle.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/red_rounded_corner_bg.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/selected_dot.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable/selector_bottom_navigation_about.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/selector_bottom_navigation_chat.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/selector_bottom_navigation_home.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/selector_bottom_navigation_inventory.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/selector_bottom_navigation_news.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/selector_bottom_navigation_profile.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/spinner_dropdown.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable/tab_background_selected.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable/tab_background_unselected.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/tab_selector.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/white_rounded_corner_bg.xml" value="0.1655" />
         <entry key="app/src/main/res/layout/activity_cart.xml" value="0.2" />
@@ -31,7 +37,7 @@
         <entry key="app/src/main/res/layout/common_toolbar_2.xml" value="0.34791666666666665" />
         <entry key="app/src/main/res/layout/dharasabhyo_item.xml" value="0.67" />
         <entry key="app/src/main/res/layout/display_spinner_dropdown_item.xml" value="0.24375" />
-        <entry key="app/src/main/res/layout/fragment_about.xml" value="0.24375" />
+        <entry key="app/src/main/res/layout/fragment_about.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_category_product_list.xml" value="0.2" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.14" />
         <entry key="app/src/main/res/layout/fragment_notification.xml" value="0.2265625" />
