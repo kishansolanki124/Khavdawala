@@ -10,10 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.app.khavdawala.R
 import com.app.khavdawala.databinding.ActivityHomeBinding
-import com.app.khavdawala.ui.fragment.AboutFragment
-import com.app.khavdawala.ui.fragment.FavoriteListFragment
-import com.app.khavdawala.ui.fragment.HomeFragment
-import com.app.khavdawala.ui.fragment.NotificationListFragment
+import com.app.khavdawala.ui.fragment.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
@@ -117,7 +114,7 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         if (binding.bottomNavigationView.selectedItemId != item.itemId) {
             when (item.itemId) {
                 R.id.navigation_gift -> {
-                    //switchFragment(HomeFragment(), false)
+                    switchFragment(GiftListFragment(), false)
                     binding.toolbar.ivShare.visibility = View.VISIBLE
                     binding.toolbar.ibBack.visibility = View.GONE
                 }
