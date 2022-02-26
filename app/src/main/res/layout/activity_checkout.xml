@@ -144,15 +144,8 @@
                     android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp_10"
-                    android:background="@color/white"
-                    android:hint="Enter Mobile No."
-                    android:padding="@dimen/dp_10"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/gray_hint"
-                    android:textSize="@dimen/sp_14" />
+                    style="@style/CommonEditText"
+                    android:hint="Enter Mobile No." />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
@@ -203,63 +196,28 @@
                 </RadioGroup>
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp_10"
-                    android:background="@color/white"
-                    android:hint="City"
-                    android:padding="@dimen/dp_10"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/gray_hint"
-                    android:textSize="@dimen/sp_14" />
+                    style="@style/CommonEditText"
+                    android:hint="City" />
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp_10"
-                    android:background="@color/white"
-                    android:hint="Name"
-                    android:padding="@dimen/dp_10"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/gray_hint"
-                    android:textSize="@dimen/sp_14" />
+                    style="@style/CommonEditText"
+                    android:hint="Name" />
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp_10"
-                    android:background="@color/white"
-                    android:hint="Email"
-                    android:padding="@dimen/dp_10"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/gray_hint"
-                    android:textSize="@dimen/sp_14" />
+                    style="@style/CommonEditText"
+                    android:hint="Email" />
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp_10"
-                    android:background="@color/white"
+                    style="@style/CommonEditText"
                     android:gravity="top|start"
                     android:hint="Delivery Address"
-                    android:minLines="4"
-                    android:padding="@dimen/dp_10"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/gray_hint"
-                    android:textSize="@dimen/sp_14" />
+                    android:minLines="4" />
 
                 <androidx.appcompat.widget.AppCompatEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp_10"
-                    android:background="@color/white"
+                    style="@style/CommonEditText"
                     android:gravity="top|start"
                     android:hint="Notes if any"
-                    android:minLines="4"
-                    android:padding="@dimen/dp_10"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/gray_hint"
-                    android:textSize="@dimen/sp_14" />
+                    android:minLines="4" />
 
                 <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/cbGiftPack"
@@ -283,8 +241,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/dp_0"
-                    android:text="@string/Submit"
-                    android:textAllCaps="false" />
+                    android:text="@string/Submit" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </RelativeLayout>
     </ScrollView>

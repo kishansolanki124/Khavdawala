@@ -16,6 +16,7 @@ class CheckoutActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.toolbar.ibBack.visibility = View.VISIBLE
+        binding.toolbar.ivCart.visibility = View.GONE
         binding.toolbar.ibBack.setOnClickListener {
             onBackPressed()
         }

@@ -43,9 +43,9 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvMLAName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/dp_10"
+            style="@style/ProductTitle"
+            android:layout_marginHorizontal="@dimen/dp_10"
+            android:paddingHorizontal="@dimen/dp_10"
             android:text="Sweet"
             android:textColor="@color/black"
             android:textSize="@dimen/sp_20"
@@ -148,7 +148,7 @@
             android:id="@+id/tab_layout"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/dp_50"
-            android:layout_marginHorizontal="@dimen/dp_20"
+            android:layout_marginHorizontal="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_30"
             android:background="@android:color/transparent"
             android:padding="@dimen/dp_10"
@@ -166,6 +166,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_30"
             android:padding="@dimen/dp_10"
             android:text="May You Also Like"
@@ -177,7 +178,8 @@
             android:id="@+id/rvMLAs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/dp_10"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/dp_30"
             tools:listitem="@layout/horizontal_product_list_item" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>

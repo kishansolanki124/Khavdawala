@@ -45,6 +45,7 @@
     </style>
 
     <style name="CommonButton" parent="TextAppearance.AppCompat.Widget.Button">
+        <item name="android:foreground">?android:attr/selectableItemBackgroundBorderless</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:minHeight">@dimen/dp_0</item>
         <item name="android:background">@drawable/btn_bg</item>

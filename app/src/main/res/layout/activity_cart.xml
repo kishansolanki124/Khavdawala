@@ -24,6 +24,10 @@
                 android:nestedScrollingEnabled="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/banner_top2" />
+
+            <include
+                android:id="@+id/toolbar"
+                layout="@layout/common_toolbar" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -67,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rvMLAs"
-                android:layout_marginHorizontal="@dimen/dp_10"
+                android:layout_marginHorizontal="@dimen/dp_5"
                 android:layout_marginTop="@dimen/dp_20"
                 android:background="@drawable/white_rounded_corner_bg">
 
@@ -127,6 +131,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/white_rounded_corner_bg"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
                     android:paddingHorizontal="@dimen/dp_30"
                     android:text="@string/Clear_Cart"
                     android:textAllCaps="false"
@@ -149,6 +154,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/white_rounded_corner_bg"
+                    android:foreground="?android:attr/selectableItemBackgroundBorderless"
                     android:paddingHorizontal="@dimen/dp_30"
                     android:text="@string/Checkout"
                     android:textAllCaps="false"

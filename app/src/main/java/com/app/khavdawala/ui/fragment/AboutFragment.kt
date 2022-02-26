@@ -34,9 +34,9 @@ class AboutFragment : Fragment() {
         }
 
         val fragmmentList: ArrayList<Fragment> = ArrayList()
-        fragmmentList.add(ProductDescriptinoFragment())
-        fragmmentList.add(ProductDescriptinoFragment())
-        fragmmentList.add(ProductDescriptinoFragment())
+        fragmmentList.add(WebViewFragment())
+        fragmmentList.add(WebViewFragment())
+        fragmmentList.add(WebViewFragment())
 
         demoCollectionAdapter = DemoCollectionAdapter(this, fragmmentList, 3)
         binding.pager.adapter = demoCollectionAdapter

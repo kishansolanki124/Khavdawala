@@ -53,7 +53,6 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btSubmitRegister"
             style="@style/CommonButton"
-            android:foreground="?android:attr/selectableItemBackgroundBorderless"
             android:text="@string/Submit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

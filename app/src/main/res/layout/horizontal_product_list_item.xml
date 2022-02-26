@@ -28,13 +28,6 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvMLAName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:padding="@dimen/dp_5"
-        android:textColor="@color/black"
-        android:textSize="@dimen/sp_16"
-        android:textStyle="bold"
+        style="@style/ProductTitle"
         tools:text="Sweet" />
 </androidx.appcompat.widget.LinearLayoutCompat>

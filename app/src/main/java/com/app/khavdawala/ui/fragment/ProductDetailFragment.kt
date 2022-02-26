@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.khavdawala.R
 import com.app.khavdawala.databinding.FragmentProductDetailBinding
 import com.app.khavdawala.pojo.CustomClass
+import com.app.khavdawala.ui.activity.HomeActivity
 import com.app.khavdawala.ui.adapter.DemoCollectionAdapter
 import com.app.khavdawala.ui.adapter.HorizontalProductListAdapter
 import com.app.khavdawala.ui.adapter.IntroAdapter
@@ -112,7 +113,7 @@ class ProductDetailFragment : Fragment() {
         binding.rvMLAs.layoutManager = layoutManager
 
         govtWorkNewsAdapter = HorizontalProductListAdapter {
-
+            (requireActivity() as HomeActivity).switchFragment(ProductDetailFragment(), false)
         }
         binding.rvMLAs.adapter = govtWorkNewsAdapter
 

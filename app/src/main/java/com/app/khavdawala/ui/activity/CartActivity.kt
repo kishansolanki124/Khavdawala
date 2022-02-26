@@ -2,6 +2,7 @@ package com.app.khavdawala.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +22,12 @@ class CartActivity : AppCompatActivity() {
 
         binding = ActivityCartBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.toolbar.ivCart.visibility = View.GONE
+        binding.toolbar.ibBack.visibility = View.VISIBLE
+        binding.toolbar.ibBack.setOnClickListener {
+            onBackPressed()
+        }
 
         layoutManager = LinearLayoutManager(this)
         binding.rvMLAs.layoutManager = layoutManager
