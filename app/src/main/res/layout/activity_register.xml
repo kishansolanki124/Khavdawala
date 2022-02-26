@@ -37,16 +37,14 @@
         style="@style/CommonEditText"
         android:hint="@string/mobile_no"
         android:imeOptions="actionNext"
-        android:inputType="textCapWords"
-        android:maxLength="30" />
-
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/etContact"
-        style="@style/CommonEditText"
-        android:hint="@string/your_bd"
-        android:imeOptions="actionDone"
         android:inputType="numberSigned"
         android:maxLength="10" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/etBirthDate"
+        style="@style/CommonEditText"
+        android:hint="@string/your_bd"
+        android:imeOptions="actionDone" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
@@ -55,9 +53,11 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btSubmitRegister"
             style="@style/CommonButton"
+            android:foreground="?android:attr/selectableItemBackgroundBorderless"
             android:text="@string/Submit"
-            android:textAllCaps="false"
-            tools:ignore="MissingConstraints" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.core.widget.ContentLoadingProgressBar
             android:id="@+id/pbRegister"

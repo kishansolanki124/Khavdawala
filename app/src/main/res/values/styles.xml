@@ -35,8 +35,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/dp_10</item>
         <item name="android:layout_marginEnd">@dimen/dp_10</item>
-        <item name="android:layout_marginTop">@dimen/dp_5</item>
-        <item name="android:layout_marginBottom">@dimen/dp_5</item>
+        <item name="android:layout_marginTop">@dimen/dp_10</item>
+        <item name="android:layout_marginBottom">@dimen/dp_10</item>
         <item name="android:background">@color/white</item>
         <item name="android:padding">@dimen/dp_10</item>
         <item name="android:textColor">@android:color/black</item>
@@ -46,10 +46,12 @@
 
     <style name="CommonButton" parent="TextAppearance.AppCompat.Widget.Button">
         <item name="android:layout_width">wrap_content</item>
+        <item name="android:minHeight">@dimen/dp_0</item>
+        <item name="android:background">@drawable/btn_bg</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">@dimen/dp_10</item>
         <item name="android:padding">@dimen/dp_10</item>
-        <item name="android:textAllCaps">true</item>
+        <item name="android:textAllCaps">false</item>
         <item name="android:backgroundTint">@color/btnBG</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">@dimen/sp_16</item>
