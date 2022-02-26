@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingEnd="@dimen/dp_50"
-    android:paddingStart="@dimen/dp_5"
+    android:paddingStart="@dimen/dp_10"
     android:paddingVertical="@dimen/dp_5"
     android:textColor="@color/black"
-    android:textSize="@dimen/sp_12" />
+    android:textSize="@dimen/sp_16" />

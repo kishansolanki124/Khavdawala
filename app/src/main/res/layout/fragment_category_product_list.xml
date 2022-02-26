@@ -21,5 +21,7 @@
         android:id="@+id/rvMLAs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/dp_50"
         tools:listitem="@layout/category_product_list_item" />
 </androidx.appcompat.widget.LinearLayoutCompat>

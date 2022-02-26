@@ -4,42 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/dp_10"
+    android:layout_marginHorizontal="@dimen/dp_20"
+    android:layout_marginVertical="@dimen/dp_10"
     android:gravity="center"
     android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="@dimen/dp_150"
-        android:layout_height="@dimen/dp_150"
-        android:layout_centerHorizontal="true"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/border"
-        android:padding="@dimen/dp_1">
+        android:padding="@dimen/dp_5">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivMLA"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/dp_4"
-            android:scaleType="centerCrop"
+            style="@style/RoundImageViewList"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
             tools:src="@drawable/product_photo" />
-    </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvMLAName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:paddingBottom="@dimen/dp_5"
-        android:textColor="@color/black"
-        android:textSize="@dimen/sp_20"
-        android:textStyle="bold"
+        style="@style/ProductTitle"
+        android:paddingVertical="@dimen/dp_5"
         tools:text="Sweet" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="@dimen/dp_160"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,16 +43,16 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/spStateGujaratiSamaj">
+            app:layout_constraintTop_toBottomOf="@id/sp_cat_product">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/llPlusMin"
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/dp_50"
+                android:layout_height="0dp"
                 android:layout_gravity="center"
                 android:background="@drawable/white_rounded_corner_bg"
                 android:orientation="horizontal"
-                android:paddingHorizontal="@dimen/dp_5"
+                android:paddingHorizontal="@dimen/dp_10"
                 app:layout_constraintBottom_toBottomOf="@id/iv_fav_icon"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/iv_fav_icon">
@@ -70,19 +63,21 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="-"
+                    android:paddingHorizontal="@dimen/dp_8"
+                    android:text="@string/minus_sign"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/sp_20" />
+                    android:textSize="@dimen/sp_24" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_product_count"
-                    android:layout_width="@dimen/dp_40"
+                    android:layout_width="@dimen/dp_30"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="1"
+                    android:text="@string/digit_1"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/sp_16" />
+                    android:textSize="@dimen/sp_18"
+                    tools:text="11" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_plus"
@@ -90,9 +85,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="+"
+                    android:paddingHorizontal="@dimen/dp_8"
+                    android:text="@string/plus_sign"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/sp_20" />
+                    android:textSize="@dimen/sp_24" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -115,7 +111,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/spStateGujaratiSamaj"
+            android:id="@+id/sp_cat_product"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/spinner_dropdown"

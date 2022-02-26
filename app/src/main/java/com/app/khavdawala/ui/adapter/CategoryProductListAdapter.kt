@@ -66,7 +66,7 @@ class CategoryProductListAdapter(
                     itemClickCall(this)
                 }
 
-                //binding.spStateGujaratiSamaj.tag = position
+                //binding.spCatProduct.tag = position
 
                 val stateList: ArrayList<String> = ArrayList()
                 //stateList.add(GujratiSamajResponse.State("", getString(R.string.select_state)))
@@ -75,16 +75,16 @@ class CategoryProductListAdapter(
                 stateList.add("Rs. 50 (250 Gram)")
                 stateList.add("Rs. 100 (500 Gram)")
                 val adapter: ArrayAdapter<String> = ArrayAdapter(
-                    binding.spStateGujaratiSamaj.context,
+                    binding.spCatProduct.context,
                     R.layout.simple_spinner_dropdown_item,
                     stateList
                 )
 
                 adapter.setDropDownViewResource(R.layout.display_spinner_dropdown_item)
 
-                binding.spStateGujaratiSamaj.adapter = adapter
+                binding.spCatProduct.adapter = adapter
 
-                binding.spStateGujaratiSamaj.onItemSelectedListener =
+                binding.spCatProduct.onItemSelectedListener =
                     object : AdapterView.OnItemSelectedListener {
                         override fun onItemSelected(
                             p0: AdapterView<*>?,
@@ -107,7 +107,7 @@ class CategoryProductListAdapter(
                         }
                     }
 
-                binding.spStateGujaratiSamaj.setSelection(newsPortal.selectedItemPosition)
+                binding.spCatProduct.setSelection(newsPortal.selectedItemPosition)
 
                 binding.tvMinus.setOnClickListener {
                     var currentProductCount = binding.tvProductCount.text.toString().toInt()

@@ -116,4 +116,19 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/black</item>
     </style>
+
+    <style name="RoundImageViewList">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+
+    <style name="ProductTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/sp_20</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

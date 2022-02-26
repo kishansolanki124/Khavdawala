@@ -45,7 +45,7 @@
             android:id="@+id/tvMLAName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/dp_5"
+            android:padding="@dimen/dp_10"
             android:text="Sweet"
             android:textColor="@color/black"
             android:textSize="@dimen/sp_20"
@@ -55,7 +55,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_10">
 
             <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/spStateGujaratiSamaj"
@@ -150,6 +151,7 @@
             android:layout_marginHorizontal="@dimen/dp_20"
             android:layout_marginTop="@dimen/dp_30"
             android:background="@android:color/transparent"
+            android:padding="@dimen/dp_10"
             app:tabGravity="fill"
             app:tabIndicatorColor="@color/btnBG"
             app:tabMode="scrollable"
@@ -158,13 +160,14 @@
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/pager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_30"
-            android:padding="@dimen/dp_5"
+            android:padding="@dimen/dp_10"
             android:text="May You Also Like"
             android:textColor="@color/btnBG"
             android:textSize="@dimen/sp_20"
@@ -174,6 +177,7 @@
             android:id="@+id/rvMLAs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
             tools:listitem="@layout/horizontal_product_list_item" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </ScrollView>

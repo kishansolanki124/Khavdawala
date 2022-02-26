@@ -77,7 +77,7 @@ class FavoriteProductListAdapter(
                     .load(newsPortal.image)
                     .into(binding.ivMLA)
 
-                setupSpinner(binding.spStateGujaratiSamaj)
+                setupSpinner(binding.spCatProduct)
 //
 //                if (newsPortal.name.isNullOrEmpty()) {
 //                    binding.tvNewsPortalTitle.visibility = View.GONE
@@ -159,4 +159,3 @@ class FavoriteProductListAdapter(
         }
     }
 }
-//todo work here, state not maintained

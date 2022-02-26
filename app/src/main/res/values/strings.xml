@@ -12,4 +12,7 @@
     <string name="Clear_Cart">Clear Cart</string>
     <string name="Notification">Notification</string>
     <string name="About">About</string>
+    <string name="plus_sign">+</string>
+    <string name="minus_sign">-</string>
+    <string name="digit_1">1</string>
 </resources>
