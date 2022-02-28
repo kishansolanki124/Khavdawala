@@ -2,7 +2,6 @@ package com.app.khavdawala.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -11,9 +10,8 @@ import androidx.fragment.app.FragmentTransaction
 import com.app.khavdawala.R
 import com.app.khavdawala.databinding.ActivityHomeBinding
 import com.app.khavdawala.ui.fragment.*
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
 
@@ -27,7 +25,38 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.bottomNavigationView.setOnNavigationItemSelectedListener(this)
+        //binding.bottomNavigationView.setOnNavigationItemSelectedListener(this)
+        binding.bottomNavigationView.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navigation_gift -> {
+                    switchFragment(GiftListFragment(), false)
+                    binding.toolbar.ivShare.visibility = View.VISIBLE
+                    binding.toolbar.ibBack.visibility = View.GONE
+                }
+                R.id.navigation_fav -> {
+                    switchFragment(FavoriteListFragment(), false)
+                    binding.toolbar.ivShare.visibility = View.VISIBLE
+                    binding.toolbar.ibBack.visibility = View.GONE
+                }
+                R.id.navigation_home -> {
+                    switchFragment(HomeFragment(), false)
+                    binding.toolbar.ivShare.visibility = View.VISIBLE
+                    binding.toolbar.ibBack.visibility = View.GONE
+                }
+                R.id.navigation_not -> {
+                    switchFragment(NotificationListFragment(), false)
+                    binding.toolbar.ivShare.visibility = View.VISIBLE
+                    binding.toolbar.ibBack.visibility = View.GONE
+                }
+                R.id.navigation_about -> {
+                    switchFragment(AboutFragment(), false)
+                    binding.toolbar.ivShare.visibility = View.VISIBLE
+                    binding.toolbar.ibBack.visibility = View.GONE
+                }
+            }
+            true // return true;
+        }
+
 
         binding.toolbar.ivCart.setOnClickListener {
             startActivity(Intent(this, CartActivity::class.java))
@@ -110,41 +139,41 @@ class HomeActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 ////        }
 //    }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        if (binding.bottomNavigationView.selectedItemId != item.itemId) {
-            when (item.itemId) {
-                R.id.navigation_gift -> {
-                    switchFragment(GiftListFragment(), false)
-                    binding.toolbar.ivShare.visibility = View.VISIBLE
-                    binding.toolbar.ibBack.visibility = View.GONE
-                }
-                R.id.navigation_fav -> {
-                    switchFragment(FavoriteListFragment(), false)
-                    binding.toolbar.ivShare.visibility = View.VISIBLE
-                    binding.toolbar.ibBack.visibility = View.GONE
-                }
-                R.id.navigation_home -> {
-                    switchFragment(HomeFragment(), false)
-                    binding.toolbar.ivShare.visibility = View.VISIBLE
-                    binding.toolbar.ibBack.visibility = View.GONE
-                }
-                R.id.navigation_not -> {
-                    switchFragment(NotificationListFragment(), false)
-                    binding.toolbar.ivShare.visibility = View.VISIBLE
-                    binding.toolbar.ibBack.visibility = View.GONE
-                }
-                R.id.navigation_about -> {
-                    switchFragment(AboutFragment(), false)
-                    binding.toolbar.ivShare.visibility = View.VISIBLE
-                    binding.toolbar.ibBack.visibility = View.GONE
-                }
-            }
-        }
-        return true
-    }
+//    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+//        if (binding.bottomNavigationView.selectedItemId != item.itemId) {
+//            when (item.itemId) {
+//                R.id.navigation_gift -> {
+//                    switchFragment(GiftListFragment(), false)
+//                    binding.toolbar.ivShare.visibility = View.VISIBLE
+//                    binding.toolbar.ibBack.visibility = View.GONE
+//                }
+//                R.id.navigation_fav -> {
+//                    switchFragment(FavoriteListFragment(), false)
+//                    binding.toolbar.ivShare.visibility = View.VISIBLE
+//                    binding.toolbar.ibBack.visibility = View.GONE
+//                }
+//                R.id.navigation_home -> {
+//                    switchFragment(HomeFragment(), false)
+//                    binding.toolbar.ivShare.visibility = View.VISIBLE
+//                    binding.toolbar.ibBack.visibility = View.GONE
+//                }
+//                R.id.navigation_not -> {
+//                    switchFragment(NotificationListFragment(), false)
+//                    binding.toolbar.ivShare.visibility = View.VISIBLE
+//                    binding.toolbar.ibBack.visibility = View.GONE
+//                }
+//                R.id.navigation_about -> {
+//                    switchFragment(AboutFragment(), false)
+//                    binding.toolbar.ivShare.visibility = View.VISIBLE
+//                    binding.toolbar.ibBack.visibility = View.GONE
+//                }
+//            }
+//        }
+//        return true
+//    }
 
     fun switchFragment(fragment: Fragment, addToBackStack: Boolean) {
-        if (fragment is HomeFragment) {
+        if (fragment is HomeFragment || fragment is CategoryProductListFragment || fragment is ProductDetailFragment) {
             binding.ivHome.setImageDrawable(
                 ContextCompat.getDrawable(
                     this,

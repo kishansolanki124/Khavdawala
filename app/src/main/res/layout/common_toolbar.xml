@@ -80,7 +80,7 @@
                     android:layout_gravity="start"
                     android:layout_marginStart="@dimen/dp_15"
                     android:layout_marginEnd="@dimen/dp_15"
-                    android:background="@drawable/delete_icon"
+                    android:background="@drawable/share_icon"
                     android:theme="@style/ClickableTextView"
                     android:visibility="gone" />
             </androidx.appcompat.widget.Toolbar>
