@@ -12,7 +12,8 @@ import com.app.khavdawala.pojo.CustomClass
 import com.bumptech.glide.Glide
 
 class CategoryProductListAdapter(
-    private val itemClickWeb: (CustomClass) -> Unit
+    private val itemClickWeb: (CustomClass) -> Unit,
+    private val itemFavClick: (CustomClass, Int) -> Unit
 ) :
     RecyclerView.Adapter<CategoryProductListAdapter.HomeOffersViewHolder>() {
 
@@ -25,11 +26,11 @@ class CategoryProductListAdapter(
                 parent,
                 false
             )
-        return HomeOffersViewHolder(binding, itemClickWeb)
+        return HomeOffersViewHolder(binding, itemClickWeb, itemFavClick)
     }
 
     override fun onBindViewHolder(holder: HomeOffersViewHolder, position: Int) {
-        holder.bindForecast(list[position], position, itemClickWeb)
+        holder.bindForecast(list[position], position)
     }
 
     fun setItem(list: ArrayList<CustomClass>) {
@@ -39,7 +40,13 @@ class CategoryProductListAdapter(
 
     fun reset() {
         this.list.clear()
-        notifyDataSetChanged()
+        //notifyDataSetChanged()
+        notifyItemRangeRemoved(0, this.list.size)
+    }
+
+    fun updateItem(position: Int) {
+        //this.list[position].isFav = isFav
+        notifyItemChanged(position)
     }
 
     override fun getItemCount(): Int = list.size
@@ -47,16 +54,22 @@ class CategoryProductListAdapter(
     class HomeOffersViewHolder(
         private val binding: CategoryProductListItemBinding,
         private val itemClickCall: (CustomClass) -> Unit,
+        private val itemFavClick: (CustomClass, Int) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindForecast(
             newsPortal: CustomClass,
-            position: Int,
-            itemClickWeb: (CustomClass) -> Unit
+            position: Int
         ) {
             with(newsPortal) {
 
                 binding.tvMLAName.text = newsPortal.itemName
+
+                if (newsPortal.isFav) {
+                    binding.ivFavIcon.setBackgroundResource(R.drawable.favorite_button_active)
+                } else {
+                    binding.ivFavIcon.setBackgroundResource(R.drawable.favorite_button)
+                }
 
                 Glide.with(binding.ivMLA.context)
                     .load(newsPortal.image)
@@ -64,6 +77,10 @@ class CategoryProductListAdapter(
 
                 binding.root.setOnClickListener {
                     itemClickCall(this)
+                }
+
+                binding.ivFavIcon.setOnClickListener {
+                    itemFavClick(newsPortal, position)
                 }
 
                 //binding.spCatProduct.tag = position

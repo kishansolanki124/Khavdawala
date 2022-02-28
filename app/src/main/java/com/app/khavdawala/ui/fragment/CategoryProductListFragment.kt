@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.khavdawala.R
-import com.app.khavdawala.apputils.showToast
 import com.app.khavdawala.databinding.FragmentCategoryProductListBinding
 import com.app.khavdawala.pojo.CustomClass
 import com.app.khavdawala.ui.activity.HomeActivity
@@ -19,6 +18,7 @@ import com.app.khavdawala.ui.adapter.CategoryProductListAdapter
 class CategoryProductListFragment : Fragment() {
 
     private lateinit var govtWorkNewsAdapter: CategoryProductListAdapter
+    private var arrayList: ArrayList<CustomClass> = ArrayList()
     private lateinit var binding: FragmentCategoryProductListBinding
     private lateinit var layoutManager: LinearLayoutManager
 
@@ -37,14 +37,16 @@ class CategoryProductListFragment : Fragment() {
         layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvMLAs.layoutManager = layoutManager
 
-        govtWorkNewsAdapter = CategoryProductListAdapter {
+        govtWorkNewsAdapter = CategoryProductListAdapter(itemClickWeb = {
             (requireActivity() as HomeActivity).switchFragment(ProductDetailFragment(), false)
-        }
+        }, itemFavClick = { customClass, position ->
+            arrayList[position].isFav = !customClass.isFav
+            govtWorkNewsAdapter.updateItem(position)
+        })
 
         binding.rvMLAs.adapter = govtWorkNewsAdapter
 
         govtWorkNewsAdapter.reset()
-        val arrayList: ArrayList<CustomClass> = ArrayList()
         arrayList.add(
             CustomClass(
                 ContextCompat.getDrawable(
