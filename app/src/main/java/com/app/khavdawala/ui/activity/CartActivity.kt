@@ -23,7 +23,7 @@ class CartActivity : AppCompatActivity() {
         binding = ActivityCartBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.toolbar.ivCart.visibility = View.GONE
+        binding.toolbar.rlCart.visibility = View.GONE
         binding.toolbar.ibBack.visibility = View.VISIBLE
         binding.toolbar.ibBack.setOnClickListener {
             onBackPressed()

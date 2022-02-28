@@ -57,8 +57,8 @@ class HomeActivity : AppCompatActivity() {
             true // return true;
         }
 
-
-        binding.toolbar.ivCart.setOnClickListener {
+        binding.toolbar.tvCartCount.text = "1"
+        binding.toolbar.rlCart.setOnClickListener {
             startActivity(Intent(this, CartActivity::class.java))
         }
 
