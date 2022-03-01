@@ -26,7 +26,7 @@ interface AppConstants {
     interface APIEndPoints {
         companion object {
             //const val BASE_URL = "https://www.patidarsaurabh.com/demo/patidarsaurabhapi/"
-            const val BASE_URL = "https://www.patidarsaurabh.com/patidarsaurabhapi/"
+            const val BASE_URL = "https://khavdawala.com/khavdawalaapi/"
             const val REGISTRATION: String = "registration"
             const val GET_NEWS: String = "get_news"
             const val GET_NEWS_DETAIL: String = "get_news_detail"
@@ -67,6 +67,7 @@ interface AppConstants {
             const val MOBILE = "mobile"
             const val MOBILE_NO = "mobile_no"
             const val NAME = "name"
+            const val BIRTH_DATE = "birth_date"
             const val LAVAJAM_ID = "lavajam_id"
             const val DISTRICT = "district"
             const val ADDRESS = "address"

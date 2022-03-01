@@ -31,19 +31,19 @@ public class SPreferenceManager {
     public Boolean isLogin() {
         return mPreferences.getBoolean(AppConstants.IS_LOGIN, false);
     }
-//
-//    public void saveSession(String mobileNumber) {
-//        setBoolean(AppConstants.IS_LOGIN, true);
-//        setString(AppConstants.MOBILE, mobileNumber);
-//    }
+
+    public void saveSession(String mobileNumber) {
+        setBoolean(AppConstants.IS_LOGIN, true);
+        setString(AppConstants.MOBILE, mobileNumber);
+    }
 //
 //    public String getSession() {
 //        return mPreferences.getString(AppConstants.MOBILE, "");
 //    }
 //
-//    public void setString(String key, String value) {
-//        mEditor.putString(key, value).apply();
-//    }
+    public void setString(String key, String value) {
+        mEditor.putString(key, value).apply();
+    }
 //
 //    public String getString(String key, String value) {
 //        return mPreferences.getString(key, value);
@@ -65,9 +65,9 @@ public class SPreferenceManager {
 //        return mPreferences.getLong(key, defaultValue);
 //    }
 //
-//    public void setBoolean(String key, boolean value) {
-//        mEditor.putBoolean(key, value).apply();
-//    }
+    public void setBoolean(String key, boolean value) {
+        mEditor.putBoolean(key, value).apply();
+    }
 //
 //    public boolean getBoolean(String key) {
 //        return mPreferences.getBoolean(key, false);

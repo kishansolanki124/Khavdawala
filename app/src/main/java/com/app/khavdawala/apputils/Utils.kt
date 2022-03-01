@@ -39,24 +39,24 @@ import java.text.SimpleDateFormat
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-//fun isConnected(context: Context): Boolean {
-//    val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-//
-//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//        val n = cm.activeNetwork
-//        if (n != null) {
-//            val nc = cm.getNetworkCapabilities(n)
-//            //It will check for both wifi and cellular network
-//            return nc!!.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || nc.hasTransport(
-//                NetworkCapabilities.TRANSPORT_WIFI
-//            )
-//        }
-//        return false
-//    } else {
-//        val netInfo = cm.activeNetworkInfo
-//        return netInfo != null && netInfo.isConnectedOrConnecting
-//    }
-//}
+fun isConnected(context: Context): Boolean {
+    val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        val n = cm.activeNetwork
+        if (n != null) {
+            val nc = cm.getNetworkCapabilities(n)
+            //It will check for both wifi and cellular network
+            return nc!!.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) || nc.hasTransport(
+                NetworkCapabilities.TRANSPORT_WIFI
+            )
+        }
+        return false
+    } else {
+        val netInfo = cm.activeNetworkInfo
+        return netInfo != null && netInfo.isConnectedOrConnecting
+    }
+}
 //
 //
 //fun setRecyclerViewLayoutManager(recyclerView: RecyclerView, context: Context) {
@@ -79,15 +79,15 @@ import java.util.regex.Pattern
 //        else paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
 //}
 //
-//fun showSnackBar(message: String?, activity: Activity?) {
-//    if (null != activity && null != message) {
-//        hideKeyboard(activity)
-//        Snackbar.make(
-//            activity.findViewById(android.R.id.content),
-//            message, Snackbar.LENGTH_SHORT
-//        ).show()
-//    }
-//}
+fun showSnackBar(message: String?, activity: Activity?) {
+    if (null != activity && null != message) {
+        hideKeyboard(activity)
+        Snackbar.make(
+            activity.findViewById(android.R.id.content),
+            message, Snackbar.LENGTH_SHORT
+        ).show()
+    }
+}
 //
 fun showToast(text: String, context: Context) {
     Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
@@ -95,32 +95,32 @@ fun showToast(text: String, context: Context) {
 fun Context.showToast(text: String) {
     Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 }
-//
-//fun hideKeyboard(activity: Activity) {
-//    val imm =
-//        activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-//    //Find the currently focused view, so we can grab the correct window token from it.
-//    var view = activity.currentFocus
-//    //If no view currently has focus, create a new one, just so we can grab a window token from it
-//    if (view == null) {
-//        view = View(activity)
+
+fun hideKeyboard(activity: Activity) {
+    val imm =
+        activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    //Find the currently focused view, so we can grab the correct window token from it.
+    var view = activity.currentFocus
+    //If no view currently has focus, create a new one, just so we can grab a window token from it
+    if (view == null) {
+        view = View(activity)
+    }
+    imm.hideSoftInputFromWindow(view.windowToken, 0)
+}
+
+fun sessionExpired(application: Application) {
+    //SPreferenceManager.getInstance(application).clearSession()
+    val intent = Intent(application, SplashActivity::class.java)
+    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+    application.startActivity(intent)
+//    Handler(application.mainLooper).post {
+//        Toast.makeText(
+//            application,
+//            "Unauthorized! Invalid authentication details or session expired.",
+//            Toast.LENGTH_SHORT
+//        ).show()
 //    }
-//    imm.hideSoftInputFromWindow(view.windowToken, 0)
-//}
-//
-//fun sessionExpired(application: Application) {
-//    //SPreferenceManager.getInstance(application).clearSession()
-//    val intent = Intent(application, SplashActivity::class.java)
-//    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-//    application.startActivity(intent)
-////    Handler(application.mainLooper).post {
-////        Toast.makeText(
-////            application,
-////            "Unauthorized! Invalid authentication details or session expired.",
-////            Toast.LENGTH_SHORT
-////        ).show()
-////    }
-//}
+}
 //
 //private var pgDialog: Dialog? = null
 //

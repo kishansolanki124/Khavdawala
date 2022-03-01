@@ -33,18 +33,23 @@
         android:maxLength="30" />
 
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/etCity"
+        android:id="@+id/etMob"
         style="@style/CommonEditText"
         android:hint="@string/mobile_no"
-        android:imeOptions="actionNext"
+        android:imeOptions="actionDone"
         android:inputType="numberSigned"
         android:maxLength="10" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/etBirthDate"
         style="@style/CommonEditText"
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:hint="@string/your_bd"
-        android:imeOptions="actionDone" />
+        android:imeOptions="actionDone"
+        android:inputType="numberSigned" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"

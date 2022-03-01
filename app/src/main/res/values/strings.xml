@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Khavdawala</string>
 
+    <string name="no_internet">Internet connection not available</string>
+    <string name="something_went_wrong">Something went wrong.</string>
+    <string name="name_empty">Kindly enter name.</string>
+    <string name="mobile_no_empty">Kindly enter Mobile no.</string>
+    <string name="bdate_no_empty">Kindly enter Birth date.</string>
+    <string name="invalid_mobile_no">Kindly enter valid Mobile no.</string>
+
     <string name="your_name">You Name</string>
     <string name="mobile_no">Mobile No.</string>
     <string name="your_bd">Your Birth Date</string>
