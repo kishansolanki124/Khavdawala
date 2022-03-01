@@ -4,16 +4,16 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.app.khavdawala.pojo.CustomClass
 import com.app.khavdawala.databinding.CategoryItemBinding
+import com.app.khavdawala.pojo.response.CategoryResponse
 import com.bumptech.glide.Glide
 
 class ProductCategoryAdapter(
-    private val itemClickWeb: (CustomClass) -> Unit
+    private val itemClickWeb: (CategoryResponse.Category) -> Unit
 ) :
     RecyclerView.Adapter<ProductCategoryAdapter.HomeOffersViewHolder>() {
 
-    private var list: ArrayList<CustomClass> = ArrayList()
+    private var list: ArrayList<CategoryResponse.Category> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeOffersViewHolder {
 //        val view =
@@ -36,7 +36,7 @@ class ProductCategoryAdapter(
         holder.bindForecast(list[position])
     }
 
-    fun setItem(list: ArrayList<CustomClass>) {
+    fun setItem(list: ArrayList<CategoryResponse.Category>) {
         this.list.addAll(list)
         notifyDataSetChanged()
     }
@@ -50,7 +50,7 @@ class ProductCategoryAdapter(
 
     class HomeOffersViewHolder(
         private val binding: CategoryItemBinding,
-        private val itemClickCall: (CustomClass) -> Unit,
+        private val itemClickCall: (CategoryResponse.Category) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
 
 //        constructor(parent: ViewGroup) : this(
@@ -62,14 +62,14 @@ class ProductCategoryAdapter(
 
         @SuppressLint("SetTextI18n")
         fun bindForecast(
-            newsPortal: CustomClass
+            newsPortal: CategoryResponse.Category
         ) {
             with(newsPortal) {
 
-                binding.tvMLAName.text = newsPortal.itemName
+                binding.tvMLAName.text = newsPortal.name
 
                 Glide.with(binding.ivMLA.context)
-                    .load(newsPortal.image)
+                    .load(newsPortal.up_pro_img)
                     .into(binding.ivMLA)
 //
 //                if (newsPortal.name.isNullOrEmpty()) {

@@ -32,7 +32,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun openHome() {
         if (SPreferenceManager.getInstance(this).isLogin) {
-//            //startActivity(Intent(this, HomeActivity::class.java))
+            startActivity(Intent(this, HomeActivity::class.java))
         } else {
             val p1 = Pair.create(binding.ivLogo as View, "logo")
             val options =

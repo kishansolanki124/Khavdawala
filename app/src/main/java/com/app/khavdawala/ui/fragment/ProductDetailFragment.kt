@@ -157,7 +157,8 @@ class ProductDetailFragment : Fragment() {
 //                ).putExtra(AppConstants.NEWS_ID, it.id)
 //            )
         }
-        adapter.setItem(scrollNewsList)
+        //todo work here
+        //adapter.setItem(scrollNewsList)
         binding.newsHomeViewPager.adapter = adapter
 
         TabLayoutMediator(binding.introTabLayout, binding.newsHomeViewPager) { tab, position ->

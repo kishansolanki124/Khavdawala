@@ -1,15 +1,15 @@
 package com.app.khavdawala.network
 
 import app.app.patidarsaurabh.apputils.AppConstants
+import com.app.khavdawala.pojo.response.CategoryResponse
 import com.app.khavdawala.pojo.response.RegisterResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-
 interface APIEndPointsInterface {
 
-//    @POST(AppConstants.APIEndPoints.NEWS_CATEGORY)
+    //    @POST(AppConstants.APIEndPoints.NEWS_CATEGORY)
 //    suspend fun newsCategory(
 //
 //    ): NewsCategoryResponse
@@ -24,11 +24,10 @@ interface APIEndPointsInterface {
 //        @Body hashMap: MultipartBody
 //    ): AvsanNondhResponse
 //
-//    @POST(AppConstants.APIEndPoints.GET_EMAGAZINE)
-//    suspend fun getEMagazine(
-//        @Body hashMap: MultipartBody
-//    ): EMagazineResponse
-//
+    @POST(AppConstants.APIEndPoints.GET_CATEGORY)
+    suspend fun getCategories(): CategoryResponse
+
+    //
 //    @POST(AppConstants.APIEndPoints.EMAGAZINE_AUTH)
 //    suspend fun emagazineAuth(
 //        @Body hashMap: MultipartBody

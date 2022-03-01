@@ -1,24 +1,27 @@
 package com.app.khavdawala.ui.fragment
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.khavdawala.R
+import com.app.khavdawala.apputils.isConnected
+import com.app.khavdawala.apputils.showSnackBar
 import com.app.khavdawala.databinding.FragmentHomeBinding
-import com.app.khavdawala.pojo.CustomClass
+import com.app.khavdawala.pojo.response.CategoryResponse
 import com.app.khavdawala.ui.activity.HomeActivity
-import com.app.khavdawala.ui.adapter.ProductCategoryAdapter
 import com.app.khavdawala.ui.adapter.IntroAdapter
+import com.app.khavdawala.ui.adapter.ProductCategoryAdapter
+import com.app.khavdawala.viewmodel.CategoryViewModel
 
 class HomeFragment : Fragment() {
 
     private lateinit var govtWorkNewsAdapter: ProductCategoryAdapter
+    private lateinit var categoryViewModel: CategoryViewModel
     private lateinit var binding: FragmentHomeBinding
     private lateinit var layoutManager: LinearLayoutManager
 
@@ -34,55 +37,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        layoutManager = GridLayoutManager(requireContext(), 2)
-        binding.rvMLAs.layoutManager = layoutManager
-
-        govtWorkNewsAdapter = ProductCategoryAdapter {
-            (requireActivity() as HomeActivity).switchFragment(CategoryProductListFragment(), true)
-        }
-        binding.rvMLAs.adapter = govtWorkNewsAdapter
-
-        govtWorkNewsAdapter.reset()
-        val arrayList: ArrayList<CustomClass> = ArrayList()
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Sweets"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Chevda"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Wafers"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Handmade Khakhra"
-            )
-        )
-        govtWorkNewsAdapter.setItem(arrayList)
-
-        val imageList: ArrayList<Drawable> = ArrayList()
-        imageList.add(ContextCompat.getDrawable(requireContext(), R.drawable.banner_1)!!)
-        imageList.add(ContextCompat.getDrawable(requireContext(), R.drawable.banner_1)!!)
-        imageList.add(ContextCompat.getDrawable(requireContext(), R.drawable.banner_1)!!)
-        setupHorizontalMainNews(imageList)
+        initRecyclerView()
 
         binding.ivNext.setOnClickListener {
             binding.newsHomeViewPager.currentItem = binding.newsHomeViewPager.currentItem + 1
@@ -91,9 +46,27 @@ class HomeFragment : Fragment() {
         binding.ivPrev.setOnClickListener {
             binding.newsHomeViewPager.currentItem = binding.newsHomeViewPager.currentItem - 1
         }
+
+        categoryViewModel = ViewModelProvider(this)[CategoryViewModel::class.java]
+
+        categoryViewModel.categoryResponse().observe(requireActivity()) {
+            handleResponse(it)
+        }
+
+        fetchMagazineList()
     }
 
-    private fun setupHorizontalMainNews(scrollNewsList: List<Drawable>) {
+    private fun initRecyclerView() {
+        layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.rvCategory.layoutManager = layoutManager
+
+        govtWorkNewsAdapter = ProductCategoryAdapter {
+            (requireActivity() as HomeActivity).switchFragment(CategoryProductListFragment(), true)
+        }
+        binding.rvCategory.adapter = govtWorkNewsAdapter
+    }
+
+    private fun setupHorizontalMainNews(scrollNewsList: List<CategoryResponse.Slider>) {
         val adapter = IntroAdapter {
 //            startActivity(
 //                Intent(
@@ -126,5 +99,35 @@ class HomeFragment : Fragment() {
 //                handler.post(update)
 //            }
 //        }, 4000, 4000)
+    }
+
+    private fun fetchMagazineList() {
+        if (isConnected(requireContext())) {
+            binding.rlViewpager.visibility = View.GONE
+            binding.rvCategory.visibility = View.GONE
+            binding.pbHome.visibility = View.VISIBLE
+            categoryViewModel.getCategories()
+        } else {
+            showSnackBar(getString(R.string.no_internet), requireActivity())
+        }
+    }
+
+    private fun handleResponse(eMagazineResponse: CategoryResponse?) {
+        if (null != eMagazineResponse && eMagazineResponse.category_list.isNotEmpty()) {
+            setupCategoryList(eMagazineResponse)
+            if (eMagazineResponse.slider_list.isNotEmpty()) {
+                setupHorizontalMainNews(eMagazineResponse.slider_list)
+            }
+        } else {
+            showSnackBar(getString(R.string.something_went_wrong), requireActivity())
+        }
+        binding.rlViewpager.visibility = View.VISIBLE
+        binding.rvCategory.visibility = View.VISIBLE
+        binding.pbHome.visibility = View.GONE
+    }
+
+    private fun setupCategoryList(categoryResponse: CategoryResponse) {
+        govtWorkNewsAdapter.reset()
+        govtWorkNewsAdapter.setItem(categoryResponse.category_list)
     }
 }

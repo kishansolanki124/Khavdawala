@@ -28,6 +28,7 @@ interface AppConstants {
             //const val BASE_URL = "https://www.patidarsaurabh.com/demo/patidarsaurabhapi/"
             const val BASE_URL = "https://khavdawala.com/khavdawalaapi/"
             const val REGISTRATION: String = "registration"
+            const val GET_CATEGORY: String = "get_category"
             const val GET_NEWS: String = "get_news"
             const val GET_NEWS_DETAIL: String = "get_news_detail"
             const val ADD_NEWS_LIKE: String = "add_news_like"

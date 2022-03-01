@@ -1,17 +1,17 @@
 package com.app.khavdawala.ui.adapter
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.app.khavdawala.databinding.IntroItemBinding
+import com.app.khavdawala.pojo.response.CategoryResponse
 import com.bumptech.glide.Glide
 
 class IntroAdapter(
-    private val itemClick: (Drawable) -> Unit
+    private val itemClick: (CategoryResponse.Slider) -> Unit
 ) : RecyclerView.Adapter<IntroAdapter.HomeOffersViewHolder>() {
 
-    private var list: List<Drawable> = listOf()
+    private var list: List<CategoryResponse.Slider> = listOf()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -34,7 +34,7 @@ class IntroAdapter(
         holder.bind(list[position])
     }
 
-    fun setItem(list: List<Drawable>) {
+    fun setItem(list: List<CategoryResponse.Slider>) {
         this.list = list
         notifyDataSetChanged()
     }
@@ -44,9 +44,9 @@ class IntroAdapter(
     class HomeOffersViewHolder(private val binding: IntroItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(introImageModel: Drawable) {
+        fun bind(introImageModel: CategoryResponse.Slider) {
             Glide.with(binding.ivHomeViewPager.context)
-                .load(introImageModel)
+                .load(introImageModel.up_pro_img)
                 .into(binding.ivHomeViewPager)
         }
     }
