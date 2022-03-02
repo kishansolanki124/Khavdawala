@@ -1,24 +1,33 @@
 package com.app.khavdawala.ui.fragment
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.khavdawala.R
+import com.app.khavdawala.apputils.isConnected
+import com.app.khavdawala.apputils.loadImage
+import com.app.khavdawala.apputils.showSnackBar
 import com.app.khavdawala.databinding.FragmentCategoryProductListBinding
-import com.app.khavdawala.pojo.CustomClass
+import com.app.khavdawala.pojo.request.ProductRequest
+import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.ui.activity.HomeActivity
 import com.app.khavdawala.ui.adapter.CategoryProductListAdapter
+import com.app.khavdawala.viewmodel.ProductViewModel
 
 class CategoryProductListFragment : Fragment() {
 
-    private lateinit var govtWorkNewsAdapter: CategoryProductListAdapter
-    private var arrayList: ArrayList<CustomClass> = ArrayList()
+    private var cid: Int = 0
+    private var start: Int = 0
+    private var end: Int = 10
+
+    private lateinit var categoryProductListAdapter: CategoryProductListAdapter
+    private lateinit var categoryViewModel: ProductViewModel
+    private var productList: ArrayList<ProductListResponse.Products> = ArrayList()
     private lateinit var binding: FragmentCategoryProductListBinding
     private lateinit var layoutManager: LinearLayoutManager
 
@@ -34,120 +43,74 @@ class CategoryProductListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        layoutManager = GridLayoutManager(requireContext(), 2)
-        binding.rvMLAs.layoutManager = layoutManager
+        initRecyclerView()
 
-        govtWorkNewsAdapter = CategoryProductListAdapter(itemClickWeb = {
+        categoryViewModel = ViewModelProvider(this)[ProductViewModel::class.java]
+
+        categoryViewModel.categoryResponse().observe(requireActivity()) {
+            handleResponse(it)
+        }
+
+        getProducts()
+    }
+
+    private fun initRecyclerView() {
+        layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.rvProduct.layoutManager = layoutManager
+
+        categoryProductListAdapter = CategoryProductListAdapter(itemClickWeb = {
             (requireActivity() as HomeActivity).switchFragment(ProductDetailFragment(), false)
         }, itemFavClick = { customClass, position ->
-            arrayList[position].isFav = !customClass.isFav
-            govtWorkNewsAdapter.updateItem(position)
+            productList[position].isFav = !customClass.isFav
+            categoryProductListAdapter.updateItem(position)
         })
 
-        binding.rvMLAs.adapter = govtWorkNewsAdapter
+        binding.rvProduct.adapter = categoryProductListAdapter
+    }
 
-        govtWorkNewsAdapter.reset()
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Sweets"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Chevda"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Wafers"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Handmade Khakhra"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Sweets"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Chevda"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Wafers"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Handmade Khakhra"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Sweets"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Chevda"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Wafers"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Handmade Khakhra"
-            )
-        )
-        govtWorkNewsAdapter.setItem(arrayList)
+    private fun handleResponse(productListResponse: ProductListResponse?) {
+        if (null != productListResponse && productListResponse.products_list.isNotEmpty()) {
+            productList.addAll(productListResponse.products_list)
+            if (start == 0) {
+                categoryProductListAdapter.reset()
+                categoryProductListAdapter.addItems(productList)
+            } else {
+                categoryProductListAdapter.addItems(productListResponse.products_list)
+            }
 
-        val imageList: ArrayList<Drawable> = ArrayList()
-        imageList.add(ContextCompat.getDrawable(requireContext(), R.drawable.banner_1)!!)
-        imageList.add(ContextCompat.getDrawable(requireContext(), R.drawable.banner_1)!!)
-        imageList.add(ContextCompat.getDrawable(requireContext(), R.drawable.banner_1)!!)
+            if (productListResponse.banner_list.isNotEmpty()) {
+                setupHorizontalMainNews(productListResponse.banner_list)
+            }
+        } else {
+            showSnackBar(getString(R.string.something_went_wrong), requireActivity())
+        }
+        binding.ivCategoryHeader.visibility = View.VISIBLE
+        binding.rvProduct.visibility = View.VISIBLE
+        binding.pbHome.visibility = View.GONE
+    }
+
+    private fun setupHorizontalMainNews(bannerList: java.util.ArrayList<ProductListResponse.Banner>) {
+        if (bannerList.isNotEmpty()) {
+            binding.ivCategoryHeader.loadImage(bannerList[0].banner_img)
+        }
+    }
+
+    private fun getProducts() {
+        if (isConnected(requireContext())) {
+            binding.ivCategoryHeader.visibility = View.GONE
+            binding.rvProduct.visibility = View.GONE
+            binding.pbHome.visibility = View.VISIBLE
+            categoryViewModel.getProductList(ProductRequest(cid, start, end))
+        } else {
+            showSnackBar(getString(R.string.no_internet), requireActivity())
+        }
+    }
+
+    companion object {
+        fun newInstance(cid: Int): CategoryProductListFragment {
+            val fragment = CategoryProductListFragment()
+            fragment.cid = cid
+            return fragment
+        }
     }
 }

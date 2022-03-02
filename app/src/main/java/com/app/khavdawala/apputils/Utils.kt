@@ -20,6 +20,7 @@ import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -30,6 +31,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.khavdawala.ui.activity.SplashActivity
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import java.io.File
 import java.io.FileOutputStream
@@ -383,3 +385,11 @@ fun sessionExpired(application: Application) {
 //    imeOptions = EditorInfo.IME_ACTION_NEXT
 //    setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES or InputType.TYPE_TEXT_FLAG_MULTI_LINE)
 //}
+
+fun ImageView.loadImage(url: String?){
+    url?.let {
+        Glide.with(this.context)
+            .load(url)
+            .into(this)
+    }
+}

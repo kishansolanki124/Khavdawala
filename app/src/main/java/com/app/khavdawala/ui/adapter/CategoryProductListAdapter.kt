@@ -8,16 +8,16 @@ import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.app.khavdawala.R
 import com.app.khavdawala.databinding.CategoryProductListItemBinding
-import com.app.khavdawala.pojo.CustomClass
+import com.app.khavdawala.pojo.response.ProductListResponse
 import com.bumptech.glide.Glide
 
 class CategoryProductListAdapter(
-    private val itemClickWeb: (CustomClass) -> Unit,
-    private val itemFavClick: (CustomClass, Int) -> Unit
+    private val itemClickWeb: (ProductListResponse.Products) -> Unit,
+    private val itemFavClick: (ProductListResponse.Products, Int) -> Unit
 ) :
     RecyclerView.Adapter<CategoryProductListAdapter.HomeOffersViewHolder>() {
 
-    var list: ArrayList<CustomClass> = ArrayList()
+    var list: ArrayList<ProductListResponse.Products> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeOffersViewHolder {
         val binding =
@@ -33,7 +33,7 @@ class CategoryProductListAdapter(
         holder.bindForecast(list[position], position)
     }
 
-    fun setItem(list: ArrayList<CustomClass>) {
+    fun addItems(list: ArrayList<ProductListResponse.Products>) {
         this.list.addAll(list)
         notifyDataSetChanged()
     }
@@ -53,17 +53,17 @@ class CategoryProductListAdapter(
 
     class HomeOffersViewHolder(
         private val binding: CategoryProductListItemBinding,
-        private val itemClickCall: (CustomClass) -> Unit,
-        private val itemFavClick: (CustomClass, Int) -> Unit,
+        private val itemClickCall: (ProductListResponse.Products) -> Unit,
+        private val itemFavClick: (ProductListResponse.Products, Int) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindForecast(
-            newsPortal: CustomClass,
+            newsPortal: ProductListResponse.Products,
             position: Int
         ) {
             with(newsPortal) {
 
-                binding.tvMLAName.text = newsPortal.itemName
+                binding.tvMLAName.text = newsPortal.name
 
                 if (newsPortal.isFav) {
                     binding.ivFavIcon.setBackgroundResource(R.drawable.favorite_button_active)
@@ -72,7 +72,7 @@ class CategoryProductListAdapter(
                 }
 
                 Glide.with(binding.ivMLA.context)
-                    .load(newsPortal.image)
+                    .load(newsPortal.up_pro_img)
                     .into(binding.ivMLA)
 
                 binding.root.setOnClickListener {

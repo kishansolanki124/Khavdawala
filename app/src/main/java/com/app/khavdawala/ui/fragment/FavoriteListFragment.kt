@@ -34,12 +34,12 @@ class FavoriteListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         layoutManager = GridLayoutManager(requireContext(), 2)
-        binding.rvMLAs.layoutManager = layoutManager
+        binding.rvProduct.layoutManager = layoutManager
 
         govtWorkNewsAdapter = FavoriteProductListAdapter {
             (requireActivity() as HomeActivity).switchFragment(ProductDetailFragment(), false)
         }
-        binding.rvMLAs.adapter = govtWorkNewsAdapter
+        binding.rvProduct.adapter = govtWorkNewsAdapter
 
         govtWorkNewsAdapter.reset()
         val arrayList: ArrayList<CustomClass> = ArrayList()

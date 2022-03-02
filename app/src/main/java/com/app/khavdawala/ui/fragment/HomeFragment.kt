@@ -61,7 +61,11 @@ class HomeFragment : Fragment() {
         binding.rvCategory.layoutManager = layoutManager
 
         govtWorkNewsAdapter = ProductCategoryAdapter {
-            (requireActivity() as HomeActivity).switchFragment(CategoryProductListFragment(), true)
+            (requireActivity() as HomeActivity).switchFragment(
+                CategoryProductListFragment.newInstance(
+                    it.id.toInt()
+                ), true
+            )
         }
         binding.rvCategory.adapter = govtWorkNewsAdapter
     }

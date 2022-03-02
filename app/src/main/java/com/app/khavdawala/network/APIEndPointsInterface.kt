@@ -2,6 +2,7 @@ package com.app.khavdawala.network
 
 import app.app.patidarsaurabh.apputils.AppConstants
 import com.app.khavdawala.pojo.response.CategoryResponse
+import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.pojo.response.RegisterResponse
 import okhttp3.MultipartBody
 import retrofit2.http.Body
@@ -19,11 +20,11 @@ interface APIEndPointsInterface {
 //        @Body hashMap: MultipartBody
 //    ): ShraddhanjaliResponse
 //
-//    @POST(AppConstants.APIEndPoints.GET_AVSANNONDH)
-//    suspend fun getAvsanNondh(
-//        @Body hashMap: MultipartBody
-//    ): AvsanNondhResponse
-//
+    @POST(AppConstants.APIEndPoints.GET_PRODUCT)
+    suspend fun getProductList(
+        @Body hashMap: MultipartBody
+    ): ProductListResponse
+
     @POST(AppConstants.APIEndPoints.GET_CATEGORY)
     suspend fun getCategories(): CategoryResponse
 
