@@ -33,6 +33,7 @@ class CategoryProductListAdapter(
     }
 
     override fun onBindViewHolder(holder: HomeOffersViewHolder, position: Int) {
+        println("onBindViewHolder is called $position")
         holder.bindForecast(list[position], position)
     }
 
@@ -46,19 +47,28 @@ class CategoryProductListAdapter(
         notifyItemRangeRemoved(0, this.list.size)
     }
 
-    fun addFavSuccess(position: Int) {
-        this.list[position].favourite = "yes"
-        notifyItemChanged(position)
-    }
+//    fun addFavSuccess(position: Int) {
+//        this.list[position].favourite = "yes"
+//        this.list[position].isLoading = false
+//        notifyItemChanged(position)
+//    }
+//
+//    fun removeFavSuccess(position: Int) {
+//        this.list[position].isLoading = false
+//        this.list[position].favourite = ""
+//        notifyItemChanged(position)
+//    }
+//
+//    fun stopFavLoading(position: Int) {
+//        this.list[position].isLoading = false
+//        this.list[position].favourite = ""
+//        notifyItemChanged(position)
+//    }
 
-    fun stopFavLoading(position: Int) {
-        notifyItemChanged(position)
-    }
-
-    fun updateItem(position: Int) {
-        //this.list[position].isFav = isFav
-        notifyItemChanged(position)
-    }
+//    fun updateItem(position: Int) {
+//        //this.list[position].isFav = isFav
+//        notifyItemChanged(position)
+//    }
 
     override fun getItemCount(): Int = list.size
 
@@ -76,9 +86,17 @@ class CategoryProductListAdapter(
 
                 binding.tvMLAName.text = newsPortal.name
 
-                if (newsPortal.favourite.isNotEmpty() && newsPortal.favourite == "yes") {
+                if (newsPortal.isLoading) {
+                    binding.ivFavIcon.invisible()
+                    binding.pbFav.visible()
+                    println("item is loading: ${newsPortal.isLoading}")
+                } else {
                     binding.ivFavIcon.visible()
                     binding.pbFav.gone()
+                    println("item is loading: ${newsPortal.isLoading}")
+                }
+
+                if (newsPortal.favourite == "yes") {
                     binding.ivFavIcon.setBackgroundResource(R.drawable.favorite_button_active)
                 } else {
                     binding.ivFavIcon.setBackgroundResource(R.drawable.favorite_button)
@@ -93,9 +111,10 @@ class CategoryProductListAdapter(
                 }
 
                 binding.ivFavIcon.setOnClickListener {
-                    itemFavClick(newsPortal, position)
+                    newsPortal.isLoading = true
                     binding.pbFav.visible()
                     binding.ivFavIcon.invisible()
+                    itemFavClick(newsPortal, position)
                 }
 
                 //binding.spCatProduct.tag = position

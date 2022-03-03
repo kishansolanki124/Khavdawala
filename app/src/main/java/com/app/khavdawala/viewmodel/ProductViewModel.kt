@@ -21,6 +21,7 @@ class ProductViewModel : ViewModel() {
 
     private val mutableCategoryResponse = MutableLiveData<ProductListResponse>()
     private val mutableAddFavResponse = MutableLiveData<AddFavResponse>()
+    private val mutableRemoveFavResponse = MutableLiveData<AddFavResponse>()
     private var apiEndPointsInterface =
         RetrofitFactory.createService(APIEndPointsInterface::class.java)
 
@@ -82,6 +83,31 @@ class ProductViewModel : ViewModel() {
     }
 
     /**
+     * Dispatchers.IO for network or disk operations that takes longer time and runs in background thread
+     */
+    fun removeFavProduct(productRequest: AddFavRequest) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val requestBodyBuilder = MultipartBody.Builder().setType(MultipartBody.FORM)
+
+                requestBodyBuilder.addFormDataPart(
+                    AppConstants.RequestParameters.USER_MOBILE,
+                    productRequest.user_mobile
+                )
+                requestBodyBuilder.addFormDataPart(
+                    AppConstants.RequestParameters.PID,
+                    productRequest.pid
+                )
+
+                val apiResponse = apiEndPointsInterface.removeFavProduct(requestBodyBuilder.build())
+                returnRemoveFavResponse(apiResponse)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    /**
      * Dispatchers.Main for UI related stuff which runs on Main thread
      */
     private suspend fun returnCategoryResponse(eMagazineResponse: ProductListResponse) {
@@ -98,6 +124,14 @@ class ProductViewModel : ViewModel() {
             mutableAddFavResponse.value = eMagazineResponse
         }
     }
+    /**
+     * Dispatchers.Main for UI related stuff which runs on Main thread
+     */
+    private suspend fun returnRemoveFavResponse(eMagazineResponse: AddFavResponse) {
+        withContext(Dispatchers.Main) {
+            mutableRemoveFavResponse.value = eMagazineResponse
+        }
+    }
 
 
     fun categoryResponse(): LiveData<ProductListResponse> {
@@ -105,5 +139,9 @@ class ProductViewModel : ViewModel() {
     }
     fun addFavResponse(): LiveData<AddFavResponse> {
         return mutableAddFavResponse
+    }
+
+    fun removeFavResponse(): LiveData<AddFavResponse> {
+        return mutableRemoveFavResponse
     }
 }

@@ -31,6 +31,11 @@ interface APIEndPointsInterface {
         @Body hashMap: MultipartBody
     ): AddFavResponse
 
+    @POST(AppConstants.APIEndPoints.REMOVE_FAV_PRODUCT)
+    suspend fun removeFavProduct(
+        @Body hashMap: MultipartBody
+    ): AddFavResponse
+
     @POST(AppConstants.APIEndPoints.GET_CATEGORY)
     suspend fun getCategories(): CategoryResponse
 

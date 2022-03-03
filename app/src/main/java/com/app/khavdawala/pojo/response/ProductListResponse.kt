@@ -15,6 +15,7 @@ data class ProductListResponse(
     data class Products(
         var name: String = "",
         //var isFav: Boolean = false,
+        var isLoading: Boolean = false,
         var selectedItemPosition: Int = 0,
         var packing_list: ArrayList<Packing> = ArrayList(),
         var price: String = "",
