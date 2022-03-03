@@ -69,12 +69,9 @@ class CategoryProductListFragment : Fragment() {
     private fun handleFavResponse(addFavResponse: AddFavResponse?) {
         if (null != addFavResponse) {
             if (addFavResponse.status == 1) {
-                //categoryProductListAdapter.addFavSuccess(favItemPosition)
                 productList[favItemPosition].favourite = "yes"
                 productList[favItemPosition].isLoading = false
-                //notifyItemChanged(position)
             } else {
-                //categoryProductListAdapter.stopFavLoading(favItemPosition)
                 productList[favItemPosition].favourite = ""
                 productList[favItemPosition].isLoading = false
             }
@@ -85,11 +82,9 @@ class CategoryProductListFragment : Fragment() {
     private fun handleRemoveFavResponse(addFavResponse: AddFavResponse?) {
         if (null != addFavResponse) {
             if (addFavResponse.status == 1) {
-                //categoryProductListAdapter.removeFavSuccess(favItemPosition)
                 productList[favItemPosition].favourite = ""
                 productList[favItemPosition].isLoading = false
             } else {
-                //categoryProductListAdapter.stopFavLoading(favItemPosition)
                 productList[favItemPosition].favourite = ""
                 productList[favItemPosition].isLoading = false
             }
@@ -104,15 +99,12 @@ class CategoryProductListFragment : Fragment() {
         categoryProductListAdapter = CategoryProductListAdapter(itemClickWeb = {
             (requireActivity() as HomeActivity).switchFragment(ProductDetailFragment(), false)
         }, itemFavClick = { customClass, position ->
+            favItemPosition = position
             if (customClass.favourite.isEmpty()) {
-                //add to fav
-                favItemPosition = position
                 callAddToFav(customClass)
             } else {
                 removeFavProduct(customClass)
             }
-//            productList[position].isFav = !customClass.isFav
-//            categoryProductListAdapter.updateItem(position)
         })
 
         binding.rvProduct.adapter = categoryProductListAdapter
