@@ -1,6 +1,7 @@
 package com.app.khavdawala.network
 
 import app.app.patidarsaurabh.apputils.AppConstants
+import com.app.khavdawala.pojo.response.AddFavResponse
 import com.app.khavdawala.pojo.response.CategoryResponse
 import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.pojo.response.RegisterResponse
@@ -24,6 +25,11 @@ interface APIEndPointsInterface {
     suspend fun getProductList(
         @Body hashMap: MultipartBody
     ): ProductListResponse
+
+    @POST(AppConstants.APIEndPoints.ADD_FAV_PRODUCT)
+    suspend fun addFavProduct(
+        @Body hashMap: MultipartBody
+    ): AddFavResponse
 
     @POST(AppConstants.APIEndPoints.GET_CATEGORY)
     suspend fun getCategories(): CategoryResponse

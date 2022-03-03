@@ -7,6 +7,9 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.app.khavdawala.R
+import com.app.khavdawala.apputils.gone
+import com.app.khavdawala.apputils.invisible
+import com.app.khavdawala.apputils.visible
 import com.app.khavdawala.databinding.CategoryProductListItemBinding
 import com.app.khavdawala.pojo.response.ProductListResponse
 import com.bumptech.glide.Glide
@@ -43,6 +46,15 @@ class CategoryProductListAdapter(
         notifyItemRangeRemoved(0, this.list.size)
     }
 
+    fun addFavSuccess(position: Int) {
+        this.list[position].favourite = "yes"
+        notifyItemChanged(position)
+    }
+
+    fun stopFavLoading(position: Int) {
+        notifyItemChanged(position)
+    }
+
     fun updateItem(position: Int) {
         //this.list[position].isFav = isFav
         notifyItemChanged(position)
@@ -64,7 +76,9 @@ class CategoryProductListAdapter(
 
                 binding.tvMLAName.text = newsPortal.name
 
-                if (newsPortal.isFav) {
+                if (newsPortal.favourite.isNotEmpty() && newsPortal.favourite == "yes") {
+                    binding.ivFavIcon.visible()
+                    binding.pbFav.gone()
                     binding.ivFavIcon.setBackgroundResource(R.drawable.favorite_button_active)
                 } else {
                     binding.ivFavIcon.setBackgroundResource(R.drawable.favorite_button)
@@ -80,6 +94,8 @@ class CategoryProductListAdapter(
 
                 binding.ivFavIcon.setOnClickListener {
                     itemFavClick(newsPortal, position)
+                    binding.pbFav.visible()
+                    binding.ivFavIcon.invisible()
                 }
 
                 //binding.spCatProduct.tag = position

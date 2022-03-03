@@ -14,11 +14,12 @@ data class ProductListResponse(
 
     data class Products(
         var name: String = "",
-        var isFav: Boolean = false,
+        //var isFav: Boolean = false,
         var selectedItemPosition: Int = 0,
         var packing_list: ArrayList<Packing> = ArrayList(),
         var price: String = "",
         var product_id: String = "",
+        var favourite: String = "",
         var up_pro_img: String = ""
     ) {
         data class Packing(

@@ -36,11 +36,11 @@ public class SPreferenceManager {
         setBoolean(AppConstants.IS_LOGIN, true);
         setString(AppConstants.MOBILE, mobileNumber);
     }
-//
-//    public String getSession() {
-//        return mPreferences.getString(AppConstants.MOBILE, "");
-//    }
-//
+
+    public String getSession() {
+        return mPreferences.getString(AppConstants.MOBILE, "");
+    }
+
     public void setString(String key, String value) {
         mEditor.putString(key, value).apply();
     }

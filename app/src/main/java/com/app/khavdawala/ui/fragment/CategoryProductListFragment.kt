@@ -9,11 +9,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.khavdawala.R
+import com.app.khavdawala.apputils.SPreferenceManager
 import com.app.khavdawala.apputils.isConnected
 import com.app.khavdawala.apputils.loadImage
 import com.app.khavdawala.apputils.showSnackBar
 import com.app.khavdawala.databinding.FragmentCategoryProductListBinding
+import com.app.khavdawala.pojo.request.AddFavRequest
 import com.app.khavdawala.pojo.request.ProductRequest
+import com.app.khavdawala.pojo.response.AddFavResponse
 import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.ui.activity.HomeActivity
 import com.app.khavdawala.ui.adapter.CategoryProductListAdapter
@@ -24,6 +27,7 @@ class CategoryProductListFragment : Fragment() {
     private var cid: Int = 0
     private var start: Int = 0
     private var end: Int = 10
+    private var favItemPosition: Int = 0
 
     private lateinit var categoryProductListAdapter: CategoryProductListAdapter
     private lateinit var categoryViewModel: ProductViewModel
@@ -51,7 +55,21 @@ class CategoryProductListFragment : Fragment() {
             handleResponse(it)
         }
 
+        categoryViewModel.addFavResponse().observe(requireActivity()) {
+            handleFavResponse(it)
+        }
+
         getProducts()
+    }
+
+    private fun handleFavResponse(addFavResponse: AddFavResponse?) {
+        if (null != addFavResponse) {
+            if (addFavResponse.status == 1) {
+                categoryProductListAdapter.addFavSuccess(favItemPosition)
+            } else {
+                categoryProductListAdapter.stopFavLoading(favItemPosition)
+            }
+        }
     }
 
     private fun initRecyclerView() {
@@ -61,11 +79,29 @@ class CategoryProductListFragment : Fragment() {
         categoryProductListAdapter = CategoryProductListAdapter(itemClickWeb = {
             (requireActivity() as HomeActivity).switchFragment(ProductDetailFragment(), false)
         }, itemFavClick = { customClass, position ->
-            productList[position].isFav = !customClass.isFav
-            categoryProductListAdapter.updateItem(position)
+            if (customClass.favourite.isEmpty() || customClass.favourite != "yes") {
+                //add to fav
+                favItemPosition = position
+                callAddToFav(customClass)
+            }
+//            productList[position].isFav = !customClass.isFav
+//            categoryProductListAdapter.updateItem(position)
         })
 
         binding.rvProduct.adapter = categoryProductListAdapter
+    }
+
+    private fun callAddToFav(customClass: ProductListResponse.Products) {
+        if (isConnected(requireContext())) {
+            categoryViewModel.addFavProduct(
+                AddFavRequest(
+                    SPreferenceManager.getInstance(requireContext()).session,
+                    customClass.product_id
+                )
+            )
+        } else {
+            showSnackBar(getString(R.string.no_internet), requireActivity())
+        }
     }
 
     private fun handleResponse(productListResponse: ProductListResponse?) {
@@ -100,7 +136,12 @@ class CategoryProductListFragment : Fragment() {
             binding.ivCategoryHeader.visibility = View.GONE
             binding.rvProduct.visibility = View.GONE
             binding.pbHome.visibility = View.VISIBLE
-            categoryViewModel.getProductList(ProductRequest(cid, start, end))
+            categoryViewModel.getProductList(
+                ProductRequest(
+                    cid, start, end,
+                    SPreferenceManager.getInstance(requireContext()).session
+                )
+            )
         } else {
             showSnackBar(getString(R.string.no_internet), requireActivity())
         }
