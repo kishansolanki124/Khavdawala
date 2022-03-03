@@ -77,11 +77,11 @@ class ProductDetailFragment : Fragment() {
         stateList.add("Rs. 100 (500 Gram)")
         val adapter: ArrayAdapter<String> = ArrayAdapter(
             binding.spStateGujaratiSamaj.context,
-            R.layout.simple_spinner_dropdown_item,
+            R.layout.spinner_display_item,
             stateList
         )
 
-        adapter.setDropDownViewResource(R.layout.display_spinner_dropdown_item)
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
 
         binding.spStateGujaratiSamaj.adapter = adapter
 

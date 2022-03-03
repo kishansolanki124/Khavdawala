@@ -40,7 +40,6 @@ class CategoryProductListAdapter(
 
     fun reset() {
         this.list.clear()
-        //notifyDataSetChanged()
         notifyItemRangeRemoved(0, this.list.size)
     }
 
@@ -85,19 +84,19 @@ class CategoryProductListAdapter(
 
                 //binding.spCatProduct.tag = position
 
-                val stateList: ArrayList<String> = ArrayList()
+                val stateList: ArrayList<ProductListResponse.Products.Packing> = ArrayList()
                 //stateList.add(GujratiSamajResponse.State("", getString(R.string.select_state)))
                 //stateList.addAll(gujratiSamajResponse.state_list)
 
-                stateList.add("Rs. 50 (250 Gram)")
-                stateList.add("Rs. 100 (500 Gram)")
-                val adapter: ArrayAdapter<String> = ArrayAdapter(
+                stateList.addAll(newsPortal.packing_list)
+                //stateList.add("Rs. 100 (500 Gram)")
+                val adapter: ArrayAdapter<ProductListResponse.Products.Packing> = ArrayAdapter(
                     binding.spCatProduct.context,
-                    R.layout.simple_spinner_dropdown_item,
+                    R.layout.spinner_display_item,
                     stateList
                 )
 
-                adapter.setDropDownViewResource(R.layout.display_spinner_dropdown_item)
+                adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
 
                 binding.spCatProduct.adapter = adapter
 

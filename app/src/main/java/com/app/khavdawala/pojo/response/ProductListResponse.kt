@@ -16,7 +16,7 @@ data class ProductListResponse(
         var name: String = "",
         var isFav: Boolean = false,
         var selectedItemPosition: Int = 0,
-        var packing_list: List<Packing> = listOf(),
+        var packing_list: ArrayList<Packing> = ArrayList(),
         var price: String = "",
         var product_id: String = "",
         var up_pro_img: String = ""
@@ -27,6 +27,10 @@ data class ProductListResponse(
             var product_price: String = "",
             var product_weight: String = "",
             var weight_type: String = ""
-        )
+        ) {
+            override fun toString(): String {
+                return "Rs. $product_price ($product_weight$weight_type)"
+            }
+        }
     }
 }
