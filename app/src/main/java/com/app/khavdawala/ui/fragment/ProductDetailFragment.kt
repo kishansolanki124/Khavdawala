@@ -19,7 +19,7 @@ import com.app.khavdawala.databinding.FragmentProductDetailBinding
 import com.app.khavdawala.pojo.request.ProductRequest
 import com.app.khavdawala.pojo.response.ProductDetailResponse
 import com.app.khavdawala.ui.activity.HomeActivity
-import com.app.khavdawala.ui.adapter.DemoCollectionAdapter
+import com.app.khavdawala.ui.adapter.TabFragmentAdapter
 import com.app.khavdawala.ui.adapter.HorizontalProductListAdapter
 import com.app.khavdawala.ui.adapter.ProductDetailImagesAdapter
 import com.app.khavdawala.viewmodel.ProductViewModel
@@ -27,7 +27,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class ProductDetailFragment : Fragment() {
 
-    private lateinit var demoCollectionAdapter: DemoCollectionAdapter
+    private lateinit var tabFragmentAdapter: TabFragmentAdapter
     private lateinit var govtWorkNewsAdapter: HorizontalProductListAdapter
     private lateinit var layoutManager: LinearLayoutManager
     private lateinit var binding: FragmentProductDetailBinding
@@ -102,8 +102,8 @@ class ProductDetailFragment : Fragment() {
         fragmentList.add(ProductDescriptionFragment.newInstance(productDetailResponse.product_detail[0].description))
         fragmentList.add(ProductDescriptionFragment.newInstance((productDetailResponse.product_detail[0].nutrition)))
 
-        demoCollectionAdapter = DemoCollectionAdapter(this, fragmentList, 2)
-        binding.pager.adapter = demoCollectionAdapter
+        tabFragmentAdapter = TabFragmentAdapter(this, fragmentList, 2)
+        binding.pager.adapter = tabFragmentAdapter
 
         TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
             when (position) {
