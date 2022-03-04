@@ -11,7 +11,7 @@ import com.app.khavdawala.pojo.request.AddFavRequest
 import com.app.khavdawala.pojo.request.FavProductRequest
 import com.app.khavdawala.pojo.request.ProductRequest
 import com.app.khavdawala.pojo.response.AddFavResponse
-import com.app.khavdawala.pojo.response.CategoryResponse
+import com.app.khavdawala.pojo.response.ProductDetailResponse
 import com.app.khavdawala.pojo.response.ProductListResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,6 +21,7 @@ import okhttp3.MultipartBody
 class ProductViewModel : ViewModel() {
 
     private val mutableCategoryResponse = MutableLiveData<ProductListResponse>()
+    private val mutableProductDetailResponse = MutableLiveData<ProductDetailResponse>()
     private val mutableAddFavResponse = MutableLiveData<AddFavResponse>()
     private val mutableRemoveFavResponse = MutableLiveData<AddFavResponse>()
     private var apiEndPointsInterface =
@@ -59,6 +60,27 @@ class ProductViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Dispatchers.IO for network or disk operations that takes longer time and runs in background thread
+     */
+    fun getProductDetail(productRequest: ProductRequest) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val requestBodyBuilder = MultipartBody.Builder().setType(MultipartBody.FORM)
+
+                requestBodyBuilder.addFormDataPart(
+                    AppConstants.RequestParameters.PID,
+                    productRequest.pid
+                )
+
+                val apiResponse = apiEndPointsInterface.getProductDetail(requestBodyBuilder.build())
+                returnProductDetailResponse(apiResponse)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
 
     /**
      * Dispatchers.IO for network or disk operations that takes longer time and runs in background thread
@@ -81,13 +103,15 @@ class ProductViewModel : ViewModel() {
                     productRequest.user_mobile
                 )
 
-                val apiResponse = apiEndPointsInterface.getFavProductList(requestBodyBuilder.build())
+                val apiResponse =
+                    apiEndPointsInterface.getFavProductList(requestBodyBuilder.build())
                 returnCategoryResponse(apiResponse)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
+
     /**
      * Dispatchers.IO for network or disk operations that takes longer time and runs in background thread
      */
@@ -150,11 +174,21 @@ class ProductViewModel : ViewModel() {
     /**
      * Dispatchers.Main for UI related stuff which runs on Main thread
      */
+    private suspend fun returnProductDetailResponse(eMagazineResponse: ProductDetailResponse) {
+        withContext(Dispatchers.Main) {
+            mutableProductDetailResponse.value = eMagazineResponse
+        }
+    }
+
+    /**
+     * Dispatchers.Main for UI related stuff which runs on Main thread
+     */
     private suspend fun returnAddFavResponse(eMagazineResponse: AddFavResponse) {
         withContext(Dispatchers.Main) {
             mutableAddFavResponse.value = eMagazineResponse
         }
     }
+
     /**
      * Dispatchers.Main for UI related stuff which runs on Main thread
      */
@@ -168,6 +202,11 @@ class ProductViewModel : ViewModel() {
     fun categoryResponse(): LiveData<ProductListResponse> {
         return mutableCategoryResponse
     }
+
+    fun productDetailResponse(): LiveData<ProductDetailResponse> {
+        return mutableProductDetailResponse
+    }
+
     fun addFavResponse(): LiveData<AddFavResponse> {
         return mutableAddFavResponse
     }

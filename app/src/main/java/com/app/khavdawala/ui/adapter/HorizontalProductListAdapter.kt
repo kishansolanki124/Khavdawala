@@ -5,15 +5,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.app.khavdawala.databinding.HorizontalProductListItemBinding
-import com.app.khavdawala.pojo.CustomClass
+import com.app.khavdawala.pojo.response.ProductDetailResponse
 import com.bumptech.glide.Glide
 
 class HorizontalProductListAdapter(
-    private val itemClickWeb: (CustomClass) -> Unit
+    private val itemClickWeb: (ProductDetailResponse.YoumayAlsolike) -> Unit
 ) :
     RecyclerView.Adapter<HorizontalProductListAdapter.HomeOffersViewHolder>() {
 
-    private var list: ArrayList<CustomClass> = ArrayList()
+    private var list: ArrayList<ProductDetailResponse.YoumayAlsolike> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeOffersViewHolder {
         val binding =
@@ -29,7 +29,7 @@ class HorizontalProductListAdapter(
         holder.bindForecast(list[position])
     }
 
-    fun setItem(list: ArrayList<CustomClass>) {
+    fun setItem(list: ArrayList<ProductDetailResponse.YoumayAlsolike>) {
         this.list.addAll(list)
         notifyDataSetChanged()
     }
@@ -43,7 +43,7 @@ class HorizontalProductListAdapter(
 
     class HomeOffersViewHolder(
         private val binding: HorizontalProductListItemBinding,
-        private val itemClickCall: (CustomClass) -> Unit,
+        private val itemClickCall: (ProductDetailResponse.YoumayAlsolike) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
 
 //        constructor(parent: ViewGroup) : this(
@@ -55,14 +55,14 @@ class HorizontalProductListAdapter(
 
         @SuppressLint("SetTextI18n")
         fun bindForecast(
-            newsPortal: CustomClass
+            newsPortal: ProductDetailResponse.YoumayAlsolike
         ) {
             with(newsPortal) {
 
-                binding.tvMLAName.text = newsPortal.itemName
+                binding.tvMLAName.text = newsPortal.name
 
                 Glide.with(binding.ivMLA.context)
-                    .load(newsPortal.image)
+                    .load(newsPortal.up_pro_img)
                     .into(binding.ivMLA)
 
 //                if (newsPortal.name.isNullOrEmpty()) {

@@ -96,7 +96,10 @@ class CategoryProductListFragment : Fragment() {
         binding.rvProduct.layoutManager = layoutManager
 
         categoryProductListAdapter = CategoryProductListAdapter(itemClickWeb = {
-            (requireActivity() as HomeActivity).switchFragment(ProductDetailFragment(), false)
+            (requireActivity() as HomeActivity).switchFragment(
+                ProductDetailFragment.newInstance(it.product_id),
+                false
+            )
         }, itemFavClick = { customClass, _ ->
             if (customClass.favourite.isEmpty()) {
                 callAddToFav(customClass)

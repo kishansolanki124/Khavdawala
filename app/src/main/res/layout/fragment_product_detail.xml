@@ -17,6 +17,16 @@
         android:focusable="true"
         android:orientation="vertical">
 
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/pb_home"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="@dimen/dp_10"
+            android:indeterminateTint="@color/btnBG"
+            android:indeterminateTintMode="multiply" />
+
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/newsHomeViewPager"
             android:layout_width="match_parent"
@@ -25,6 +35,7 @@
             android:nestedScrollingEnabled="true" />
 
         <RelativeLayout
+            android:id="@+id/rl_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="true">
@@ -42,16 +53,17 @@
         </RelativeLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvMLAName"
+            android:id="@+id/tv_sweet_name"
             style="@style/ProductTitle"
             android:layout_marginHorizontal="@dimen/dp_10"
             android:paddingHorizontal="@dimen/dp_10"
-            android:text="Sweet"
             android:textColor="@color/black"
             android:textSize="@dimen/sp_20"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:text="Sweet" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -129,11 +141,11 @@
                     android:layout_marginHorizontal="@dimen/dp_20"
                     android:src="@drawable/cart_button"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/tvstar"
+                    app:layout_constraintEnd_toStartOf="@id/iv_fav_icon"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/tvstar"
+                    android:id="@+id/iv_fav_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/dp_5"
@@ -164,18 +176,19 @@
             android:padding="@dimen/dp_10" />
 
         <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_you_may_like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_30"
             android:padding="@dimen/dp_10"
-            android:text="May You Also Like"
+            android:text="@string/you_may_like"
             android:textColor="@color/btnBG"
             android:textSize="@dimen/sp_20"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvMLAs"
+            android:id="@+id/rv_product"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clipToPadding="false"
