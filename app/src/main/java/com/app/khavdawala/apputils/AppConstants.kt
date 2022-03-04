@@ -41,6 +41,7 @@ interface AppConstants {
             const val ADD_OPINION_POLL: String = "add_opinion_poll"
             const val GET_SHRADDHANJALI: String = "get_shradhanjali"
             const val GET_PRODUCT: String = "get_product"
+            const val GET_FAV_PRODUCT: String = "get_favourite_product"
             const val ADD_FAV_PRODUCT: String = "add_favourite_product"
             const val REMOVE_FAV_PRODUCT: String = "remove_favourite_product"
             const val GET_EMAGAZINE: String = "get_emagazine"

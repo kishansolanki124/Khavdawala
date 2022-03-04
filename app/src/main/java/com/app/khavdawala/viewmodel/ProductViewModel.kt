@@ -8,6 +8,7 @@ import app.app.patidarsaurabh.apputils.AppConstants
 import com.app.khavdawala.network.APIEndPointsInterface
 import com.app.khavdawala.network.RetrofitFactory
 import com.app.khavdawala.pojo.request.AddFavRequest
+import com.app.khavdawala.pojo.request.FavProductRequest
 import com.app.khavdawala.pojo.request.ProductRequest
 import com.app.khavdawala.pojo.response.AddFavResponse
 import com.app.khavdawala.pojo.response.CategoryResponse
@@ -51,6 +52,36 @@ class ProductViewModel : ViewModel() {
                 )
 
                 val apiResponse = apiEndPointsInterface.getProductList(requestBodyBuilder.build())
+                returnCategoryResponse(apiResponse)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+
+    /**
+     * Dispatchers.IO for network or disk operations that takes longer time and runs in background thread
+     */
+    fun getFavProductList(productRequest: FavProductRequest) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val requestBodyBuilder = MultipartBody.Builder().setType(MultipartBody.FORM)
+
+                requestBodyBuilder.addFormDataPart(
+                    AppConstants.RequestParameters.START,
+                    productRequest.start.toString()
+                )
+                requestBodyBuilder.addFormDataPart(
+                    AppConstants.RequestParameters.END,
+                    productRequest.end.toString()
+                )
+                requestBodyBuilder.addFormDataPart(
+                    AppConstants.RequestParameters.USER_MOBILE,
+                    productRequest.user_mobile
+                )
+
+                val apiResponse = apiEndPointsInterface.getFavProductList(requestBodyBuilder.build())
                 returnCategoryResponse(apiResponse)
             } catch (e: Exception) {
                 e.printStackTrace()

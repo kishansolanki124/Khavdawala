@@ -135,18 +135,24 @@ class CategoryProductListFragment : Fragment() {
     }
 
     private fun handleResponse(productListResponse: ProductListResponse?) {
-        if (null != productListResponse && productListResponse.products_list.isNotEmpty()) {
-            productList.addAll(productListResponse.products_list)
-            if (start == 0) {
-                categoryProductListAdapter.reset()
-                categoryProductListAdapter.addItems(productList)
-            } else {
-                categoryProductListAdapter.addItems(productListResponse.products_list)
-            }
+        if (null != productListResponse && productListResponse.status == "1") {
+            if (productListResponse.products_list.isNotEmpty()) {
+                productList.addAll(productListResponse.products_list)
+                if (start == 0) {
+                    categoryProductListAdapter.reset()
+                    categoryProductListAdapter.addItems(productList)
+                } else {
+                    categoryProductListAdapter.addItems(productListResponse.products_list)
+                }
 
-            if (productListResponse.banner_list.isNotEmpty()) {
-                setupHorizontalMainNews(productListResponse.banner_list)
+                if (productListResponse.banner_list.isNotEmpty()) {
+                    setupHorizontalMainNews(productListResponse.banner_list)
+                }
+            } else {
+                showSnackBar(productListResponse.message, requireActivity())
             }
+        } else if (null != productListResponse) {
+            showSnackBar(productListResponse.message, requireActivity())
         } else {
             showSnackBar(getString(R.string.something_went_wrong), requireActivity())
         }

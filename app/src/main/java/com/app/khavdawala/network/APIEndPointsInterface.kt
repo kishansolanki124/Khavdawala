@@ -26,6 +26,11 @@ interface APIEndPointsInterface {
         @Body hashMap: MultipartBody
     ): ProductListResponse
 
+    @POST(AppConstants.APIEndPoints.GET_FAV_PRODUCT)
+    suspend fun getFavProductList(
+        @Body hashMap: MultipartBody
+    ): ProductListResponse
+
     @POST(AppConstants.APIEndPoints.ADD_FAV_PRODUCT)
     suspend fun addFavProduct(
         @Body hashMap: MultipartBody
