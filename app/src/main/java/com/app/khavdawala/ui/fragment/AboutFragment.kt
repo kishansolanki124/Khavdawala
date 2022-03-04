@@ -18,7 +18,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 class AboutFragment : Fragment() {
 
     private lateinit var binding: FragmentAboutBinding
-    private lateinit var categoryViewModel: StaticPageViewModel
+    private lateinit var staticPageViewModel: StaticPageViewModel
     private lateinit var tabFragmentAdapter: TabFragmentAdapter
 
     override fun onCreateView(
@@ -33,9 +33,9 @@ class AboutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        categoryViewModel = ViewModelProvider(this)[StaticPageViewModel::class.java]
+        staticPageViewModel = ViewModelProvider(this)[StaticPageViewModel::class.java]
 
-        categoryViewModel.categoryResponse().observe(requireActivity()) {
+        staticPageViewModel.categoryResponse().observe(requireActivity()) {
             handleResponse(it)
         }
 
@@ -78,7 +78,7 @@ class AboutFragment : Fragment() {
             binding.pager.visibility = View.GONE
             binding.tabLayout.visibility = View.GONE
             binding.pbHome.visibility = View.VISIBLE
-            categoryViewModel.getStaticPage()
+            staticPageViewModel.getStaticPage()
         } else {
             showSnackBar(getString(R.string.no_internet), requireActivity())
         }

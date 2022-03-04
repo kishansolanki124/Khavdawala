@@ -49,6 +49,9 @@ interface APIEndPointsInterface {
     @POST(AppConstants.APIEndPoints.GET_STATIC_PAGE)
     suspend fun getStaticPage(): StaticPageResponse
 
+    @POST(AppConstants.APIEndPoints.GET_NOTIFICATION)
+    suspend fun getNotification(): NotificationResponse
+
     //
 //    @POST(AppConstants.APIEndPoints.EMAGAZINE_AUTH)
 //    suspend fun emagazineAuth(

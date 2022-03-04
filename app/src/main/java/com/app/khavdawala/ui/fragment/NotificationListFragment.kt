@@ -1,23 +1,24 @@
 package com.app.khavdawala.ui.fragment
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.khavdawala.R
-import com.app.khavdawala.databinding.FragmentCategoryProductListBinding
+import com.app.khavdawala.apputils.isConnected
+import com.app.khavdawala.apputils.showSnackBar
 import com.app.khavdawala.databinding.FragmentNotificationBinding
-import com.app.khavdawala.pojo.CustomClass
+import com.app.khavdawala.pojo.response.NotificationResponse
 import com.app.khavdawala.ui.adapter.NotificationListAdapter
+import com.app.khavdawala.viewmodel.StaticPageViewModel
 
 class NotificationListFragment : Fragment() {
 
     private lateinit var govtWorkNewsAdapter: NotificationListAdapter
+    private lateinit var staticPageViewModel: StaticPageViewModel
     private lateinit var binding: FragmentNotificationBinding
     private lateinit var layoutManager: LinearLayoutManager
 
@@ -34,116 +35,38 @@ class NotificationListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         layoutManager = LinearLayoutManager(requireContext())
-        binding.rvMLAs.layoutManager = layoutManager
+        binding.rvNotification.layoutManager = layoutManager
 
-        govtWorkNewsAdapter = NotificationListAdapter {
+        govtWorkNewsAdapter = NotificationListAdapter()
+        binding.rvNotification.adapter = govtWorkNewsAdapter
 
+        staticPageViewModel = ViewModelProvider(this)[StaticPageViewModel::class.java]
+
+        staticPageViewModel.notificationResponse().observe(requireActivity()) {
+            handleResponse(it)
         }
-        binding.rvMLAs.adapter = govtWorkNewsAdapter
 
+        if (isConnected(requireContext())) {
+            binding.rvNotification.visibility = View.GONE
+            binding.pbHome.visibility = View.VISIBLE
+            staticPageViewModel.getNotification()
+        } else {
+            showSnackBar(getString(R.string.no_internet), requireActivity())
+        }
+    }
+
+    private fun handleResponse(notificationResponse: NotificationResponse?) {
+        binding.pbHome.visibility = View.GONE
+        if (null != notificationResponse) {
+            binding.rvNotification.visibility = View.VISIBLE
+            setupList(notificationResponse.notification_list)
+        } else {
+            showSnackBar(getString(R.string.something_went_wrong), requireActivity())
+        }
+    }
+
+    private fun setupList(notificationList: ArrayList<NotificationResponse.Notification>) {
         govtWorkNewsAdapter.reset()
-        val arrayList: ArrayList<CustomClass> = ArrayList()
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Sweets"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Chevda"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Wafers"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Handmade Khakhra"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Sweets"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Chevda"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Wafers"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Handmade Khakhra"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Sweets"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Chevda"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Wafers"
-            )
-        )
-        arrayList.add(
-            CustomClass(
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.product_photo
-                )!!, "Handmade Khakhra"
-            )
-        )
-        govtWorkNewsAdapter.setItem(arrayList)
-
-        val imageList: ArrayList<Drawable> = ArrayList()
-        imageList.add(ContextCompat.getDrawable(requireContext(), R.drawable.banner_1)!!)
-        imageList.add(ContextCompat.getDrawable(requireContext(), R.drawable.banner_1)!!)
-        imageList.add(ContextCompat.getDrawable(requireContext(), R.drawable.banner_1)!!)
+        govtWorkNewsAdapter.setItem(notificationList)
     }
 }

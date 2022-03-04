@@ -1,18 +1,15 @@
 package com.app.khavdawala.ui.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.app.khavdawala.databinding.NotificationItemBinding
-import com.app.khavdawala.pojo.CustomClass
+import com.app.khavdawala.pojo.response.NotificationResponse
 
-class NotificationListAdapter(
-    private val itemClickWeb: (CustomClass) -> Unit
-) :
+class NotificationListAdapter :
     RecyclerView.Adapter<NotificationListAdapter.HomeOffersViewHolder>() {
 
-    private var list: ArrayList<CustomClass> = ArrayList()
+    private var list: ArrayList<NotificationResponse.Notification> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeOffersViewHolder {
         val binding =
@@ -21,44 +18,38 @@ class NotificationListAdapter(
                 parent,
                 false
             )
-        return HomeOffersViewHolder(binding, itemClickWeb)
+        return HomeOffersViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: HomeOffersViewHolder, position: Int) {
         holder.bindForecast(list[position])
     }
 
-    fun setItem(list: ArrayList<CustomClass>) {
+    fun setItem(list: ArrayList<NotificationResponse.Notification>) {
+        val size = this.list.size
         this.list.addAll(list)
-        notifyDataSetChanged()
+        val sizeNew = this.list.size
+        notifyItemRangeChanged(size, sizeNew)
     }
 
     fun reset() {
+        val totalSize = this.list.size
         this.list.clear()
-        notifyDataSetChanged()
+        notifyItemRangeRemoved(0, totalSize)
     }
 
     override fun getItemCount(): Int = list.size
 
     class HomeOffersViewHolder(
         private val binding: NotificationItemBinding,
-        private val itemClickCall: (CustomClass) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
 
-//        constructor(parent: ViewGroup) : this(
-//            LayoutInflater.from(parent.context).inflate(
-//                R.layout.item_vatan_nu_gham,
-//                parent, false
-//            )
-//        )
-
-        @SuppressLint("SetTextI18n")
         fun bindForecast(
-            newsPortal: CustomClass
+            newsPortal: NotificationResponse.Notification
         ) {
-            with(newsPortal) {
-                binding.tvMLAName.text = newsPortal.itemName
-            }
+            binding.tvNotTitle.text = newsPortal.title
+            binding.tvNotDesc.text = newsPortal.description
+            binding.tvNotTime.text = newsPortal.pdate
         }
     }
 }
