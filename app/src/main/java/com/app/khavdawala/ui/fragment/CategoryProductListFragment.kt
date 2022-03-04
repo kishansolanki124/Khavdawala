@@ -27,7 +27,6 @@ class CategoryProductListFragment : Fragment() {
     private var cid: Int = 0
     private var start: Int = 0
     private var end: Int = 10
-    private var favItemPosition: Int = 0
 
     private lateinit var categoryProductListAdapter: CategoryProductListAdapter
     private lateinit var categoryViewModel: ProductViewModel
@@ -69,26 +68,26 @@ class CategoryProductListFragment : Fragment() {
     private fun handleFavResponse(addFavResponse: AddFavResponse?) {
         if (null != addFavResponse) {
             if (addFavResponse.status == 1) {
-                productList[favItemPosition].favourite = "yes"
-                productList[favItemPosition].isLoading = false
-            } else {
-                productList[favItemPosition].favourite = ""
-                productList[favItemPosition].isLoading = false
+                val index = productList.indexOfFirst {
+                    it.product_id == addFavResponse.product_id
+                }
+                productList[index].favourite = "yes"
+                productList[index].isLoading = false
+                categoryProductListAdapter.notifyItemChanged(index)
             }
-            categoryProductListAdapter.notifyItemChanged(favItemPosition)
         }
     }
 
     private fun handleRemoveFavResponse(addFavResponse: AddFavResponse?) {
         if (null != addFavResponse) {
             if (addFavResponse.status == 1) {
-                productList[favItemPosition].favourite = ""
-                productList[favItemPosition].isLoading = false
-            } else {
-                productList[favItemPosition].favourite = ""
-                productList[favItemPosition].isLoading = false
+                val index = productList.indexOfFirst {
+                    it.product_id == addFavResponse.product_id
+                }
+                productList[index].favourite = ""
+                productList[index].isLoading = false
+                categoryProductListAdapter.notifyItemChanged(index)
             }
-            categoryProductListAdapter.notifyItemChanged(favItemPosition)
         }
     }
 
@@ -98,8 +97,7 @@ class CategoryProductListFragment : Fragment() {
 
         categoryProductListAdapter = CategoryProductListAdapter(itemClickWeb = {
             (requireActivity() as HomeActivity).switchFragment(ProductDetailFragment(), false)
-        }, itemFavClick = { customClass, position ->
-            favItemPosition = position
+        }, itemFavClick = { customClass, _ ->
             if (customClass.favourite.isEmpty()) {
                 callAddToFav(customClass)
             } else {
