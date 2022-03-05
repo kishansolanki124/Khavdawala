@@ -1,45 +1,20 @@
 package com.app.khavdawala.apputils
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.drawable.ColorDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.net.Uri
 import android.os.Build
-import android.os.Environment
-import android.text.InputType
-import android.util.Patterns
-import android.view.*
-import android.view.inputmethod.EditorInfo
+import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.ui.activity.SplashActivity
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
-import java.io.File
-import java.io.FileOutputStream
-import java.net.URL
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 fun isConnected(context: Context): Boolean {
     val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -59,6 +34,7 @@ fun isConnected(context: Context): Boolean {
         return netInfo != null && netInfo.isConnectedOrConnecting
     }
 }
+
 //
 //
 //fun setRecyclerViewLayoutManager(recyclerView: RecyclerView, context: Context) {
@@ -90,10 +66,12 @@ fun showSnackBar(message: String?, activity: Activity?) {
         ).show()
     }
 }
+
 //
 fun showToast(text: String, context: Context) {
     Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
 }
+
 fun Context.showToast(text: String) {
     Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 }
@@ -386,7 +364,7 @@ fun sessionExpired(application: Application) {
 //    setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES or InputType.TYPE_TEXT_FLAG_MULTI_LINE)
 //}
 
-fun ImageView.loadImage(url: String?){
+fun ImageView.loadImage(url: String?) {
     url?.let {
         Glide.with(this.context)
             .load(url)
@@ -394,14 +372,29 @@ fun ImageView.loadImage(url: String?){
     }
 }
 
-fun View.visible(){
+fun View.visible() {
     this.visibility = View.VISIBLE
 }
 
-fun View.gone(){
+fun View.gone() {
     this.visibility = View.GONE
 }
 
-fun View.invisible(){
+fun View.invisible() {
     this.visibility = View.INVISIBLE
+}
+
+fun Context.getCartProductList(): ArrayList<ProductListResponse.Products> {
+    var cartProductList: ArrayList<ProductListResponse.Products>
+    cartProductList = SPreferenceManager.getInstance(this)
+        .getList("product", ProductListResponse.Products::class.java)
+    if (cartProductList.isNullOrEmpty()) {
+        cartProductList = ArrayList()
+    }
+    return cartProductList
+}
+
+fun Context.checkItemExistInCart(product_id: String): Boolean {
+    val index = getCartProductList().indexOfFirst { it.product_id == product_id } // -1 if not found
+    return index >= 0
 }

@@ -9,6 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.app.khavdawala.R
 import com.app.khavdawala.apputils.SPreferenceManager
+import com.app.khavdawala.apputils.getCartProductList
+import com.app.khavdawala.apputils.gone
+import com.app.khavdawala.apputils.visible
 import com.app.khavdawala.databinding.ActivityHomeBinding
 import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.ui.fragment.*
@@ -59,7 +62,14 @@ class HomeActivity : AppCompatActivity() {
             true // return true;
         }
 
-        binding.toolbar.tvCartCount.text = "1"
+        if (!getCartProductList().isNullOrEmpty()) {
+            //todo work here
+            binding.toolbar.tvCartCount.text = getCartProductList().size.toString()
+            binding.toolbar.tvCartCount.visible()
+        } else {
+            binding.toolbar.tvCartCount.gone()
+        }
+
         binding.toolbar.rlCart.setOnClickListener {
             startActivity(Intent(this, CartActivity::class.java))
         }

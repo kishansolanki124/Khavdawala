@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.khavdawala.R
 import com.app.khavdawala.apputils.SPreferenceManager
+import com.app.khavdawala.apputils.getCartProductList
 import com.app.khavdawala.apputils.isConnected
 import com.app.khavdawala.apputils.showSnackBar
 import com.app.khavdawala.databinding.FragmentCategoryProductListBinding
@@ -56,7 +57,6 @@ class FavoriteListFragment : Fragment() {
         categoryViewModel.removeFavResponse().observe(requireActivity()) {
             handleRemoveFavResponse(it)
         }
-
         getProducts()
     }
 
@@ -79,7 +79,8 @@ class FavoriteListFragment : Fragment() {
         layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvProduct.layoutManager = layoutManager
 
-        categoryProductListAdapter = FavProductListAdapter(itemClickWeb = {
+        categoryProductListAdapter = FavProductListAdapter(requireContext().getCartProductList(),
+            itemClickWeb = {
             (requireActivity() as HomeActivity).switchFragment(
                 ProductDetailFragment.newInstance(it.product_id),
                 addToBackStack = true, addInsteadOfReplace = true

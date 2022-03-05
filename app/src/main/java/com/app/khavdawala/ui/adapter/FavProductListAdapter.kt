@@ -7,6 +7,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.app.khavdawala.R
+import com.app.khavdawala.apputils.checkItemExistInCart
 import com.app.khavdawala.apputils.gone
 import com.app.khavdawala.apputils.invisible
 import com.app.khavdawala.apputils.visible
@@ -15,6 +16,7 @@ import com.app.khavdawala.pojo.response.ProductListResponse
 import com.bumptech.glide.Glide
 
 class FavProductListAdapter(
+    private val productList: ArrayList<ProductListResponse.Products>,
     private val itemClickWeb: (ProductListResponse.Products) -> Unit,
     private val itemFavClick: (ProductListResponse.Products, Int) -> Unit,
     private val itemCartClick: (ProductListResponse.Products, Int) -> Unit
@@ -34,8 +36,7 @@ class FavProductListAdapter(
     }
 
     override fun onBindViewHolder(holder: HomeOffersViewHolder, position: Int) {
-        println("onBindViewHolder is called $position")
-        holder.bindForecast(list[position], position)
+        holder.bindForecast(productList , list[position], position)
     }
 
     fun addItems(list: ArrayList<ProductListResponse.Products>) {
@@ -63,6 +64,7 @@ class FavProductListAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindForecast(
+            productList: ArrayList<ProductListResponse.Products>,
             newsPortal: ProductListResponse.Products,
             position: Int
         ) {
@@ -81,6 +83,13 @@ class FavProductListAdapter(
                 }
 
                 binding.ivFavIcon.setBackgroundResource(R.drawable.favorite_button_active)
+
+                if (binding.ivCart.context.checkItemExistInCart(newsPortal.product_id)) {
+                    //todo work here , change this icon
+                    binding.ivCart.setBackgroundResource(R.drawable.favorite_button_active)
+                } else {
+                    binding.ivCart.setBackgroundResource(R.drawable.cart_button)
+                }
 
                 Glide.with(binding.ivMLA.context)
                     .load(newsPortal.up_pro_img)
