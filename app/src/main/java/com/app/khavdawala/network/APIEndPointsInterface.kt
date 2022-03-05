@@ -57,6 +57,8 @@ interface APIEndPointsInterface {
     @POST(AppConstants.APIEndPoints.GET_NOTIFICATION)
     suspend fun getNotification(): NotificationResponse
 
+    @POST(AppConstants.APIEndPoints.GET_CONTACT_US)
+    suspend fun getContactUs(): ContactUsResponse
     //
 //    @POST(AppConstants.APIEndPoints.EMAGAZINE_AUTH)
 //    suspend fun emagazineAuth(

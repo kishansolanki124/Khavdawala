@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.khavdawala.network.APIEndPointsInterface
 import com.app.khavdawala.network.RetrofitFactory
+import com.app.khavdawala.pojo.response.ContactUsResponse
 import com.app.khavdawala.pojo.response.NotificationResponse
 import com.app.khavdawala.pojo.response.StaticPageResponse
 import kotlinx.coroutines.Dispatchers
@@ -15,6 +16,7 @@ import kotlinx.coroutines.withContext
 class StaticPageViewModel : ViewModel() {
 
     private val mutableStaticPageResponse = MutableLiveData<StaticPageResponse>()
+    private val mutableContactUsResponse = MutableLiveData<ContactUsResponse>()
     private val mutableNotificationResponse = MutableLiveData<NotificationResponse>()
     private var apiEndPointsInterface =
         RetrofitFactory.createService(APIEndPointsInterface::class.java)
@@ -32,6 +34,18 @@ class StaticPageViewModel : ViewModel() {
             }
         }
     }
+
+    fun getContactUs() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val apiResponse = apiEndPointsInterface.getContactUs()
+                returnContactUs(apiResponse)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
 
     /**
      * Dispatchers.IO for network or disk operations that takes longer time and runs in background thread
@@ -65,11 +79,21 @@ class StaticPageViewModel : ViewModel() {
         }
     }
 
+    private suspend fun returnContactUs(settingsResponse: ContactUsResponse) {
+        withContext(Dispatchers.Main) {
+            mutableContactUsResponse.value = settingsResponse
+        }
+    }
+
     fun categoryResponse(): LiveData<StaticPageResponse> {
         return mutableStaticPageResponse
     }
 
     fun notificationResponse(): LiveData<NotificationResponse> {
         return mutableNotificationResponse
+    }
+
+    fun contactUs(): LiveData<ContactUsResponse> {
+        return mutableContactUsResponse
     }
 }

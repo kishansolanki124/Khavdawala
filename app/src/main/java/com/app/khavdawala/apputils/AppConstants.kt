@@ -64,8 +64,7 @@ interface AppConstants {
             const val GET_NEWS_PORTAL: String = "get_news_portal"
             const val GET_STATIC_PAGE: String = "get_staticpage"
             const val GET_NOTIFICATION: String = "get_notification"
-            const val GET_CONTACT_US: String = "get_contact_us"
-
+            const val GET_CONTACT_US: String = "get_contactus"
         }
     }
 
