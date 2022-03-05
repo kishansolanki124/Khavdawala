@@ -61,6 +61,22 @@ class ProductDetailFragment : Fragment() {
             }
         }
 
+        binding.tvMinus.setOnClickListener {
+            var currentProductCount = binding.tvProductCount.text.toString().toInt()
+            if (currentProductCount != 0) {
+                currentProductCount -= 1
+            }
+            binding.tvProductCount.text = currentProductCount.toString()
+        }
+
+        binding.tvPlus.setOnClickListener {
+            var currentProductCount = binding.tvProductCount.text.toString().toInt()
+            if (currentProductCount != 99) {
+                currentProductCount += 1
+            }
+            binding.tvProductCount.text = currentProductCount.toString()
+        }
+
         categoryViewModel = ViewModelProvider(this)[ProductViewModel::class.java]
 
         categoryViewModel.addFavResponse().observe(requireActivity()) {

@@ -148,7 +148,7 @@ class FavProductListAdapter(
 
                 binding.tvPlus.setOnClickListener {
                     var currentProductCount = binding.tvProductCount.text.toString().toInt()
-                    if (currentProductCount != 10) {
+                    if (currentProductCount != 99) {
                         currentProductCount += 1
                     }
                     binding.tvProductCount.text = currentProductCount.toString()

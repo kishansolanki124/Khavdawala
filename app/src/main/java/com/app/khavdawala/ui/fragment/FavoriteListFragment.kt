@@ -80,7 +80,10 @@ class FavoriteListFragment : Fragment() {
         binding.rvProduct.layoutManager = layoutManager
 
         categoryProductListAdapter = FavProductListAdapter(itemClickWeb = {
-            (requireActivity() as HomeActivity).switchFragment(ProductDetailFragment(), false)
+            (requireActivity() as HomeActivity).switchFragment(
+                ProductDetailFragment.newInstance(it.product_id),
+                addToBackStack = true, addInsteadOfReplace = true
+            )
         }, itemFavClick = { customClass, _ ->
             removeFavProduct(customClass)
         })
