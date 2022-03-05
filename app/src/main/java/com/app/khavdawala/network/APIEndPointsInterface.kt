@@ -23,6 +23,11 @@ interface APIEndPointsInterface {
         @Body hashMap: MultipartBody
     ): ProductListResponse
 
+    @POST(AppConstants.APIEndPoints.GET_GIFT_PRODUCT)
+    suspend fun getGiftProduct(
+        @Body hashMap: MultipartBody
+    ): GiftProductResponse
+
     @POST(AppConstants.APIEndPoints.GET_PRODUCT_DETAIL)
     suspend fun getProductDetail(
         @Body hashMap: MultipartBody

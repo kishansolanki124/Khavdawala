@@ -11,6 +11,7 @@ import com.app.khavdawala.pojo.request.AddFavRequest
 import com.app.khavdawala.pojo.request.FavProductRequest
 import com.app.khavdawala.pojo.request.ProductRequest
 import com.app.khavdawala.pojo.response.AddFavResponse
+import com.app.khavdawala.pojo.response.GiftProductResponse
 import com.app.khavdawala.pojo.response.ProductDetailResponse
 import com.app.khavdawala.pojo.response.ProductListResponse
 import kotlinx.coroutines.Dispatchers
@@ -21,6 +22,7 @@ import okhttp3.MultipartBody
 class ProductViewModel : ViewModel() {
 
     private val mutableCategoryResponse = MutableLiveData<ProductListResponse>()
+    private val mutableGiftProductResponse = MutableLiveData<GiftProductResponse>()
     private val mutableProductDetailResponse = MutableLiveData<ProductDetailResponse>()
     private val mutableAddFavResponse = MutableLiveData<AddFavResponse>()
     private val mutableRemoveFavResponse = MutableLiveData<AddFavResponse>()
@@ -54,6 +56,35 @@ class ProductViewModel : ViewModel() {
 
                 val apiResponse = apiEndPointsInterface.getProductList(requestBodyBuilder.build())
                 returnCategoryResponse(apiResponse)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    /**
+     * Dispatchers.IO for network or disk operations that takes longer time and runs in background thread
+     */
+    fun getGiftProduct(productRequest: ProductRequest) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val requestBodyBuilder = MultipartBody.Builder().setType(MultipartBody.FORM)
+
+                requestBodyBuilder.addFormDataPart(
+                    AppConstants.RequestParameters.START,
+                    productRequest.start.toString()
+                )
+                requestBodyBuilder.addFormDataPart(
+                    AppConstants.RequestParameters.END,
+                    productRequest.end.toString()
+                )
+                requestBodyBuilder.addFormDataPart(
+                    AppConstants.RequestParameters.USER_MOBILE,
+                    productRequest.user_mobile
+                )
+
+                val apiResponse = apiEndPointsInterface.getGiftProduct(requestBodyBuilder.build())
+                returnGiftProductResponse(apiResponse)
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -174,6 +205,15 @@ class ProductViewModel : ViewModel() {
     /**
      * Dispatchers.Main for UI related stuff which runs on Main thread
      */
+    private suspend fun returnGiftProductResponse(eMagazineResponse: GiftProductResponse) {
+        withContext(Dispatchers.Main) {
+            mutableGiftProductResponse.value = eMagazineResponse
+        }
+    }
+
+    /**
+     * Dispatchers.Main for UI related stuff which runs on Main thread
+     */
     private suspend fun returnProductDetailResponse(eMagazineResponse: ProductDetailResponse) {
         withContext(Dispatchers.Main) {
             mutableProductDetailResponse.value = eMagazineResponse
@@ -198,9 +238,12 @@ class ProductViewModel : ViewModel() {
         }
     }
 
-
     fun categoryResponse(): LiveData<ProductListResponse> {
         return mutableCategoryResponse
+    }
+
+    fun giftProductResponse(): LiveData<GiftProductResponse> {
+        return mutableGiftProductResponse
     }
 
     fun productDetailResponse(): LiveData<ProductDetailResponse> {
