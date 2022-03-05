@@ -31,7 +31,7 @@
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tl_product_detail"
-                android:layout_width="@dimen/dp_70"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/dp_30"
                 android:layout_centerInParent="true"
                 android:layout_gravity="bottom|center"
@@ -173,16 +173,6 @@
                         app:layout_constraintStart_toStartOf="@id/iv_fav_icon"
                         app:layout_constraintTop_toTopOf="@id/iv_fav_icon" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <!--                <androidx.appcompat.widget.AppCompatImageView-->
-                <!--                    android:id="@+id/iv_fav_icon"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_margin="@dimen/dp_5"-->
-                <!--                    android:src="@drawable/favorite_button"-->
-                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-                <!--                    app:layout_constraintTop_toTopOf="parent" />-->
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -194,13 +184,14 @@
             android:layout_marginTop="@dimen/dp_30"
             android:background="@android:color/transparent"
             android:padding="@dimen/dp_10"
-            app:tabGravity="fill"
+            app:tabGravity="center"
             app:tabIndicatorColor="@color/btnBG"
-            app:tabMode="scrollable"
+            app:tabIndicatorHeight="@dimen/dp_2"
+            app:tabMode="auto"
             app:tabTextAppearance="@style/TabLayoutTextStyle" />
 
         <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/pager"
+            android:id="@+id/vp_product_desc_nut"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/dp_10" />
@@ -212,7 +203,7 @@
             android:layout_marginHorizontal="@dimen/dp_10"
             android:layout_marginTop="@dimen/dp_30"
             android:fontFamily="@font/bold_2"
-            android:padding="@dimen/dp_10"
+            android:paddingHorizontal="@dimen/dp_10"
             android:text="@string/you_may_like"
             android:textColor="@color/btnBG"
             android:textSize="@dimen/sp_20"

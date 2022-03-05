@@ -76,7 +76,7 @@ class ProductDetailFragment : Fragment() {
             binding.tvSweetName.gone()
             binding.clButtons.gone()
             binding.tabLayout.gone()
-            binding.pager.gone()
+            binding.vpProductDescNut.gone()
             binding.tvYouMayLike.gone()
             binding.rvProduct.gone()
         } else {
@@ -99,7 +99,7 @@ class ProductDetailFragment : Fragment() {
         binding.tvSweetName.visible()
         binding.clButtons.visible()
         binding.tabLayout.visible()
-        binding.pager.visible()
+        binding.vpProductDescNut.visible()
         binding.tvYouMayLike.visible()
         binding.rvProduct.visible()
 
@@ -132,9 +132,9 @@ class ProductDetailFragment : Fragment() {
         fragmentList.add(ProductDescriptionFragment.newInstance((productDetailResponse.nutrition)))
 
         tabFragmentAdapter = TabFragmentAdapter(this, fragmentList, 2)
-        binding.pager.adapter = tabFragmentAdapter
+        binding.vpProductDescNut.adapter = tabFragmentAdapter
 
-        TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
+        TabLayoutMediator(binding.tabLayout, binding.vpProductDescNut) { tab, position ->
             when (position) {
                 0 -> {
                     tab.text = "Description"
