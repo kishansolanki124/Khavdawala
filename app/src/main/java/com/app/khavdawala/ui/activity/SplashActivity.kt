@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.app.khavdawala.apputils.SPreferenceManager
 import com.app.khavdawala.databinding.ActivitySplashBinding
 
-
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
 

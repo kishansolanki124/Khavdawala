@@ -1,6 +1,5 @@
 package com.app.khavdawala.ui.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -60,7 +59,6 @@ class ProductCategoryAdapter(
 //            )
 //        )
 
-        @SuppressLint("SetTextI18n")
         fun bindForecast(
             newsPortal: CategoryResponse.Category
         ) {
