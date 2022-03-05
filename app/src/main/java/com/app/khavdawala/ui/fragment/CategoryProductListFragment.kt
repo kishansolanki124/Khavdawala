@@ -89,7 +89,7 @@ class CategoryProductListFragment : Fragment() {
         categoryProductListAdapter = CategoryProductListAdapter(itemClickWeb = {
             (requireActivity() as HomeActivity).switchFragment(
                 ProductDetailFragment.newInstance(it.product_id),
-                false
+                addToBackStack = true, addInsteadOfReplace = true
             )
         }, itemFavClick = { customClass, _ ->
             if (customClass.favourite.isEmpty()) {

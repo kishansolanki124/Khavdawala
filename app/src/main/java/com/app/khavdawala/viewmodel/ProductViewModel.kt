@@ -104,6 +104,11 @@ class ProductViewModel : ViewModel() {
                     productRequest.pid
                 )
 
+                requestBodyBuilder.addFormDataPart(
+                    AppConstants.RequestParameters.USER_MOBILE,
+                    productRequest.user_mobile
+                )
+
                 val apiResponse = apiEndPointsInterface.getProductDetail(requestBodyBuilder.build())
                 returnProductDetailResponse(apiResponse)
             } catch (e: Exception) {

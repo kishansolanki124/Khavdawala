@@ -11,17 +11,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.khavdawala.R
-import com.app.khavdawala.apputils.gone
-import com.app.khavdawala.apputils.isConnected
-import com.app.khavdawala.apputils.showSnackBar
-import com.app.khavdawala.apputils.visible
+import com.app.khavdawala.apputils.*
 import com.app.khavdawala.databinding.FragmentProductDetailBinding
+import com.app.khavdawala.pojo.request.AddFavRequest
 import com.app.khavdawala.pojo.request.ProductRequest
+import com.app.khavdawala.pojo.response.AddFavResponse
 import com.app.khavdawala.pojo.response.ProductDetailResponse
 import com.app.khavdawala.ui.activity.HomeActivity
-import com.app.khavdawala.ui.adapter.TabFragmentAdapter
 import com.app.khavdawala.ui.adapter.HorizontalProductListAdapter
 import com.app.khavdawala.ui.adapter.ProductDetailImagesAdapter
+import com.app.khavdawala.ui.adapter.TabFragmentAdapter
 import com.app.khavdawala.viewmodel.ProductViewModel
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -30,6 +29,7 @@ class ProductDetailFragment : Fragment() {
     private lateinit var tabFragmentAdapter: TabFragmentAdapter
     private lateinit var govtWorkNewsAdapter: HorizontalProductListAdapter
     private lateinit var layoutManager: LinearLayoutManager
+    private var productLiked = false
     private lateinit var binding: FragmentProductDetailBinding
     private var pid = ""
     private lateinit var categoryViewModel: ProductViewModel
@@ -47,12 +47,32 @@ class ProductDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.ivFavIcon.setOnClickListener {
+            if (isConnected(requireContext())) {
+                binding.pbFav.visible()
+                binding.ivFavIcon.invisible()
+                if (productLiked) {
+                    removeFavProduct()
+                } else {
+                    callAddToFav()
+                }
+            } else {
+                showSnackBar(getString(R.string.no_internet), requireActivity())
+            }
+        }
+
         categoryViewModel = ViewModelProvider(this)[ProductViewModel::class.java]
 
+        categoryViewModel.addFavResponse().observe(requireActivity()) {
+            handleFavResponse(it)
+        }
+
+        categoryViewModel.removeFavResponse().observe(requireActivity()) {
+            handleRemoveFavResponse(it)
+        }
+
         if (isConnected(requireContext())) {
-            binding.pbHome.visible()
-            binding.newsHomeViewPager.gone()
-            binding.rlImage.gone()
+            binding.loading.pbCommon.visible()
             binding.tvSweetName.gone()
             binding.clButtons.gone()
             binding.tabLayout.gone()
@@ -62,7 +82,12 @@ class ProductDetailFragment : Fragment() {
         } else {
             showSnackBar(getString(R.string.no_internet), requireActivity())
         }
-        categoryViewModel.getProductDetail(ProductRequest(pid = pid))
+        categoryViewModel.getProductDetail(
+            ProductRequest(
+                pid = pid,
+                user_mobile = SPreferenceManager.getInstance(requireContext()).session
+            )
+        )
 
         categoryViewModel.productDetailResponse().observe(requireActivity()) {
             handleResponse(it)
@@ -70,9 +95,7 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun handleResponse(productDetailResponse: ProductDetailResponse?) {
-        binding.pbHome.gone()
-        binding.newsHomeViewPager.visible()
-        binding.rlImage.visible()
+        binding.loading.pbCommon.gone()
         binding.tvSweetName.visible()
         binding.clButtons.visible()
         binding.tabLayout.visible()
@@ -83,7 +106,8 @@ class ProductDetailFragment : Fragment() {
         if (null != productDetailResponse) {
             if (productDetailResponse.status == "1") {
                 setupHorizontalMainNews(productDetailResponse.product_gallery)
-                setupViews(productDetailResponse)
+                setupViews(productDetailResponse.product_detail[0])
+                setupSpinner(productDetailResponse.product_packing)
                 setupList(productDetailResponse.youmay_alsolike)
             } else {
                 showSnackBar(productDetailResponse.message, requireActivity())
@@ -93,14 +117,19 @@ class ProductDetailFragment : Fragment() {
         }
     }
 
-    private fun setupViews(productDetailResponse: ProductDetailResponse) {
-        binding.tvSweetName.text = productDetailResponse.product_detail[0].name
-        setupSpinner(productDetailResponse.product_packing)
-        //if(binding.ivFavIcon)todo work here
+    private fun setupViews(productDetailResponse: ProductDetailResponse.ProductDetail) {
+        binding.tvSweetName.text = productDetailResponse.name
+        if (productDetailResponse.favourite == "yes") {
+            productLiked = true
+            binding.ivFavIcon.setBackgroundResource(R.drawable.favorite_button_active)
+        } else {
+            productLiked = false
+            binding.ivFavIcon.setBackgroundResource(R.drawable.favorite_button)
+        }
 
         fragmentList.clear()
-        fragmentList.add(ProductDescriptionFragment.newInstance(productDetailResponse.product_detail[0].description))
-        fragmentList.add(ProductDescriptionFragment.newInstance((productDetailResponse.product_detail[0].nutrition)))
+        fragmentList.add(ProductDescriptionFragment.newInstance(productDetailResponse.description))
+        fragmentList.add(ProductDescriptionFragment.newInstance((productDetailResponse.nutrition)))
 
         tabFragmentAdapter = TabFragmentAdapter(this, fragmentList, 2)
         binding.pager.adapter = tabFragmentAdapter
@@ -113,9 +142,7 @@ class ProductDetailFragment : Fragment() {
                 else -> {
                     tab.text = "Nutrition Value"
                 }
-
             }
-
         }.attach()
     }
 
@@ -158,7 +185,10 @@ class ProductDetailFragment : Fragment() {
         binding.rvProduct.layoutManager = layoutManager
 
         govtWorkNewsAdapter = HorizontalProductListAdapter {
-            (requireActivity() as HomeActivity).switchFragment(ProductDetailFragment(), false)
+            (requireActivity() as HomeActivity).switchFragment(
+                newInstance(it.product_id),
+                addToBackStack = true, addInsteadOfReplace = true
+            )
         }
         binding.rvProduct.adapter = govtWorkNewsAdapter
         govtWorkNewsAdapter.reset()
@@ -174,9 +204,9 @@ class ProductDetailFragment : Fragment() {
 //            )
         }
         adapter.setItem(scrollNewsList)
-        binding.newsHomeViewPager.adapter = adapter
+        binding.vpProductDetail.adapter = adapter
 
-        TabLayoutMediator(binding.introTabLayout, binding.newsHomeViewPager) { tab, position ->
+        TabLayoutMediator(binding.tlProductDetail, binding.vpProductDetail) { tab, position ->
             println("selected tab is $tab and position is $position")
         }.attach()
 
@@ -205,6 +235,58 @@ class ProductDetailFragment : Fragment() {
             val fragment = ProductDetailFragment()
             fragment.pid = pid
             return fragment
+        }
+    }
+
+    private fun callAddToFav() {
+        if (isConnected(requireContext())) {
+            categoryViewModel.addFavProduct(
+                AddFavRequest(
+                    SPreferenceManager.getInstance(requireContext()).session,
+                    pid
+                )
+            )
+        } else {
+            showSnackBar(getString(R.string.no_internet), requireActivity())
+        }
+    }
+
+    private fun removeFavProduct() {
+        if (isConnected(requireContext())) {
+            categoryViewModel.removeFavProduct(
+                AddFavRequest(
+                    SPreferenceManager.getInstance(requireContext()).session,
+                    pid
+                )
+            )
+        } else {
+            showSnackBar(getString(R.string.no_internet), requireActivity())
+        }
+    }
+
+    private fun handleFavResponse(addFavResponse: AddFavResponse?) {
+        binding.pbFav.gone()
+        binding.ivFavIcon.visible()
+        if (null != addFavResponse) {
+            if (addFavResponse.status == 1) {
+                productLiked = true
+                binding.ivFavIcon.setBackgroundResource(R.drawable.favorite_button_active)
+            }
+        } else {
+            showSnackBar(getString(R.string.something_went_wrong), requireActivity())
+        }
+    }
+
+    private fun handleRemoveFavResponse(addFavResponse: AddFavResponse?) {
+        binding.pbFav.gone()
+        binding.ivFavIcon.visible()
+        if (null != addFavResponse) {
+            if (addFavResponse.status == 1) {
+                productLiked = false
+                binding.ivFavIcon.setBackgroundResource(R.drawable.favorite_button)
+            }
+        } else {
+            showSnackBar(getString(R.string.something_went_wrong), requireActivity())
         }
     }
 }

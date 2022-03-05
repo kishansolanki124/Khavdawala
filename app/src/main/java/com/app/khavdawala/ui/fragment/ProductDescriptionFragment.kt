@@ -1,5 +1,6 @@
 package com.app.khavdawala.ui.fragment
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +24,7 @@ class ProductDescriptionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.wvProduct.setBackgroundColor(Color.TRANSPARENT)
         binding.wvProduct.loadDataWithBaseURL(null, description, "text/html", "UTF-8", null)
     }
 
