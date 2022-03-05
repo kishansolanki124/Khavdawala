@@ -53,7 +53,16 @@ class AboutFragment : Fragment() {
         }
     }
 
-    private fun setupViewPager(staticPage: List<StaticPageResponse.Staticpage>) {
+    private fun setupViewPager(staticPage2: List<StaticPageResponse.Staticpage>) {
+        val staticPage: ArrayList<StaticPageResponse.Staticpage> = ArrayList()
+        val fragmentList: ArrayList<Fragment> = ArrayList()
+        for (item in staticPage2) {
+            if (item.name.contains("About") || item.name.contains("Terms") || item.name.contains("Privacy")) {
+                staticPage.add(item)
+                fragmentList.add(WebViewFragment.newInstance(item.description))
+            }
+        }
+
         for (i in 0 until binding.tabLayout.tabCount) {
             val tab = (binding.tabLayout.getChildAt(0) as ViewGroup).getChildAt(i)
             val p = tab.layoutParams as ViewGroup.MarginLayoutParams
@@ -61,10 +70,6 @@ class AboutFragment : Fragment() {
             tab.requestLayout()
         }
 
-        val fragmentList: ArrayList<Fragment> = ArrayList()
-        for (item in staticPage) {
-            fragmentList.add(WebViewFragment.newInstance(item.description))
-        }
         tabFragmentAdapter = TabFragmentAdapter(this, fragmentList, staticPage.size)
         binding.pager.adapter = tabFragmentAdapter
 
