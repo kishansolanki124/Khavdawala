@@ -48,6 +48,11 @@ class ProductDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupListeners()
+        setupViewModel()
+    }
+
+    private fun setupListeners() {
         binding.ivFavIcon.setOnClickListener {
             if (isConnected(requireContext())) {
                 binding.pbFav.visible()
@@ -77,7 +82,9 @@ class ProductDetailFragment : Fragment() {
             }
             binding.tvProductCount.text = currentProductCount.toString()
         }
+    }
 
+    private fun setupViewModel() {
         categoryViewModel = ViewModelProvider(this)[ProductViewModel::class.java]
 
         categoryViewModel.addFavResponse().observe(requireActivity()) {
@@ -88,26 +95,25 @@ class ProductDetailFragment : Fragment() {
             handleRemoveFavResponse(it)
         }
 
+        categoryViewModel.productDetailResponse().observe(requireActivity()) {
+            handleResponse(it)
+        }
+
         if (isConnected(requireContext())) {
             binding.loading.pbCommon.visible()
             binding.tvSweetName.gone()
             binding.clButtons.gone()
             binding.tabLayout.gone()
-            //binding.vpProductDescNut.gone()
             binding.tvYouMayLike.gone()
             binding.rvProduct.gone()
+            categoryViewModel.getProductDetail(
+                ProductRequest(
+                    pid = pid,
+                    user_mobile = SPreferenceManager.getInstance(requireContext()).session
+                )
+            )
         } else {
             showSnackBar(getString(R.string.no_internet), requireActivity())
-        }
-        categoryViewModel.getProductDetail(
-            ProductRequest(
-                pid = pid,
-                user_mobile = SPreferenceManager.getInstance(requireContext()).session
-            )
-        )
-
-        categoryViewModel.productDetailResponse().observe(requireActivity()) {
-            handleResponse(it)
         }
     }
 
@@ -116,7 +122,6 @@ class ProductDetailFragment : Fragment() {
         binding.tvSweetName.visible()
         binding.clButtons.visible()
         binding.tabLayout.visible()
-        //binding.vpProductDescNut.visible()
         binding.tvYouMayLike.visible()
         binding.rvProduct.visible()
 
@@ -147,9 +152,6 @@ class ProductDetailFragment : Fragment() {
         fragmentList.clear()
         fragmentList.add(ProductDescriptionFragment.newInstance(productDetailResponse.description))
         fragmentList.add(ProductDescriptionFragment.newInstance((productDetailResponse.nutrition)))
-
-        //tabFragmentAdapter = TabFragmentAdapter(this, fragmentList, 2)
-        //binding.vpProductDescNut.adapter = tabFragmentAdapter
 
         binding.wvProductDetail.setBackgroundColor(Color.TRANSPARENT)
         binding.wvProductDetail.loadDataWithBaseURL(
@@ -195,16 +197,6 @@ class ProductDetailFragment : Fragment() {
 
             }
         })
-//        TabLayoutMediator(binding.tabLayout, binding.vpProductDescNut) { tab, position ->
-//            when (position) {
-//                0 -> {
-//                    tab.text = "Description"
-//                }
-//                else -> {
-//                    tab.text = "Nutrition Value"
-//                }
-//            }
-//        }.attach()
     }
 
     private fun setupSpinner(productPacking: List<ProductDetailResponse.ProductPacking>) {
