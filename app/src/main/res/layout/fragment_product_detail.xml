@@ -190,11 +190,16 @@
             app:tabMode="auto"
             app:tabTextAppearance="@style/TabLayoutTextStyle" />
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/vp_product_desc_nut"
+        <com.app.khavdawala.apputils.WrapContentWebView
+            android:id="@+id/wv_product_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/dp_10" />
+            android:layout_margin="@dimen/dp_10" />
+        <!--        <androidx.viewpager2.widget.ViewPager2-->
+        <!--            android:id="@+id/vp_product_desc_nut"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:padding="@dimen/dp_10" />-->
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_you_may_like"

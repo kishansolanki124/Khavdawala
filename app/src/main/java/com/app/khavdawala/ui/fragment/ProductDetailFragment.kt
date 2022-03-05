@@ -1,5 +1,6 @@
 package com.app.khavdawala.ui.fragment
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,13 +21,13 @@ import com.app.khavdawala.pojo.response.ProductDetailResponse
 import com.app.khavdawala.ui.activity.HomeActivity
 import com.app.khavdawala.ui.adapter.HorizontalProductListAdapter
 import com.app.khavdawala.ui.adapter.ProductDetailImagesAdapter
-import com.app.khavdawala.ui.adapter.TabFragmentAdapter
 import com.app.khavdawala.viewmodel.ProductViewModel
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class ProductDetailFragment : Fragment() {
 
-    private lateinit var tabFragmentAdapter: TabFragmentAdapter
+    //private lateinit var tabFragmentAdapter: TabFragmentAdapter
     private lateinit var govtWorkNewsAdapter: HorizontalProductListAdapter
     private lateinit var layoutManager: LinearLayoutManager
     private var productLiked = false
@@ -92,7 +93,7 @@ class ProductDetailFragment : Fragment() {
             binding.tvSweetName.gone()
             binding.clButtons.gone()
             binding.tabLayout.gone()
-            binding.vpProductDescNut.gone()
+            //binding.vpProductDescNut.gone()
             binding.tvYouMayLike.gone()
             binding.rvProduct.gone()
         } else {
@@ -115,7 +116,7 @@ class ProductDetailFragment : Fragment() {
         binding.tvSweetName.visible()
         binding.clButtons.visible()
         binding.tabLayout.visible()
-        binding.vpProductDescNut.visible()
+        //binding.vpProductDescNut.visible()
         binding.tvYouMayLike.visible()
         binding.rvProduct.visible()
 
@@ -147,19 +148,63 @@ class ProductDetailFragment : Fragment() {
         fragmentList.add(ProductDescriptionFragment.newInstance(productDetailResponse.description))
         fragmentList.add(ProductDescriptionFragment.newInstance((productDetailResponse.nutrition)))
 
-        tabFragmentAdapter = TabFragmentAdapter(this, fragmentList, 2)
-        binding.vpProductDescNut.adapter = tabFragmentAdapter
+        //tabFragmentAdapter = TabFragmentAdapter(this, fragmentList, 2)
+        //binding.vpProductDescNut.adapter = tabFragmentAdapter
 
-        TabLayoutMediator(binding.tabLayout, binding.vpProductDescNut) { tab, position ->
-            when (position) {
-                0 -> {
-                    tab.text = "Description"
-                }
-                else -> {
-                    tab.text = "Nutrition Value"
+        binding.wvProductDetail.setBackgroundColor(Color.TRANSPARENT)
+        binding.wvProductDetail.loadDataWithBaseURL(
+            null,
+            productDetailResponse.description,
+            "text/html",
+            "UTF-8",
+            null
+        )
+
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Description"))
+        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Nutrition Value"))
+
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                when (tab?.position) {
+                    0 -> {
+                        binding.wvProductDetail.loadDataWithBaseURL(
+                            null,
+                            productDetailResponse.description,
+                            "text/html",
+                            "UTF-8",
+                            null
+                        )
+                    }
+                    else -> {
+                        binding.wvProductDetail.loadDataWithBaseURL(
+                            null,
+                            productDetailResponse.nutrition,
+                            "text/html",
+                            "UTF-8",
+                            null
+                        )
+                    }
                 }
             }
-        }.attach()
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+
+            }
+        })
+//        TabLayoutMediator(binding.tabLayout, binding.vpProductDescNut) { tab, position ->
+//            when (position) {
+//                0 -> {
+//                    tab.text = "Description"
+//                }
+//                else -> {
+//                    tab.text = "Nutrition Value"
+//                }
+//            }
+//        }.attach()
     }
 
     private fun setupSpinner(productPacking: List<ProductDetailResponse.ProductPacking>) {
