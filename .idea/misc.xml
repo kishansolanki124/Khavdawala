@@ -49,6 +49,7 @@
         <entry key="app/src/main/res/layout/fragment_webview.xml" value="0.31614583333333335" />
         <entry key="app/src/main/res/layout/horizontal_product_list_item.xml" value="0.2265625" />
         <entry key="app/src/main/res/layout/intro_item.xml" value="0.2916666666666667" />
+        <entry key="app/src/main/res/layout/loading_indicator.xml" value="0.30625" />
         <entry key="app/src/main/res/layout/notification_item.xml" value="0.2265625" />
         <entry key="app/src/main/res/layout/simple_spinner_dropdown_item.xml" value="0.2916666666666667" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.34791666666666665" />

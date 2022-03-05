@@ -9,8 +9,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.khavdawala.R
+import com.app.khavdawala.apputils.gone
 import com.app.khavdawala.apputils.isConnected
 import com.app.khavdawala.apputils.showSnackBar
+import com.app.khavdawala.apputils.visible
 import com.app.khavdawala.databinding.FragmentHomeBinding
 import com.app.khavdawala.pojo.response.CategoryResponse
 import com.app.khavdawala.ui.activity.HomeActivity
@@ -40,11 +42,11 @@ class HomeFragment : Fragment() {
         initRecyclerView()
 
         binding.ivNext.setOnClickListener {
-            binding.newsHomeViewPager.currentItem = binding.newsHomeViewPager.currentItem + 1
+            binding.vpCategory.currentItem = binding.vpCategory.currentItem + 1
         }
 
         binding.ivPrev.setOnClickListener {
-            binding.newsHomeViewPager.currentItem = binding.newsHomeViewPager.currentItem - 1
+            binding.vpCategory.currentItem = binding.vpCategory.currentItem - 1
         }
 
         categoryViewModel = ViewModelProvider(this)[CategoryViewModel::class.java]
@@ -79,7 +81,7 @@ class HomeFragment : Fragment() {
 //            )
         }
         adapter.setItem(scrollNewsList)
-        binding.newsHomeViewPager.adapter = adapter
+        binding.vpCategory.adapter = adapter
 
 //        TabLayoutMediator(binding.introTabLayout, newsHomeViewPager) { tab, position ->
 //            println("selected tab is $tab and position is $position")
@@ -107,9 +109,8 @@ class HomeFragment : Fragment() {
 
     private fun fetchMagazineList() {
         if (isConnected(requireContext())) {
-            binding.rlViewpager.visibility = View.GONE
-            binding.rvCategory.visibility = View.GONE
-            binding.pbHome.visibility = View.VISIBLE
+            binding.rvCategory.gone()
+            binding.loading.pbCommon.visible()
             categoryViewModel.getCategories()
         } else {
             showSnackBar(getString(R.string.no_internet), requireActivity())
@@ -117,17 +118,20 @@ class HomeFragment : Fragment() {
     }
 
     private fun handleResponse(eMagazineResponse: CategoryResponse?) {
-        if (null != eMagazineResponse && eMagazineResponse.category_list.isNotEmpty()) {
-            setupCategoryList(eMagazineResponse)
-            if (eMagazineResponse.slider_list.isNotEmpty()) {
-                setupHorizontalMainNews(eMagazineResponse.slider_list)
+        if (null != eMagazineResponse) {
+            if (eMagazineResponse.category_list.isNotEmpty()) {
+                setupCategoryList(eMagazineResponse)
+                if (eMagazineResponse.slider_list.isNotEmpty()) {
+                    setupHorizontalMainNews(eMagazineResponse.slider_list)
+                }
+            } else {
+                showSnackBar(eMagazineResponse.message, requireActivity())
             }
         } else {
             showSnackBar(getString(R.string.something_went_wrong), requireActivity())
         }
-        binding.rlViewpager.visibility = View.VISIBLE
-        binding.rvCategory.visibility = View.VISIBLE
-        binding.pbHome.visibility = View.GONE
+        binding.rvCategory.visible()
+        binding.loading.pbCommon.gone()
     }
 
     private fun setupCategoryList(categoryResponse: CategoryResponse) {

@@ -8,23 +8,12 @@
     android:focusable="true"
     android:orientation="vertical">
 
-    <androidx.core.widget.ContentLoadingProgressBar
-        android:id="@+id/pb_home"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="@dimen/dp_10"
-        android:indeterminateTint="@color/btnBG"
-        android:indeterminateTintMode="multiply" />
-
     <RelativeLayout
-        android:id="@+id/rl_viewpager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/newsHomeViewPager"
+            android:id="@+id/vp_category"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_220"
             android:background="@color/black"
@@ -47,6 +36,10 @@
             android:layout_marginEnd="@dimen/dp_10"
             android:src="@drawable/next_button" />
     </RelativeLayout>
+
+    <include
+        android:id="@+id/loading"
+        layout="@layout/loading_indicator" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_category"
