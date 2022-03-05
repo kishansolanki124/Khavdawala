@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.app.khavdawala.R
 import com.app.khavdawala.apputils.SPreferenceManager
 import com.app.khavdawala.apputils.getCartProductList
@@ -81,17 +82,28 @@ class FavoriteListFragment : Fragment() {
 
         categoryProductListAdapter = FavProductListAdapter(requireContext().getCartProductList(),
             itemClickWeb = {
-            (requireActivity() as HomeActivity).switchFragment(
-                ProductDetailFragment.newInstance(it.product_id),
-                addToBackStack = true, addInsteadOfReplace = true
-            )
-        }, itemFavClick = { customClass, _ ->
-            removeFavProduct(customClass)
-        }, itemCartClick = { product, _ ->
-            (requireActivity() as HomeActivity).addToCart(product)
-        })
+                (requireActivity() as HomeActivity).switchFragment(
+                    ProductDetailFragment.newInstance(it.product_id),
+                    addToBackStack = true, addInsteadOfReplace = true
+                )
+            }, itemFavClick = { customClass, _ ->
+                removeFavProduct(customClass)
+            }, itemCartClick = { product, position ->
+                if (product.available_in_cart) {
+                    (requireActivity() as HomeActivity).removeFromCart(product)
+                    productList[position].available_in_cart = false
+                    categoryProductListAdapter.itemRemovedFromCart(position)
+                } else {
+                    (requireActivity() as HomeActivity).addToCart(product)
+                    productList[position].available_in_cart = true
+                    categoryProductListAdapter.itemAddedInCart(position)
+                }
+            })
 
         binding.rvProduct.adapter = categoryProductListAdapter
+
+        //disabling blinking effect of recyclerview
+        (binding.rvProduct.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     }
 
     private fun removeFavProduct(customClass: ProductListResponse.Products) {

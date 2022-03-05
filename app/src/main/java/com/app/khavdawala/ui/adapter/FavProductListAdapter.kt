@@ -36,7 +36,7 @@ class FavProductListAdapter(
     }
 
     override fun onBindViewHolder(holder: HomeOffersViewHolder, position: Int) {
-        holder.bindForecast(productList , list[position], position)
+        holder.bindForecast(productList, list[position], position)
     }
 
     fun addItems(list: ArrayList<ProductListResponse.Products>) {
@@ -47,6 +47,16 @@ class FavProductListAdapter(
     fun notifyItemRemove(position: Int) {
         list.removeAt(position)
         notifyItemRemoved(position)
+    }
+
+    fun itemAddedInCart(position: Int) {
+        list[position].available_in_cart = true
+        notifyItemChanged(position)
+    }
+
+    fun itemRemovedFromCart(position: Int) {
+        list[position].available_in_cart = false
+        notifyItemChanged(position)
     }
 
     fun reset() {
@@ -86,8 +96,10 @@ class FavProductListAdapter(
 
                 if (binding.ivCart.context.checkItemExistInCart(newsPortal.product_id)) {
                     //todo work here , change this icon
+                    newsPortal.available_in_cart = true
                     binding.ivCart.setBackgroundResource(R.drawable.favorite_button_active)
                 } else {
+                    newsPortal.available_in_cart = false
                     binding.ivCart.setBackgroundResource(R.drawable.cart_button)
                 }
 

@@ -21,6 +21,7 @@ data class ProductListResponse(
         var price: String = "",
         var product_id: String = "",
         var favourite: String = "",
+        var available_in_cart: Boolean = false,
         var up_pro_img: String = ""
     ) {
         data class Packing(

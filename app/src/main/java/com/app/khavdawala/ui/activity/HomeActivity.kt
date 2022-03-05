@@ -65,9 +65,9 @@ class HomeActivity : AppCompatActivity() {
         if (!getCartProductList().isNullOrEmpty()) {
             //todo work here
             binding.toolbar.tvCartCount.text = getCartProductList().size.toString()
-            binding.toolbar.tvCartCount.visible()
+            binding.toolbar.flCartCount.visible()
         } else {
-            binding.toolbar.tvCartCount.gone()
+            binding.toolbar.flCartCount.gone()
         }
 
         binding.toolbar.rlCart.setOnClickListener {
@@ -269,5 +269,35 @@ class HomeActivity : AppCompatActivity() {
         }
         binding.toolbar.tvCartCount.text = productList.size.toString()
         SPreferenceManager.getInstance(this).putList("product", productList)
+
+        if (productList.isNotEmpty()) {
+            binding.toolbar.flCartCount.visible()
+        }
+    }
+
+    fun removeFromCart(product: ProductListResponse.Products) {
+        var productList: ArrayList<ProductListResponse.Products>? =
+            SPreferenceManager.getInstance(this)
+                .getList("product", ProductListResponse.Products::class.java)
+
+        if (productList.isNullOrEmpty()) {
+            productList = ArrayList()
+            binding.toolbar.tvCartCount.text = productList.size.toString()
+            SPreferenceManager.getInstance(this).putList("product", productList)
+            return
+        }
+
+        for ((index, item) in productList.withIndex()) {
+            if (item.product_id == product.product_id) {
+                productList.removeAt(index)
+                break
+            }
+        }
+        binding.toolbar.tvCartCount.text = productList.size.toString()
+        SPreferenceManager.getInstance(this).putList("product", productList)
+
+        if (productList.isEmpty()) {
+            binding.toolbar.flCartCount.gone()
+        }
     }
 }
