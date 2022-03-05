@@ -45,7 +45,7 @@ class AboutFragment : Fragment() {
     private fun handleResponse(staticPageResponse: StaticPageResponse?) {
         binding.pbHome.visibility = View.GONE
         if (null != staticPageResponse) {
-            binding.pager.visibility = View.VISIBLE
+            binding.vpStaticPage.visibility = View.VISIBLE
             binding.tabLayout.visibility = View.VISIBLE
             setupViewPager(staticPageResponse.staticpage)
         } else {
@@ -71,16 +71,17 @@ class AboutFragment : Fragment() {
         }
 
         tabFragmentAdapter = TabFragmentAdapter(this, fragmentList, staticPage.size)
-        binding.pager.adapter = tabFragmentAdapter
+        binding.vpStaticPage.adapter = tabFragmentAdapter
+        binding.vpStaticPage.isUserInputEnabled = false
 
-        TabLayoutMediator(binding.tabLayout, binding.pager) { tab, position ->
+        TabLayoutMediator(binding.tabLayout, binding.vpStaticPage) { tab, position ->
             tab.text = staticPage[position].name
         }.attach()
     }
 
     private fun fetchMagazineList() {
         if (isConnected(requireContext())) {
-            binding.pager.visibility = View.GONE
+            binding.vpStaticPage.visibility = View.GONE
             binding.tabLayout.visibility = View.GONE
             binding.pbHome.visibility = View.VISIBLE
             staticPageViewModel.getStaticPage()
