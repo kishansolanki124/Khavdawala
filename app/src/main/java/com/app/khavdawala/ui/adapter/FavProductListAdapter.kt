@@ -7,10 +7,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.app.khavdawala.R
-import com.app.khavdawala.apputils.checkItemExistInCart
-import com.app.khavdawala.apputils.gone
-import com.app.khavdawala.apputils.invisible
-import com.app.khavdawala.apputils.visible
+import com.app.khavdawala.apputils.*
 import com.app.khavdawala.databinding.CategoryProductListItemBinding
 import com.app.khavdawala.pojo.response.ProductListResponse
 import com.bumptech.glide.Glide
@@ -19,7 +16,8 @@ class FavProductListAdapter(
     private val productList: ArrayList<ProductListResponse.Products>,
     private val itemClickWeb: (ProductListResponse.Products) -> Unit,
     private val itemFavClick: (ProductListResponse.Products, Int) -> Unit,
-    private val itemCartClick: (ProductListResponse.Products, Int) -> Unit
+    private val itemCartClick: (ProductListResponse.Products, Int) -> Unit,
+    private val dropdownClick: (ProductListResponse.Products, Int) -> Unit
 ) :
     RecyclerView.Adapter<FavProductListAdapter.HomeOffersViewHolder>() {
 
@@ -32,7 +30,7 @@ class FavProductListAdapter(
                 parent,
                 false
             )
-        return HomeOffersViewHolder(binding, itemClickWeb, itemFavClick, itemCartClick)
+        return HomeOffersViewHolder(binding, itemClickWeb, itemFavClick, itemCartClick, dropdownClick)
     }
 
     override fun onBindViewHolder(holder: HomeOffersViewHolder, position: Int) {
@@ -71,6 +69,7 @@ class FavProductListAdapter(
         private val itemClickCall: (ProductListResponse.Products) -> Unit,
         private val itemFavClick: (ProductListResponse.Products, Int) -> Unit,
         private val itemCartClick: (ProductListResponse.Products, Int) -> Unit,
+        private val dropdownClick: (ProductListResponse.Products, Int) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindForecast(
@@ -94,7 +93,11 @@ class FavProductListAdapter(
 
                 binding.ivFavIcon.setBackgroundResource(R.drawable.favorite_button_active)
 
-                if (binding.ivCart.context.checkItemExistInCart(newsPortal.product_id)) {
+                if (binding.ivCart.context.checkItemExistInCart(
+                        newsPortal.product_id,
+                        newsPortal.cartPackingId
+                    )
+                ) {
                     //todo work here , change this icon
                     newsPortal.available_in_cart = true
                     binding.ivCart.setBackgroundResource(R.drawable.favorite_button_active)
@@ -140,26 +143,44 @@ class FavProductListAdapter(
 
                 binding.spCatProduct.adapter = adapter
 
-                binding.spCatProduct.onItemSelectedListener =
-                    object : AdapterView.OnItemSelectedListener {
-                        override fun onItemSelected(
-                            p0: AdapterView<*>?,
-                            p1: View?,
-                            p2: Int,
-                            p3: Long
-                        ) {
-//                    stateId = stateList[p2].id!!
-//                    filterCitySpinnerList(stateId)
-
-                            newsPortal.selectedItemPosition = p2
-//                        if (selectionCount++ > 1) {
-//                            //onItemSelected(p2)
-//                            //newsPortal.let { it1 -> itemClickWeb.invoke(it1) }
+//                binding.spCatProduct.onItemSelectedListener =
+//                    object : AdapterView.OnItemSelectedListener {
+//                        override fun onItemSelected(
+//                            p0: AdapterView<*>?,
+//                            p1: View?,
+//                            p2: Int,
+//                            p3: Long
+//                        ) {
+////                    stateId = stateList[p2].id!!
+////                    filterCitySpinnerList(stateId)
+//
+//                            println("spinner item selection: "+ newsPortal.packing_list[p2])
+//
+//                            newsPortal.selectedItemPosition = p2
+////                        if (selectionCount++ > 1) {
+////                            //onItemSelected(p2)
+////                            //newsPortal.let { it1 -> itemClickWeb.invoke(it1) }
+////                        }
 //                        }
-                        }
-
-                        override fun onNothingSelected(p0: AdapterView<*>?) {
-                            return
+//
+//                        override fun onNothingSelected(p0: AdapterView<*>?) {
+//                            return
+//                        }
+//                    }
+                binding.spCatProduct.onItemSelectedListener =
+                    object : MySpinnerItemSelectionListener() {
+                        override fun onUserItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            position: Int,
+                            id: Long
+                        ) {
+                            println("spinner item selection: " + newsPortal.packing_list[position])
+                            newsPortal.selectedItemPosition = position
+                            newsPortal.cartPackingId =
+                                newsPortal.packing_list[position].packing_id
+                            //todo here, check item exist in cart, if added then show added icon else show not added icon
+                            dropdownClick(newsPortal, position)
                         }
                     }
 

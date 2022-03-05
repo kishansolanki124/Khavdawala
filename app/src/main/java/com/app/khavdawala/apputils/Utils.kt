@@ -385,16 +385,23 @@ fun View.invisible() {
 }
 
 fun Context.getCartProductList(): ArrayList<ProductListResponse.Products> {
-    var cartProductList: ArrayList<ProductListResponse.Products>
-    cartProductList = SPreferenceManager.getInstance(this)
-        .getList("product", ProductListResponse.Products::class.java)
-    if (cartProductList.isNullOrEmpty()) {
-        cartProductList = ArrayList()
+    return try {
+        var cartProductList: ArrayList<ProductListResponse.Products>
+        cartProductList = SPreferenceManager.getInstance(this)
+            .getList("product", ProductListResponse.Products::class.java)
+        if (cartProductList.isNullOrEmpty()) {
+            cartProductList = ArrayList()
+        }
+        cartProductList
+    } catch (e: Exception) {
+        ArrayList()
     }
-    return cartProductList
 }
 
-fun Context.checkItemExistInCart(product_id: String): Boolean {
+fun Context.checkItemExistInCart(product_id: String, cartPackingId: String): Boolean {
     val index = getCartProductList().indexOfFirst { it.product_id == product_id } // -1 if not found
-    return index >= 0
+    val index2 =
+        getCartProductList().indexOfFirst { it.cartPackingId == cartPackingId } // -1 if not found
+
+    return index2 >= 0 && index >= 0
 }

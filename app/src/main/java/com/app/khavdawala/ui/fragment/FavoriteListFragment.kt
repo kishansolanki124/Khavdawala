@@ -98,6 +98,10 @@ class FavoriteListFragment : Fragment() {
                     productList[position].available_in_cart = true
                     categoryProductListAdapter.itemAddedInCart(position)
                 }
+            }, dropdownClick = {product, position ->
+                productList[position].selectedItemPosition = product.selectedItemPosition
+                productList[position].cartPackingId = product.cartPackingId
+                categoryProductListAdapter.notifyItemChanged(position)
             })
 
         binding.rvProduct.adapter = categoryProductListAdapter
