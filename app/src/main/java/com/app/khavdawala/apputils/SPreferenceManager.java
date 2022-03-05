@@ -1,9 +1,17 @@
 package com.app.khavdawala.apputils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
+import com.app.khavdawala.pojo.response.ProductListResponse;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 import app.app.patidarsaurabh.apputils.AppConstants;
 
@@ -11,9 +19,9 @@ public class SPreferenceManager {
 
     private static final String PREF_NAME = "khavda";
     private static SPreferenceManager mInstance;
-    private SharedPreferences mPreferences;
-    private SharedPreferences.Editor mEditor;
-    private Gson mGson;
+    private final SharedPreferences mPreferences;
+    private final SharedPreferences.Editor mEditor;
+    private final Gson mGson;
 
     private SPreferenceManager(Context context) {
         mPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
@@ -44,7 +52,8 @@ public class SPreferenceManager {
     public void setString(String key, String value) {
         mEditor.putString(key, value).apply();
     }
-//
+
+    //
 //    public String getString(String key, String value) {
 //        return mPreferences.getString(key, value);
 //    }
@@ -80,4 +89,15 @@ public class SPreferenceManager {
 //    public void clearSession() {
 //        mPreferences.edit().clear().apply();
 //    }
+
+    public <T> void putList(String key, List<T> list) {
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putString(key, mGson.toJson(list));
+        editor.apply();
+    }
+
+    public <T> ArrayList<T> getList(String key, Class<T> clazz) {
+        Type typeOfT = TypeToken.getParameterized(List.class, clazz).getType();
+        return mGson.fromJson(mPreferences.getString(key, null), typeOfT);
+    }
 }

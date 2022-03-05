@@ -16,7 +16,8 @@ import com.bumptech.glide.Glide
 
 class FavProductListAdapter(
     private val itemClickWeb: (ProductListResponse.Products) -> Unit,
-    private val itemFavClick: (ProductListResponse.Products, Int) -> Unit
+    private val itemFavClick: (ProductListResponse.Products, Int) -> Unit,
+    private val itemCartClick: (ProductListResponse.Products, Int) -> Unit
 ) :
     RecyclerView.Adapter<FavProductListAdapter.HomeOffersViewHolder>() {
 
@@ -29,7 +30,7 @@ class FavProductListAdapter(
                 parent,
                 false
             )
-        return HomeOffersViewHolder(binding, itemClickWeb, itemFavClick)
+        return HomeOffersViewHolder(binding, itemClickWeb, itemFavClick, itemCartClick)
     }
 
     override fun onBindViewHolder(holder: HomeOffersViewHolder, position: Int) {
@@ -58,6 +59,7 @@ class FavProductListAdapter(
         private val binding: CategoryProductListItemBinding,
         private val itemClickCall: (ProductListResponse.Products) -> Unit,
         private val itemFavClick: (ProductListResponse.Products, Int) -> Unit,
+        private val itemCartClick: (ProductListResponse.Products, Int) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindForecast(
@@ -93,6 +95,10 @@ class FavProductListAdapter(
                     binding.pbFav.visible()
                     binding.ivFavIcon.invisible()
                     itemFavClick(newsPortal, position)
+                }
+
+                binding.ivCart.setOnClickListener {
+                    itemCartClick(newsPortal, position)
                 }
 
                 //binding.spCatProduct.tag = position

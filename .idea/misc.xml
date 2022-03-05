@@ -18,6 +18,8 @@
         <entry key="app/src/main/res/drawable/selected_dot.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/selector_bottom_navigation_about.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/selector_bottom_navigation_chat.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable/selector_bottom_navigation_favourite.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable/selector_bottom_navigation_gift.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/selector_bottom_navigation_home.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/selector_bottom_navigation_inventory.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/selector_bottom_navigation_news.xml" value="0.1655" />

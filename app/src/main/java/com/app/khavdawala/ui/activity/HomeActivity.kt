@@ -8,7 +8,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.app.khavdawala.R
+import com.app.khavdawala.apputils.SPreferenceManager
 import com.app.khavdawala.databinding.ActivityHomeBinding
+import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.ui.fragment.*
 
 class HomeActivity : AppCompatActivity() {
@@ -234,5 +236,28 @@ class HomeActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    fun addToCart(product: ProductListResponse.Products) {
+        var productList: ArrayList<ProductListResponse.Products>? =
+            SPreferenceManager.getInstance(this)
+                .getList("product", ProductListResponse.Products::class.java)
+
+        if (productList.isNullOrEmpty()) {
+            productList = ArrayList()
+        }
+
+        var itemExistInCart = false
+        for (item in productList) {
+            if (item.product_id == product.product_id) {
+                itemExistInCart = true
+                break
+            }
+        }
+        if (!itemExistInCart) {
+            productList.add(product)
+        }
+        binding.toolbar.tvCartCount.text = productList.size.toString()
+        SPreferenceManager.getInstance(this).putList("product", productList)
     }
 }

@@ -86,6 +86,8 @@ class FavoriteListFragment : Fragment() {
             )
         }, itemFavClick = { customClass, _ ->
             removeFavProduct(customClass)
+        }, itemCartClick = { product, _ ->
+            (requireActivity() as HomeActivity).addToCart(product)
         })
 
         binding.rvProduct.adapter = categoryProductListAdapter
