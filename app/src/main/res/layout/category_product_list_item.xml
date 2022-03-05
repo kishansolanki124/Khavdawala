@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/dp_20"
-    android:layout_marginVertical="@dimen/dp_10"
+    android:layout_marginHorizontal="@dimen/dp_25"
+    android:layout_marginTop="@dimen/dp_10"
     android:gravity="center"
     android:orientation="vertical">
 
@@ -29,6 +29,7 @@
         android:id="@+id/tvMLAName"
         style="@style/ProductTitle"
         android:paddingVertical="@dimen/dp_5"
+        android:textSize="@dimen/sp_16"
         tools:text="Sweet" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -52,7 +53,7 @@
                 android:layout_gravity="center"
                 android:background="@drawable/white_rounded_corner_bg"
                 android:orientation="horizontal"
-                android:paddingHorizontal="@dimen/dp_10"
+                android:paddingHorizontal="@dimen/dp_5"
                 app:layout_constraintBottom_toBottomOf="@id/cl_fav"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/cl_fav">
@@ -62,6 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:fontFamily="@font/medium"
                     android:gravity="center"
                     android:paddingHorizontal="@dimen/dp_8"
                     android:text="@string/minus_sign"
@@ -73,6 +75,7 @@
                     android:layout_width="@dimen/dp_30"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:fontFamily="@font/medium"
                     android:gravity="center"
                     android:text="@string/digit_1"
                     android:textColor="@color/black"
@@ -84,6 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:fontFamily="@font/medium"
                     android:gravity="center"
                     android:paddingHorizontal="@dimen/dp_8"
                     android:text="@string/plus_sign"
@@ -124,6 +128,8 @@
                     android:layout_height="0dp"
                     android:indeterminateTint="@color/btnBG"
                     android:indeterminateTintMode="multiply"
+                    android:scaleX="0.7"
+                    android:scaleY="0.7"
                     android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="@id/iv_fav_icon"
                     app:layout_constraintEnd_toEndOf="parent"

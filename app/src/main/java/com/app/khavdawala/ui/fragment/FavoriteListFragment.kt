@@ -120,13 +120,13 @@ class FavoriteListFragment : Fragment() {
             showSnackBar(getString(R.string.something_went_wrong), requireActivity())
         }
         binding.rvProduct.visibility = View.VISIBLE
-        binding.pbHome.visibility = View.GONE
+        binding.loading.pbCommon.visibility = View.GONE
     }
 
     private fun getProducts() {
         if (isConnected(requireContext())) {
             binding.rvProduct.visibility = View.GONE
-            binding.pbHome.visibility = View.VISIBLE
+            binding.loading.pbCommon.visibility = View.VISIBLE
             categoryViewModel.getFavProductList(
                 FavProductRequest(
                     start, end,

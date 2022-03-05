@@ -160,7 +160,7 @@ class GiftListFragment : Fragment() {
         }
         binding.ivCategoryHeader.visibility = View.VISIBLE
         binding.rvProduct.visibility = View.VISIBLE
-        binding.pbHome.visibility = View.GONE
+        binding.loading.pbCommon.visibility = View.GONE
     }
 
 //    private fun setupHorizontalMainNews(bannerList: java.util.ArrayList<ProductListResponse.Banner>) {
@@ -173,7 +173,7 @@ class GiftListFragment : Fragment() {
         if (isConnected(requireContext())) {
             binding.ivCategoryHeader.visibility = View.GONE
             binding.rvProduct.visibility = View.GONE
-            binding.pbHome.visibility = View.VISIBLE
+            binding.loading.pbCommon.visibility = View.VISIBLE
             categoryViewModel.getGiftProduct(
                 ProductRequest(
                     start = start, end = end,

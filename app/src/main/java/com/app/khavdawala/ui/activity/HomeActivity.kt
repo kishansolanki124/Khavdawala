@@ -172,7 +172,11 @@ class HomeActivity : AppCompatActivity() {
 //        return true
 //    }
 
-    fun switchFragment(fragment: Fragment, addToBackStack: Boolean) {
+    fun switchFragment(
+        fragment: Fragment,
+        addToBackStack: Boolean,
+        addInsteadOfReplace: Boolean = false
+    ) {
         if (fragment is HomeFragment || fragment is CategoryProductListFragment || fragment is ProductDetailFragment) {
             binding.ivHome.setImageDrawable(
                 ContextCompat.getDrawable(
@@ -185,7 +189,14 @@ class HomeActivity : AppCompatActivity() {
         }
 
         mTransaction = supportFragmentManager.beginTransaction()
-        mTransaction.replace(R.id.fragmentContainer, fragment)
+
+        if (addInsteadOfReplace) {
+            mTransaction.add(R.id.fragmentContainer, fragment)
+        } else {
+            mTransaction.replace(R.id.fragmentContainer, fragment)
+        }
+
+
         if (addToBackStack) {
             mTransaction.addToBackStack(null)
         }

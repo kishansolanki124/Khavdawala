@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/dp_5"
+    android:fontFamily="@font/regular"
     android:paddingHorizontal="@dimen/dp_10"
     android:paddingVertical="@dimen/dp_5"
     android:textColor="@color/black"
-    android:textSize="@dimen/sp_16" />
+    android:textSize="@dimen/sp_14" />

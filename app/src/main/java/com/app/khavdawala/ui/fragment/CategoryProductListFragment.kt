@@ -8,11 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.app.khavdawala.R
-import com.app.khavdawala.apputils.SPreferenceManager
-import com.app.khavdawala.apputils.isConnected
-import com.app.khavdawala.apputils.loadImage
-import com.app.khavdawala.apputils.showSnackBar
+import com.app.khavdawala.apputils.*
 import com.app.khavdawala.databinding.FragmentCategoryProductListBinding
 import com.app.khavdawala.pojo.request.AddFavRequest
 import com.app.khavdawala.pojo.request.ProductRequest
@@ -24,6 +22,7 @@ import com.app.khavdawala.viewmodel.ProductViewModel
 
 class CategoryProductListFragment : Fragment() {
 
+    private var categoryTitle = ""
     private var cid: Int = 0
     private var start: Int = 0
     private var end: Int = 10
@@ -46,22 +45,10 @@ class CategoryProductListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.tvHeader.text = categoryTitle
+
         initRecyclerView()
-
-        categoryViewModel = ViewModelProvider(this)[ProductViewModel::class.java]
-
-        categoryViewModel.categoryResponse().observe(requireActivity()) {
-            handleResponse(it)
-        }
-
-        categoryViewModel.addFavResponse().observe(requireActivity()) {
-            handleFavResponse(it)
-        }
-
-        categoryViewModel.removeFavResponse().observe(requireActivity()) {
-            handleRemoveFavResponse(it)
-        }
-
+        initVIewModel()
         getProducts()
     }
 
@@ -75,6 +62,8 @@ class CategoryProductListFragment : Fragment() {
                 productList[index].isLoading = false
                 categoryProductListAdapter.notifyItemChanged(index)
             }
+        } else {
+            showSnackBar(getString(R.string.something_went_wrong), requireActivity())
         }
     }
 
@@ -88,6 +77,8 @@ class CategoryProductListFragment : Fragment() {
                 productList[index].isLoading = false
                 categoryProductListAdapter.notifyItemChanged(index)
             }
+        } else {
+            showSnackBar(getString(R.string.something_went_wrong), requireActivity())
         }
     }
 
@@ -109,6 +100,40 @@ class CategoryProductListFragment : Fragment() {
         })
 
         binding.rvProduct.adapter = categoryProductListAdapter
+
+        //disabling blinking effect of recyclerview
+        (binding.rvProduct.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+    }
+
+    private fun initVIewModel() {
+        categoryViewModel = ViewModelProvider(this)[ProductViewModel::class.java]
+
+        categoryViewModel.categoryResponse().observe(requireActivity()) {
+            handleResponse(it)
+        }
+
+        categoryViewModel.addFavResponse().observe(requireActivity()) {
+            handleFavResponse(it)
+        }
+
+        categoryViewModel.removeFavResponse().observe(requireActivity()) {
+            handleRemoveFavResponse(it)
+        }
+    }
+
+    private fun getProducts() {
+        if (isConnected(requireContext())) {
+            binding.rvProduct.gone()
+            binding.loading.pbCommon.visible()
+            categoryViewModel.getProductList(
+                ProductRequest(
+                    cid, start, end,
+                    SPreferenceManager.getInstance(requireContext()).session
+                )
+            )
+        } else {
+            showSnackBar(getString(R.string.no_internet), requireActivity())
+        }
     }
 
     private fun callAddToFav(customClass: ProductListResponse.Products) {
@@ -159,9 +184,8 @@ class CategoryProductListFragment : Fragment() {
         } else {
             showSnackBar(getString(R.string.something_went_wrong), requireActivity())
         }
-        binding.ivCategoryHeader.visibility = View.VISIBLE
-        binding.rvProduct.visibility = View.VISIBLE
-        binding.pbHome.visibility = View.GONE
+        binding.rvProduct.visible()
+        binding.loading.pbCommon.gone()
     }
 
     private fun setupHorizontalMainNews(bannerList: java.util.ArrayList<ProductListResponse.Banner>) {
@@ -170,26 +194,11 @@ class CategoryProductListFragment : Fragment() {
         }
     }
 
-    private fun getProducts() {
-        if (isConnected(requireContext())) {
-            binding.ivCategoryHeader.visibility = View.GONE
-            binding.rvProduct.visibility = View.GONE
-            binding.pbHome.visibility = View.VISIBLE
-            categoryViewModel.getProductList(
-                ProductRequest(
-                    cid, start, end,
-                    SPreferenceManager.getInstance(requireContext()).session
-                )
-            )
-        } else {
-            showSnackBar(getString(R.string.no_internet), requireActivity())
-        }
-    }
-
     companion object {
-        fun newInstance(cid: Int): CategoryProductListFragment {
+        fun newInstance(cid: Int, categoryTitle: String): CategoryProductListFragment {
             val fragment = CategoryProductListFragment()
             fragment.cid = cid
+            fragment.categoryTitle = categoryTitle
             return fragment
         }
     }

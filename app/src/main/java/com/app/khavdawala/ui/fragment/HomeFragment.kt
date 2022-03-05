@@ -65,8 +65,9 @@ class HomeFragment : Fragment() {
         govtWorkNewsAdapter = ProductCategoryAdapter {
             (requireActivity() as HomeActivity).switchFragment(
                 CategoryProductListFragment.newInstance(
-                    it.id.toInt()
-                ), true
+                    it.id.toInt(),
+                    it.name
+                ), true, addInsteadOfReplace = true
             )
         }
         binding.rvCategory.adapter = govtWorkNewsAdapter
