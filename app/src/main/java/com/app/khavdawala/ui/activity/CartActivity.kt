@@ -38,8 +38,10 @@ class CartActivity : AppCompatActivity() {
         }, removeFromCartClick = { product, position ->
             removeFromCart(product)
             govtWorkNewsAdapter.itemRemovedFromCart(position)
+            updateTotalCount()
         }, updateCartClick = { product, _ ->
             updateToCart(product)
+            updateTotalCount()
             //categoryProductListAdapter.notifyItemChanged(position)
         })
         binding.rvMLAs.adapter = govtWorkNewsAdapter
@@ -111,6 +113,13 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun updateTotalCount() {
-        binding.tvTotalAmount.text = getString(R.string.total_rs, "100")
+        if (!getCartProductList().isNullOrEmpty()) {
+            val cartProductList = getCartProductList()
+            var totalAmount = 0.0
+            for (item in cartProductList) {
+                totalAmount += (item.packing_list[item.selectedItemPosition].product_price.toDouble() * item.itemQuantity)
+            }
+            binding.tvTotalAmount.text = getString(R.string.total_rs, totalAmount.toString())
+        }
     }
 }

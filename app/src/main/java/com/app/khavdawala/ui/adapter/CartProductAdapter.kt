@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.app.khavdawala.R
 import com.app.khavdawala.databinding.CheckoutItemBinding
 import com.app.khavdawala.pojo.response.ProductListResponse
 
@@ -67,7 +68,8 @@ class CartProductAdapter(
 
                 val amount =
                     newsPortal.packing_list[newsPortal.selectedItemPosition].product_price.toDouble() * newsPortal.itemQuantity
-                binding.tvAmount.text = amount.toString()
+                binding.tvAmount.text =
+                    binding.tvAmount.context.getString(R.string.total_rs, amount.toString())
                 binding.tvWeight.text =
                     "(${newsPortal.packing_list[newsPortal.selectedItemPosition].product_weight} " +
                             "${newsPortal.packing_list[newsPortal.selectedItemPosition].weight_type})"
@@ -92,6 +94,13 @@ class CartProductAdapter(
                     if (currentProductCount == 0) {
                         removeFromCartClick(newsPortal, position)
                     } else {
+                        val newAmount =
+                            newsPortal.packing_list[newsPortal.selectedItemPosition].product_price.toDouble() * newsPortal.itemQuantity
+                        binding.tvAmount.text =
+                            binding.tvAmount.context.getString(
+                                R.string.total_rs,
+                                newAmount.toString()
+                            )
                         updateCartClick(newsPortal, position)
                     }
                 }
@@ -104,6 +113,10 @@ class CartProductAdapter(
                     binding.tvProductCount.text = currentProductCount.toString()
                     newsPortal.itemQuantity = currentProductCount
 
+                    val newAmount =
+                        newsPortal.packing_list[newsPortal.selectedItemPosition].product_price.toDouble() * newsPortal.itemQuantity
+                    binding.tvAmount.text =
+                        binding.tvAmount.context.getString(R.string.total_rs, newAmount.toString())
                     updateCartClick(newsPortal, position)
                 }
             }
