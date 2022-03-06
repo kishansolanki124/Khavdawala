@@ -2,3 +2,9 @@ Missing Icons:
 1. Share Icon: home screen top left corner
 2. all fonts of all screens
 3. Drop down icon black color
+
+
+todo:
+1. refresh previous fragment on item update from cart, product detail page
+2. click on image to load it in full screen
+3. what to do on share click?

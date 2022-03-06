@@ -18,6 +18,7 @@ import com.app.khavdawala.pojo.request.AddFavRequest
 import com.app.khavdawala.pojo.request.ProductRequest
 import com.app.khavdawala.pojo.response.AddFavResponse
 import com.app.khavdawala.pojo.response.ProductDetailResponse
+import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.ui.activity.HomeActivity
 import com.app.khavdawala.ui.adapter.HorizontalProductListAdapter
 import com.app.khavdawala.ui.adapter.ProductDetailImagesAdapter
@@ -32,6 +33,7 @@ class ProductDetailFragment : Fragment() {
     private lateinit var layoutManager: LinearLayoutManager
     private var productLiked = false
     private lateinit var binding: FragmentProductDetailBinding
+    private var products = ProductListResponse.Products()
     private var pid = ""
     private lateinit var categoryViewModel: ProductViewModel
     private var fragmentList: ArrayList<Fragment> = ArrayList()
@@ -67,12 +69,39 @@ class ProductDetailFragment : Fragment() {
             }
         }
 
+        binding.btAdd.setOnClickListener {
+            binding.llPlusMin.visible()
+            binding.llBlankItem.invisible()
+
+            binding.tvProductCount.text = "1"
+            binding.tvProductCount.text = "1"
+            products.itemQuantity = 1
+            (requireActivity() as HomeActivity).updateToCart(products)
+        }
+
         binding.tvMinus.setOnClickListener {
             var currentProductCount = binding.tvProductCount.text.toString().toInt()
             if (currentProductCount != 0) {
                 currentProductCount -= 1
             }
             binding.tvProductCount.text = currentProductCount.toString()
+
+
+            products.itemQuantity = currentProductCount
+
+            if (currentProductCount == 0) {
+                binding.llBlankItem.visible()
+                binding.llPlusMin.invisible()
+                if (products.available_in_cart) {
+                    (requireActivity() as HomeActivity).removeFromCart(products)
+                    products.available_in_cart = false
+                } else {
+                    (requireActivity() as HomeActivity).addToCart(products)
+                    products.available_in_cart = true
+                }
+            } else {
+                (requireActivity() as HomeActivity).updateToCart(products)
+            }
         }
 
         binding.tvPlus.setOnClickListener {
@@ -81,6 +110,8 @@ class ProductDetailFragment : Fragment() {
                 currentProductCount += 1
             }
             binding.tvProductCount.text = currentProductCount.toString()
+            products.itemQuantity = currentProductCount
+            (requireActivity() as HomeActivity).updateToCart(products)
         }
     }
 
@@ -127,15 +158,65 @@ class ProductDetailFragment : Fragment() {
 
         if (null != productDetailResponse) {
             if (productDetailResponse.status == "1") {
+
+                products.name = productDetailResponse.product_detail[0].name
+                products.product_id = productDetailResponse.product_detail[0].product_id
+
+                for (productPacking in productDetailResponse.product_packing) {
+                    val packing = ProductListResponse.Products.Packing()
+                    packing.packing_id = productPacking.packing_id
+                    packing.product_id = productPacking.product_id
+                    packing.product_price = productPacking.product_price
+                    packing.product_weight = productPacking.product_weight
+                    packing.weight_type = productPacking.weight_type
+                    products.packing_list.add(packing)
+                }
+
                 setupHorizontalMainNews(productDetailResponse.product_gallery)
                 setupViews(productDetailResponse.product_detail[0])
                 setupSpinner(productDetailResponse.product_packing)
                 setupList(productDetailResponse.youmay_alsolike)
+
+                //check item exist in cart
+                checkItemExistInCart()
             } else {
                 showSnackBar(productDetailResponse.message, requireActivity())
             }
         } else {
             showSnackBar(getString(R.string.no_internet), requireActivity())
+        }
+    }
+
+    private fun checkItemExistInCart() {
+        if (requireContext().checkItemExistInCart(
+                products.product_id,
+                products.cartPackingId,
+                products.packing_list
+            )
+        ) {
+            products.available_in_cart = true
+            //todo work here , change this icon
+            binding.ivCart.setBackgroundResource(R.drawable.favorite_button_active)
+        } else {
+            products.available_in_cart = false
+            binding.ivCart.setBackgroundResource(R.drawable.cart_button)
+        }
+
+        binding.spStateGujaratiSamaj.setSelection(products.selectedItemPosition)
+        products.cartPackingId =
+            products.packing_list[products.selectedItemPosition].packing_id
+        products.itemQuantity = binding.tvProductCount.context.getCartItemCount(
+            products.product_id,
+            products.cartPackingId
+        )
+
+        if (products.available_in_cart && products.itemQuantity > 0) {
+            binding.llBlankItem.invisible()
+            binding.llPlusMin.visible()
+            binding.tvProductCount.text = products.itemQuantity.toString()
+        } else {
+            binding.llBlankItem.visible()
+            binding.llPlusMin.invisible()
         }
     }
 
@@ -211,24 +292,19 @@ class ProductDetailFragment : Fragment() {
         binding.spStateGujaratiSamaj.adapter = adapter
 
         binding.spStateGujaratiSamaj.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    p0: AdapterView<*>?,
-                    p1: View?,
-                    p2: Int,
-                    p3: Long
+            object : MySpinnerItemSelectionListener() {
+                override fun onUserItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    dropdownPosition: Int,
+                    id: Long
                 ) {
-//                    stateId = stateList[p2].id!!
-//                    filterCitySpinnerList(stateId)
+                    products.selectedItemPosition = dropdownPosition
+                    products.cartPackingId =
+                        products.packing_list[dropdownPosition].packing_id
 
-//                        if (selectionCount++ > 1) {
-//                            //onItemSelected(p2)
-//                            //newsPortal.let { it1 -> itemClickWeb.invoke(it1) }
-//                        }
-                }
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                    return
+                    //todo work here
+                    checkItemExistInCart()
                 }
             }
     }
