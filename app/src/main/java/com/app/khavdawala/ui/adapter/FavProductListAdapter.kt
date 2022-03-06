@@ -185,7 +185,6 @@ class FavProductListAdapter(
                             product.selectedItemPosition = dropdownPosition
                             product.cartPackingId =
                                 product.packing_list[dropdownPosition].packing_id
-                            //todo here, check item exist in cart, if added then show added icon else show not added icon
                             dropdownClick(product, position)
                         }
                     }

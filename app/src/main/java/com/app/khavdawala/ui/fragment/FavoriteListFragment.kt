@@ -97,7 +97,6 @@ class FavoriteListFragment : Fragment() {
                 categoryProductListAdapter.itemAddedInCart(position)
             }
         }, dropdownClick = { product, position ->
-            //todo work here
             productList[position].selectedItemPosition = product.selectedItemPosition
             productList[position].cartPackingId = product.cartPackingId
             categoryProductListAdapter.notifyItemChanged(position)
