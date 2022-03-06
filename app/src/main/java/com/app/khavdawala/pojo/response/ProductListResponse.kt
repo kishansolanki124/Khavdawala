@@ -17,6 +17,7 @@ data class ProductListResponse(
         //var isFav: Boolean = false,
         var isLoading: Boolean = false,
         var selectedItemPosition: Int = 0,
+        var itemQuantity: Int = 0,
         var cartPackingId: String = "",
         var packing_list: ArrayList<Packing> = ArrayList(),
         var price: String = "",

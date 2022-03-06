@@ -198,6 +198,20 @@ class FavProductListAdapter(
                         currentProductCount -= 1
                     }
                     binding.tvProductCount.text = currentProductCount.toString()
+                    newsPortal.itemQuantity = currentProductCount
+
+                    if (currentProductCount == 0) {
+                        binding.llBlankItem.visible()
+                        binding.llPlusMin.invisible()
+                    }
+                }
+
+                binding.btAdd.setOnClickListener {
+                    binding.llPlusMin.visible()
+                    binding.llBlankItem.invisible()
+
+                    binding.tvProductCount.text = "1"
+                    newsPortal.itemQuantity = 1
                 }
 
                 binding.tvPlus.setOnClickListener {
@@ -206,6 +220,7 @@ class FavProductListAdapter(
                         currentProductCount += 1
                     }
                     binding.tvProductCount.text = currentProductCount.toString()
+                    newsPortal.itemQuantity = currentProductCount
                 }
             }
         }

@@ -35,7 +35,7 @@
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.25" />
         <entry key="app/src/main/res/layout/category_item.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/category_product_list_item.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/category_product_list_item.xml" value="0.75" />
         <entry key="app/src/main/res/layout/checkout_item.xml" value="0.33" />
         <entry key="app/src/main/res/layout/common_toolbar.xml" value="1.5" />
         <entry key="app/src/main/res/layout/common_toolbar_2.xml" value="0.34791666666666665" />

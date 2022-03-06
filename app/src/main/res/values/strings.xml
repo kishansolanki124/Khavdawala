@@ -9,6 +9,7 @@
     <string name="invalid_mobile_no">Kindly enter valid Mobile no.</string>
 
     <string name="your_name">You Name</string>
+    <string name="add_plus">Add +</string>
     <string name="mobile_no">Mobile No.</string>
     <string name="your_bd">Your Birth Date</string>
     <string name="Submit">Submit</string>
