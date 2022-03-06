@@ -86,7 +86,7 @@ class CategoryProductListFragment : Fragment() {
         layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvProduct.layoutManager = layoutManager
 
-        categoryProductListAdapter = CategoryProductListAdapter(itemClickWeb = {
+        categoryProductListAdapter = CategoryProductListAdapter(itemClick = {
             (requireActivity() as HomeActivity).switchFragment(
                 ProductDetailFragment.newInstance(it.product_id),
                 addToBackStack = true, addInsteadOfReplace = true

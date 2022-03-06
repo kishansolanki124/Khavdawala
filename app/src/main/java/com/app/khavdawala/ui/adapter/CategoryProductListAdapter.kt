@@ -16,7 +16,7 @@ import com.app.khavdawala.pojo.response.ProductListResponse
 import com.bumptech.glide.Glide
 
 class CategoryProductListAdapter(
-    private val itemClickWeb: (ProductListResponse.Products) -> Unit,
+    private val itemClick: (ProductListResponse.Products) -> Unit,
     private val itemFavClick: (ProductListResponse.Products, Int) -> Unit
 ) :
     RecyclerView.Adapter<CategoryProductListAdapter.HomeOffersViewHolder>() {
@@ -30,7 +30,7 @@ class CategoryProductListAdapter(
                 parent,
                 false
             )
-        return HomeOffersViewHolder(binding, itemClickWeb, itemFavClick)
+        return HomeOffersViewHolder(binding, itemClick, itemFavClick)
     }
 
     override fun onBindViewHolder(holder: HomeOffersViewHolder, position: Int) {

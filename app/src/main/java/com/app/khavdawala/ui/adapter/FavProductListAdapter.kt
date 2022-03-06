@@ -13,7 +13,7 @@ import com.app.khavdawala.pojo.response.ProductListResponse
 import com.bumptech.glide.Glide
 
 class FavProductListAdapter(
-    private val itemClickWeb: (ProductListResponse.Products) -> Unit,
+    private val itemClick: (ProductListResponse.Products) -> Unit,
     private val itemFavClick: (ProductListResponse.Products, Int) -> Unit,
     private val itemCartClick: (ProductListResponse.Products, Int) -> Unit,
     private val updateCartClick: (ProductListResponse.Products, Int) -> Unit,
@@ -32,7 +32,7 @@ class FavProductListAdapter(
             )
         return HomeOffersViewHolder(
             binding,
-            itemClickWeb,
+            itemClick,
             itemFavClick,
             itemCartClick,
             updateCartClick,
