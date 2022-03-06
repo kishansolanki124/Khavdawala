@@ -13,7 +13,6 @@ import com.app.khavdawala.pojo.response.ProductListResponse
 import com.bumptech.glide.Glide
 
 class FavProductListAdapter(
-    private val productList: ArrayList<ProductListResponse.Products>,
     private val itemClickWeb: (ProductListResponse.Products) -> Unit,
     private val itemFavClick: (ProductListResponse.Products, Int) -> Unit,
     private val itemCartClick: (ProductListResponse.Products, Int) -> Unit,
@@ -40,12 +39,16 @@ class FavProductListAdapter(
     }
 
     override fun onBindViewHolder(holder: HomeOffersViewHolder, position: Int) {
-        holder.bindForecast(productList, list[position], position)
+        holder.bindForecast(list[position], position)
     }
 
-    fun addItems(list: ArrayList<ProductListResponse.Products>) {
-        this.list.addAll(list)
-        notifyDataSetChanged()
+    fun addItems(newList: ArrayList<ProductListResponse.Products>) {
+//        this.list.addAll(list)
+//        notifyDataSetChanged()
+        val size = this.list.size
+        this.list.addAll(newList)
+        val sizeNew = this.list.size
+        notifyItemRangeChanged(size, sizeNew)
     }
 
     fun notifyItemRemove(position: Int) {
@@ -79,15 +82,14 @@ class FavProductListAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bindForecast(
-            productList: ArrayList<ProductListResponse.Products>,
-            newsPortal: ProductListResponse.Products,
+            product: ProductListResponse.Products,
             position: Int
         ) {
-            with(newsPortal) {
+            with(product) {
 
-                binding.tvMLAName.text = newsPortal.name
+                binding.tvMLAName.text = product.name
 
-                if (newsPortal.isLoading) {
+                if (product.isLoading) {
                     binding.ivFavIcon.invisible()
                     binding.pbFav.visible()
                 } else {
@@ -95,25 +97,24 @@ class FavProductListAdapter(
                     binding.pbFav.gone()
                 }
 
-
                 binding.ivFavIcon.setBackgroundResource(R.drawable.favorite_button_active)
 
                 if (binding.ivCart.context.checkItemExistInCart(
-                        newsPortal.product_id,
-                        newsPortal.cartPackingId,
-                        newsPortal.packing_list
+                        product.product_id,
+                        product.cartPackingId,
+                        product.packing_list
                     )
                 ) {
                     //todo work here , change this icon
-                    newsPortal.available_in_cart = true
+                    product.available_in_cart = true
                     binding.ivCart.setBackgroundResource(R.drawable.favorite_button_active)
                 } else {
-                    newsPortal.available_in_cart = false
+                    product.available_in_cart = false
                     binding.ivCart.setBackgroundResource(R.drawable.cart_button)
                 }
 
                 Glide.with(binding.ivMLA.context)
-                    .load(newsPortal.up_pro_img)
+                    .load(product.up_pro_img)
                     .into(binding.ivMLA)
 
                 binding.root.setOnClickListener {
@@ -121,23 +122,21 @@ class FavProductListAdapter(
                 }
 
                 binding.ivFavIcon.setOnClickListener {
-                    newsPortal.isLoading = true
+                    product.isLoading = true
                     binding.pbFav.visible()
                     binding.ivFavIcon.invisible()
-                    itemFavClick(newsPortal, position)
+                    itemFavClick(product, position)
                 }
 
                 binding.ivCart.setOnClickListener {
-                    itemCartClick(newsPortal, position)
+                    itemCartClick(product, position)
                 }
 
                 //binding.spCatProduct.tag = position
 
                 val stateList: ArrayList<ProductListResponse.Products.Packing> = ArrayList()
-                //stateList.add(GujratiSamajResponse.State("", getString(R.string.select_state)))
-                //stateList.addAll(gujratiSamajResponse.state_list)
 
-                stateList.addAll(newsPortal.packing_list)
+                stateList.addAll(product.packing_list)
                 //stateList.add("Rs. 100 (500 Gram)")
                 val adapter: ArrayAdapter<ProductListResponse.Products.Packing> = ArrayAdapter(
                     binding.spCatProduct.context,
@@ -180,17 +179,19 @@ class FavProductListAdapter(
                             dropdownPosition: Int,
                             id: Long
                         ) {
-                            newsPortal.selectedItemPosition = dropdownPosition
-                            newsPortal.cartPackingId =
-                                newsPortal.packing_list[dropdownPosition].packing_id
+                            product.selectedItemPosition = dropdownPosition
+                            product.cartPackingId =
+                                product.packing_list[dropdownPosition].packing_id
                             //todo here, check item exist in cart, if added then show added icon else show not added icon
-                            dropdownClick(newsPortal, position)
+                            dropdownClick(product, position)
                         }
                     }
 
-                binding.spCatProduct.setSelection(newsPortal.selectedItemPosition)
-                newsPortal.cartPackingId =
-                    newsPortal.packing_list[newsPortal.selectedItemPosition].packing_id
+                binding.spCatProduct.setSelection(product.selectedItemPosition)
+                product.cartPackingId =
+                    product.packing_list[product.selectedItemPosition].packing_id
+
+                //todo check if item exist in cart, then hide add button and show total item count available in cart
 
                 binding.tvMinus.setOnClickListener {
                     var currentProductCount = binding.tvProductCount.text.toString().toInt()
@@ -198,12 +199,15 @@ class FavProductListAdapter(
                         currentProductCount -= 1
                     }
                     binding.tvProductCount.text = currentProductCount.toString()
-                    newsPortal.itemQuantity = currentProductCount
+                    product.itemQuantity = currentProductCount
 
                     if (currentProductCount == 0) {
                         binding.llBlankItem.visible()
                         binding.llPlusMin.invisible()
                     }
+
+                    //todo update cart item count, if 0 then remove from cart
+                    //todo after update item ,refresh this item of adapter
                 }
 
                 binding.btAdd.setOnClickListener {
@@ -211,7 +215,10 @@ class FavProductListAdapter(
                     binding.llBlankItem.invisible()
 
                     binding.tvProductCount.text = "1"
-                    newsPortal.itemQuantity = 1
+                    product.itemQuantity = 1
+
+                    //todo update cart item count
+                    //todo after update item ,refresh this item of adapter
                 }
 
                 binding.tvPlus.setOnClickListener {
@@ -220,7 +227,10 @@ class FavProductListAdapter(
                         currentProductCount += 1
                     }
                     binding.tvProductCount.text = currentProductCount.toString()
-                    newsPortal.itemQuantity = currentProductCount
+                    product.itemQuantity = currentProductCount
+
+                    //todo update cart item count
+                    //todo after update item ,refresh this item of adapter
                 }
             }
         }

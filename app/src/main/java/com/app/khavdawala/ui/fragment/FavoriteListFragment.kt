@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.app.khavdawala.R
 import com.app.khavdawala.apputils.SPreferenceManager
-import com.app.khavdawala.apputils.getCartProductList
 import com.app.khavdawala.apputils.isConnected
 import com.app.khavdawala.apputils.showSnackBar
 import com.app.khavdawala.databinding.FragmentCategoryProductListBinding
@@ -80,13 +79,13 @@ class FavoriteListFragment : Fragment() {
         layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvProduct.layoutManager = layoutManager
 
-        categoryProductListAdapter = FavProductListAdapter(requireContext().getCartProductList(),
-            itemClickWeb = {
-                (requireActivity() as HomeActivity).switchFragment(
-                    ProductDetailFragment.newInstance(it.product_id),
-                    addToBackStack = true, addInsteadOfReplace = true
-                )
-            }, itemFavClick = { customClass, _ ->
+        categoryProductListAdapter = FavProductListAdapter(itemClickWeb = {
+            (requireActivity() as HomeActivity).switchFragment(
+                ProductDetailFragment.newInstance(it.product_id),
+                addToBackStack = true, addInsteadOfReplace = true
+            )
+        },
+            itemFavClick = { customClass, _ ->
                 removeFavProduct(customClass)
             }, itemCartClick = { product, position ->
                 if (product.available_in_cart) {
@@ -98,12 +97,12 @@ class FavoriteListFragment : Fragment() {
                     productList[position].available_in_cart = true
                     categoryProductListAdapter.itemAddedInCart(position)
                 }
-            }, dropdownClick = {product, position ->
-                //todo work here
-                productList[position].selectedItemPosition = product.selectedItemPosition
-                productList[position].cartPackingId = product.cartPackingId
-                categoryProductListAdapter.notifyItemChanged(position)
-            })
+            }) { product, position ->
+            //todo work here
+            productList[position].selectedItemPosition = product.selectedItemPosition
+            productList[position].cartPackingId = product.cartPackingId
+            categoryProductListAdapter.notifyItemChanged(position)
+        }
 
         binding.rvProduct.adapter = categoryProductListAdapter
 
