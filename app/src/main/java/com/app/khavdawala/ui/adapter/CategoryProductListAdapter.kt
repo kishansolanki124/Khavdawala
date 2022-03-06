@@ -7,6 +7,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.app.khavdawala.R
+import com.app.khavdawala.apputils.checkItemExistInCart
 import com.app.khavdawala.apputils.gone
 import com.app.khavdawala.apputils.invisible
 import com.app.khavdawala.apputils.visible
@@ -102,6 +103,20 @@ class CategoryProductListAdapter(
                     binding.ivFavIcon.setBackgroundResource(R.drawable.favorite_button)
                 }
 
+                if (binding.ivCart.context.checkItemExistInCart(
+                        newsPortal.product_id,
+                        newsPortal.cartPackingId,
+                        newsPortal.packing_list
+                    )
+                ) {
+                    //todo work here , change this icon
+                    newsPortal.available_in_cart = true
+                    binding.ivCart.setBackgroundResource(R.drawable.favorite_button_active)
+                } else {
+                    newsPortal.available_in_cart = false
+                    binding.ivCart.setBackgroundResource(R.drawable.cart_button)
+                }
+
                 Glide.with(binding.ivMLA.context)
                     .load(newsPortal.up_pro_img)
                     .into(binding.ivMLA)
@@ -166,6 +181,11 @@ class CategoryProductListAdapter(
                         currentProductCount -= 1
                     }
                     binding.tvProductCount.text = currentProductCount.toString()
+
+                    if (currentProductCount == 0) {
+                        binding.llBlankItem.visible()
+                        binding.llPlusMin.invisible()
+                    }
                 }
 
                 binding.tvPlus.setOnClickListener {
@@ -175,6 +195,15 @@ class CategoryProductListAdapter(
                     }
                     binding.tvProductCount.text = currentProductCount.toString()
                 }
+
+                binding.btAdd.setOnClickListener {
+                    binding.llPlusMin.visible()
+                    binding.llBlankItem.invisible()
+
+                    binding.tvProductCount.text = "1"
+                    newsPortal.itemQuantity = 1
+                }
+
             }
         }
     }
