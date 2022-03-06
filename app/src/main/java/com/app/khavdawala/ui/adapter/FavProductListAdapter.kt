@@ -131,81 +131,6 @@ class FavProductListAdapter(
                     itemFavClick(product, position)
                 }
 
-                binding.ivCart.setOnClickListener {
-                    //itemCartClick(product, position)
-                }
-
-                //binding.spCatProduct.tag = position
-
-                val stateList: ArrayList<ProductListResponse.Products.Packing> = ArrayList()
-
-                stateList.addAll(product.packing_list)
-                //stateList.add("Rs. 100 (500 Gram)")
-                val adapter: ArrayAdapter<ProductListResponse.Products.Packing> = ArrayAdapter(
-                    binding.spCatProduct.context,
-                    R.layout.spinner_display_item,
-                    stateList
-                )
-
-                adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
-
-                binding.spCatProduct.adapter = adapter
-
-//                binding.spCatProduct.onItemSelectedListener =
-//                    object : AdapterView.OnItemSelectedListener {
-//                        override fun onItemSelected(
-//                            p0: AdapterView<*>?,
-//                            p1: View?,
-//                            p2: Int,
-//                            p3: Long
-//                        ) {
-////                    stateId = stateList[p2].id!!
-////                    filterCitySpinnerList(stateId)
-//
-//
-//                            newsPortal.selectedItemPosition = p2
-////                        if (selectionCount++ > 1) {
-////                            //onItemSelected(p2)
-////                            //newsPortal.let { it1 -> itemClickWeb.invoke(it1) }
-////                        }
-//                        }
-//
-//                        override fun onNothingSelected(p0: AdapterView<*>?) {
-//                            return
-//                        }
-//                    }
-                binding.spCatProduct.onItemSelectedListener =
-                    object : MySpinnerItemSelectionListener() {
-                        override fun onUserItemSelected(
-                            parent: AdapterView<*>?,
-                            view: View?,
-                            dropdownPosition: Int,
-                            id: Long
-                        ) {
-                            product.selectedItemPosition = dropdownPosition
-                            product.cartPackingId =
-                                product.packing_list[dropdownPosition].packing_id
-                            dropdownClick(product, position)
-                        }
-                    }
-
-                binding.spCatProduct.setSelection(product.selectedItemPosition)
-                product.cartPackingId =
-                    product.packing_list[product.selectedItemPosition].packing_id
-                product.itemQuantity = binding.tvProductCount.context.getCartItemCount(
-                    product.product_id,
-                    product.cartPackingId
-                )
-
-                if (product.available_in_cart && product.itemQuantity > 0) {
-                    binding.llBlankItem.invisible()
-                    binding.llPlusMin.visible()
-                    binding.tvProductCount.text = product.itemQuantity.toString()
-                } else {
-                    binding.llBlankItem.visible()
-                    binding.llPlusMin.invisible()
-                }
-
                 binding.tvMinus.setOnClickListener {
                     var currentProductCount = binding.tvProductCount.text.toString().toInt()
                     if (currentProductCount != 0) {
@@ -242,6 +167,56 @@ class FavProductListAdapter(
                     product.itemQuantity = currentProductCount
 
                     updateCartClick(product, position)
+                }
+
+                binding.ivCart.setOnClickListener {
+                    //itemCartClick(product, position)
+                }
+
+                val stateList: ArrayList<ProductListResponse.Products.Packing> = ArrayList()
+
+                stateList.addAll(product.packing_list)
+                //stateList.add("Rs. 100 (500 Gram)")
+                val adapter: ArrayAdapter<ProductListResponse.Products.Packing> = ArrayAdapter(
+                    binding.spCatProduct.context,
+                    R.layout.spinner_display_item,
+                    stateList
+                )
+
+                adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+
+                binding.spCatProduct.adapter = adapter
+
+                binding.spCatProduct.onItemSelectedListener =
+                    object : MySpinnerItemSelectionListener() {
+                        override fun onUserItemSelected(
+                            parent: AdapterView<*>?,
+                            view: View?,
+                            dropdownPosition: Int,
+                            id: Long
+                        ) {
+                            product.selectedItemPosition = dropdownPosition
+                            product.cartPackingId =
+                                product.packing_list[dropdownPosition].packing_id
+                            dropdownClick(product, position)
+                        }
+                    }
+
+                binding.spCatProduct.setSelection(product.selectedItemPosition)
+                product.cartPackingId =
+                    product.packing_list[product.selectedItemPosition].packing_id
+                product.itemQuantity = binding.tvProductCount.context.getCartItemCount(
+                    product.product_id,
+                    product.cartPackingId
+                )
+
+                if (product.available_in_cart && product.itemQuantity > 0) {
+                    binding.llBlankItem.invisible()
+                    binding.llPlusMin.visible()
+                    binding.tvProductCount.text = product.itemQuantity.toString()
+                } else {
+                    binding.llBlankItem.visible()
+                    binding.llPlusMin.invisible()
                 }
             }
         }

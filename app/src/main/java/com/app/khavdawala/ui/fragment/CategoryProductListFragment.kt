@@ -97,6 +97,24 @@ class CategoryProductListFragment : Fragment() {
             } else {
                 removeFavProduct(customClass)
             }
+        }, itemCartClick = { product, position ->
+            if (product.available_in_cart) {
+                (requireActivity() as HomeActivity).removeFromCart(product)
+                productList[position].available_in_cart = false
+                categoryProductListAdapter.itemRemovedFromCart(position)
+            } else {
+                (requireActivity() as HomeActivity).addToCart(product)
+                productList[position].available_in_cart = true
+                categoryProductListAdapter.itemAddedInCart(position)
+            }
+        }, dropdownClick = { product, position ->
+            productList[position].selectedItemPosition = product.selectedItemPosition
+            productList[position].cartPackingId = product.cartPackingId
+            categoryProductListAdapter.notifyItemChanged(position)
+        }, updateCartClick = { product, position ->
+            (requireActivity() as HomeActivity).updateToCart(product)
+            //productList[position].available_in_cart = true
+            categoryProductListAdapter.notifyItemChanged(position)
         })
 
         binding.rvProduct.adapter = categoryProductListAdapter

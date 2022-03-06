@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.app.khavdawala.R
 import com.app.khavdawala.apputils.SPreferenceManager
 import com.app.khavdawala.apputils.isConnected
@@ -105,9 +106,29 @@ class GiftListFragment : Fragment() {
             } else {
                 removeFavProduct(customClass)
             }
+        }, itemCartClick = { product, position ->
+            if (product.available_in_cart) {
+                (requireActivity() as HomeActivity).removeFromCart(product)
+                productList[position].available_in_cart = false
+                categoryProductListAdapter.itemRemovedFromCart(position)
+            } else {
+                (requireActivity() as HomeActivity).addToCart(product)
+                productList[position].available_in_cart = true
+                categoryProductListAdapter.itemAddedInCart(position)
+            }
+        }, dropdownClick = { product, position ->
+            productList[position].selectedItemPosition = product.selectedItemPosition
+            productList[position].cartPackingId = product.cartPackingId
+            categoryProductListAdapter.notifyItemChanged(position)
+        }, updateCartClick = { product, position ->
+            (requireActivity() as HomeActivity).updateToCart(product)
+            //productList[position].available_in_cart = true
+            categoryProductListAdapter.notifyItemChanged(position)
         })
 
         binding.rvProduct.adapter = categoryProductListAdapter
+        //disabling blinking effect of recyclerview
+        (binding.rvProduct.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
     }
 
     private fun callAddToFav(customClass: ProductListResponse.Products) {
