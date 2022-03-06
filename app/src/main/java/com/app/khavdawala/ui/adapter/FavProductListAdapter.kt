@@ -95,7 +95,6 @@ class FavProductListAdapter(
                     binding.pbFav.gone()
                 }
 
-                println("selected item position is ${newsPortal.selectedItemPosition} and packing id is ${newsPortal.cartPackingId}")
 
                 binding.ivFavIcon.setBackgroundResource(R.drawable.favorite_button_active)
 
@@ -161,7 +160,6 @@ class FavProductListAdapter(
 ////                    stateId = stateList[p2].id!!
 ////                    filterCitySpinnerList(stateId)
 //
-//                            println("spinner item selection: "+ newsPortal.packing_list[p2])
 //
 //                            newsPortal.selectedItemPosition = p2
 ////                        if (selectionCount++ > 1) {
@@ -179,13 +177,12 @@ class FavProductListAdapter(
                         override fun onUserItemSelected(
                             parent: AdapterView<*>?,
                             view: View?,
-                            position: Int,
+                            dropdownPosition: Int,
                             id: Long
                         ) {
-                            println("spinner item selection: " + newsPortal.packing_list[position])
-                            newsPortal.selectedItemPosition = position
+                            newsPortal.selectedItemPosition = dropdownPosition
                             newsPortal.cartPackingId =
-                                newsPortal.packing_list[position].packing_id
+                                newsPortal.packing_list[dropdownPosition].packing_id
                             //todo here, check item exist in cart, if added then show added icon else show not added icon
                             dropdownClick(newsPortal, position)
                         }
