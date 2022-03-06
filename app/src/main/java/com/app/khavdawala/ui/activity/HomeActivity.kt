@@ -259,7 +259,7 @@ class HomeActivity : AppCompatActivity() {
 
         var itemExistInCart = false
         for (item in productList) {
-            if (item.product_id == product.product_id) {
+            if (item.product_id == product.product_id && item.cartPackingId == product.cartPackingId) {
                 itemExistInCart = true
                 break
             }
@@ -288,7 +288,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         for ((index, item) in productList.withIndex()) {
-            if (item.product_id == product.product_id) {
+            if (item.product_id == product.product_id && item.cartPackingId == product.cartPackingId) {
                 productList.removeAt(index)
                 break
             }

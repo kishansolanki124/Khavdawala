@@ -398,10 +398,17 @@ fun Context.getCartProductList(): ArrayList<ProductListResponse.Products> {
     }
 }
 
-fun Context.checkItemExistInCart(product_id: String, cartPackingId: String): Boolean {
+fun Context.checkItemExistInCart(
+    product_id: String,
+    cartPackingId: String,
+    packingList: ArrayList<ProductListResponse.Products.Packing>
+): Boolean {
     val index = getCartProductList().indexOfFirst { it.product_id == product_id } // -1 if not found
-    val index2 =
-        getCartProductList().indexOfFirst { it.cartPackingId == cartPackingId } // -1 if not found
 
+    val index2 = if (cartPackingId.isEmpty()) {
+        getCartProductList().indexOfFirst { it.cartPackingId == packingList[0].packing_id } // -1 if not found
+    } else {
+        getCartProductList().indexOfFirst { it.cartPackingId == cartPackingId } // -1 if not found
+    }
     return index2 >= 0 && index >= 0
 }

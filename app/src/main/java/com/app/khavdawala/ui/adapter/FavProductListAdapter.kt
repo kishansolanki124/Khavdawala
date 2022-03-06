@@ -30,7 +30,13 @@ class FavProductListAdapter(
                 parent,
                 false
             )
-        return HomeOffersViewHolder(binding, itemClickWeb, itemFavClick, itemCartClick, dropdownClick)
+        return HomeOffersViewHolder(
+            binding,
+            itemClickWeb,
+            itemFavClick,
+            itemCartClick,
+            dropdownClick
+        )
     }
 
     override fun onBindViewHolder(holder: HomeOffersViewHolder, position: Int) {
@@ -84,18 +90,19 @@ class FavProductListAdapter(
                 if (newsPortal.isLoading) {
                     binding.ivFavIcon.invisible()
                     binding.pbFav.visible()
-                    println("item is loading: ${newsPortal.isLoading}")
                 } else {
                     binding.ivFavIcon.visible()
                     binding.pbFav.gone()
-                    println("item is loading: ${newsPortal.isLoading}")
                 }
+
+                println("selected item position is ${newsPortal.selectedItemPosition} and packing id is ${newsPortal.cartPackingId}")
 
                 binding.ivFavIcon.setBackgroundResource(R.drawable.favorite_button_active)
 
                 if (binding.ivCart.context.checkItemExistInCart(
                         newsPortal.product_id,
-                        newsPortal.cartPackingId
+                        newsPortal.cartPackingId,
+                        newsPortal.packing_list
                     )
                 ) {
                     //todo work here , change this icon
@@ -185,6 +192,8 @@ class FavProductListAdapter(
                     }
 
                 binding.spCatProduct.setSelection(newsPortal.selectedItemPosition)
+                newsPortal.cartPackingId =
+                    newsPortal.packing_list[newsPortal.selectedItemPosition].packing_id
 
                 binding.tvMinus.setOnClickListener {
                     var currentProductCount = binding.tvProductCount.text.toString().toInt()
