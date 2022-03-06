@@ -84,25 +84,24 @@ class FavoriteListFragment : Fragment() {
                 ProductDetailFragment.newInstance(it.product_id),
                 addToBackStack = true, addInsteadOfReplace = true
             )
-        },
-            itemFavClick = { customClass, _ ->
-                removeFavProduct(customClass)
-            }, itemCartClick = { product, position ->
-                if (product.available_in_cart) {
-                    (requireActivity() as HomeActivity).removeFromCart(product)
-                    productList[position].available_in_cart = false
-                    categoryProductListAdapter.itemRemovedFromCart(position)
-                } else {
-                    (requireActivity() as HomeActivity).addToCart(product)
-                    productList[position].available_in_cart = true
-                    categoryProductListAdapter.itemAddedInCart(position)
-                }
-            }) { product, position ->
+        }, itemFavClick = { customClass, _ ->
+            removeFavProduct(customClass)
+        }, itemCartClick = { product, position ->
+            if (product.available_in_cart) {
+                (requireActivity() as HomeActivity).removeFromCart(product)
+                productList[position].available_in_cart = false
+                categoryProductListAdapter.itemRemovedFromCart(position)
+            } else {
+                (requireActivity() as HomeActivity).addToCart(product)
+                productList[position].available_in_cart = true
+                categoryProductListAdapter.itemAddedInCart(position)
+            }
+        }, dropdownClick = { product, position ->
             //todo work here
             productList[position].selectedItemPosition = product.selectedItemPosition
             productList[position].cartPackingId = product.cartPackingId
             categoryProductListAdapter.notifyItemChanged(position)
-        }
+        })
 
         binding.rvProduct.adapter = categoryProductListAdapter
 
