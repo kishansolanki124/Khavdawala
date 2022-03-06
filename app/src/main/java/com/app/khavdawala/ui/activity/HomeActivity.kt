@@ -275,6 +275,34 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+    fun updateToCart(product: ProductListResponse.Products) {
+        var productList: ArrayList<ProductListResponse.Products>? =
+            SPreferenceManager.getInstance(this)
+                .getList("product", ProductListResponse.Products::class.java)
+
+        if (productList.isNullOrEmpty()) {
+            productList = ArrayList()
+        }
+
+        var itemExistInCart = false
+        for ((index, item) in productList.withIndex()) {
+            if (item.product_id == product.product_id && item.cartPackingId == product.cartPackingId) {
+                itemExistInCart = true
+                productList[index].itemQuantity = product.itemQuantity
+                break
+            }
+        }
+        if (!itemExistInCart) {
+            productList.add(product)
+        }
+        binding.toolbar.tvCartCount.text = productList.size.toString()
+        SPreferenceManager.getInstance(this).putList("product", productList)
+
+        if (productList.isNotEmpty()) {
+            binding.toolbar.flCartCount.visible()
+        }
+    }
+
     fun removeFromCart(product: ProductListResponse.Products) {
         var productList: ArrayList<ProductListResponse.Products>? =
             SPreferenceManager.getInstance(this)

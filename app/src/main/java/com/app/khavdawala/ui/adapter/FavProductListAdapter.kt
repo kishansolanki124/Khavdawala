@@ -16,6 +16,7 @@ class FavProductListAdapter(
     private val itemClickWeb: (ProductListResponse.Products) -> Unit,
     private val itemFavClick: (ProductListResponse.Products, Int) -> Unit,
     private val itemCartClick: (ProductListResponse.Products, Int) -> Unit,
+    private val updateCartClick: (ProductListResponse.Products, Int) -> Unit,
     private val dropdownClick: (ProductListResponse.Products, Int) -> Unit
 ) :
     RecyclerView.Adapter<FavProductListAdapter.HomeOffersViewHolder>() {
@@ -34,6 +35,7 @@ class FavProductListAdapter(
             itemClickWeb,
             itemFavClick,
             itemCartClick,
+            updateCartClick,
             dropdownClick
         )
     }
@@ -78,6 +80,7 @@ class FavProductListAdapter(
         private val itemClickCall: (ProductListResponse.Products) -> Unit,
         private val itemFavClick: (ProductListResponse.Products, Int) -> Unit,
         private val itemCartClick: (ProductListResponse.Products, Int) -> Unit,
+        private val updateCartClick: (ProductListResponse.Products, Int) -> Unit,
         private val dropdownClick: (ProductListResponse.Products, Int) -> Unit,
     ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -105,8 +108,8 @@ class FavProductListAdapter(
                         product.packing_list
                     )
                 ) {
-                    //todo work here , change this icon
                     product.available_in_cart = true
+                    //todo work here , change this icon
                     binding.ivCart.setBackgroundResource(R.drawable.favorite_button_active)
                 } else {
                     product.available_in_cart = false
@@ -129,7 +132,7 @@ class FavProductListAdapter(
                 }
 
                 binding.ivCart.setOnClickListener {
-                    itemCartClick(product, position)
+                    //itemCartClick(product, position)
                 }
 
                 //binding.spCatProduct.tag = position
@@ -190,8 +193,19 @@ class FavProductListAdapter(
                 binding.spCatProduct.setSelection(product.selectedItemPosition)
                 product.cartPackingId =
                     product.packing_list[product.selectedItemPosition].packing_id
+                product.itemQuantity = binding.tvProductCount.context.getCartItemCount(
+                    product.product_id,
+                    product.cartPackingId
+                )
 
-                //todo check if item exist in cart, then hide add button and show total item count available in cart
+                if (product.available_in_cart && product.itemQuantity > 0) {
+                    binding.llBlankItem.invisible()
+                    binding.llPlusMin.visible()
+                    binding.tvProductCount.text = product.itemQuantity.toString()
+                } else {
+                    binding.llBlankItem.visible()
+                    binding.llPlusMin.invisible()
+                }
 
                 binding.tvMinus.setOnClickListener {
                     var currentProductCount = binding.tvProductCount.text.toString().toInt()
@@ -204,10 +218,10 @@ class FavProductListAdapter(
                     if (currentProductCount == 0) {
                         binding.llBlankItem.visible()
                         binding.llPlusMin.invisible()
+                        itemCartClick(product, position)
+                    } else {
+                        updateCartClick(product, position)
                     }
-
-                    //todo update cart item count, if 0 then remove from cart
-                    //todo after update item ,refresh this item of adapter
                 }
 
                 binding.btAdd.setOnClickListener {
@@ -217,8 +231,7 @@ class FavProductListAdapter(
                     binding.tvProductCount.text = "1"
                     product.itemQuantity = 1
 
-                    //todo update cart item count
-                    //todo after update item ,refresh this item of adapter
+                    updateCartClick(product, position)
                 }
 
                 binding.tvPlus.setOnClickListener {
@@ -229,8 +242,7 @@ class FavProductListAdapter(
                     binding.tvProductCount.text = currentProductCount.toString()
                     product.itemQuantity = currentProductCount
 
-                    //todo update cart item count
-                    //todo after update item ,refresh this item of adapter
+                    updateCartClick(product, position)
                 }
             }
         }

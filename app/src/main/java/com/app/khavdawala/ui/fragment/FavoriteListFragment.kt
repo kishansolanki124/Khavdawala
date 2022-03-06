@@ -101,6 +101,10 @@ class FavoriteListFragment : Fragment() {
             productList[position].selectedItemPosition = product.selectedItemPosition
             productList[position].cartPackingId = product.cartPackingId
             categoryProductListAdapter.notifyItemChanged(position)
+        }, updateCartClick = { product, position ->
+            (requireActivity() as HomeActivity).updateToCart(product)
+            //productList[position].available_in_cart = true
+            categoryProductListAdapter.notifyItemChanged(position)
         })
 
         binding.rvProduct.adapter = categoryProductListAdapter
