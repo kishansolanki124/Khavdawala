@@ -415,7 +415,8 @@ fun Context.checkItemExistInCart(
 
 fun Context.getCartItemCount(
     product_id: String,
-    cartPackingId: String): Int {
+    cartPackingId: String
+): Int {
     val cartProductList = getCartProductList()
     for (item in cartProductList) {
         if (item.product_id == product_id && item.cartPackingId == cartPackingId) {
