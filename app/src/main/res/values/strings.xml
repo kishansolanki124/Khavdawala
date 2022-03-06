@@ -21,7 +21,11 @@
     <string name="Notification">Notification</string>
     <string name="About">About</string>
     <string name="plus_sign">+</string>
+    <string name="Subtotal">Subtotal</string>
+    <string name="Amount">Amount</string>
+    <string name="qty">Qty.</string>
     <string name="minus_sign">-</string>
     <string name="digit_1">1</string>
     <string name="you_may_like">You May Also Like</string>
+    <string name="total_rs">Rs. %1$s</string>
 </resources>

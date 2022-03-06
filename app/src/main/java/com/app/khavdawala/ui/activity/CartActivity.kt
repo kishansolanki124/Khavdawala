@@ -5,10 +5,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.app.khavdawala.R
 import com.app.khavdawala.apputils.SPreferenceManager
 import com.app.khavdawala.apputils.getCartProductList
-import com.app.khavdawala.apputils.gone
-import com.app.khavdawala.apputils.visible
 import com.app.khavdawala.databinding.ActivityCartBinding
 import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.ui.adapter.CartProductAdapter
@@ -53,6 +52,8 @@ class CartActivity : AppCompatActivity() {
         binding.btCheckout.setOnClickListener {
             startActivity(Intent(this, CheckoutActivity::class.java))
         }
+
+        updateTotalCount()
     }
 
     private fun removeFromCart(product: ProductListResponse.Products) {
@@ -62,7 +63,7 @@ class CartActivity : AppCompatActivity() {
 
         if (productList.isNullOrEmpty()) {
             productList = ArrayList()
-            binding.toolbar.tvCartCount.text = productList.size.toString()
+            //binding.toolbar.tvCartCount.text = productList.size.toString()
             SPreferenceManager.getInstance(this).putList("product", productList)
             return
         }
@@ -73,12 +74,12 @@ class CartActivity : AppCompatActivity() {
                 break
             }
         }
-        binding.toolbar.tvCartCount.text = productList.size.toString()
+        //binding.toolbar.tvCartCount.text = productList.size.toString()
         SPreferenceManager.getInstance(this).putList("product", productList)
 
-        if (productList.isEmpty()) {
-            binding.toolbar.flCartCount.gone()
-        }
+//        if (productList.isEmpty()) {
+//            binding.toolbar.flCartCount.gone()
+//        }
     }
 
     private fun updateToCart(product: ProductListResponse.Products) {
@@ -101,11 +102,15 @@ class CartActivity : AppCompatActivity() {
         if (!itemExistInCart) {
             productList.add(product)
         }
-        binding.toolbar.tvCartCount.text = productList.size.toString()
+        //binding.toolbar.tvCartCount.text = productList.size.toString()
         SPreferenceManager.getInstance(this).putList("product", productList)
 
-        if (productList.isNotEmpty()) {
-            binding.toolbar.flCartCount.visible()
-        }
+//        if (productList.isNotEmpty()) {
+//            binding.toolbar.flCartCount.visible()
+//        }
+    }
+
+    private fun updateTotalCount() {
+        binding.tvTotalAmount.text = getString(R.string.total_rs, "100")
     }
 }
