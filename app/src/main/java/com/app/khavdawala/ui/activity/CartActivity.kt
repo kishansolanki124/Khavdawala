@@ -3,11 +3,15 @@ package com.app.khavdawala.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.khavdawala.R
 import com.app.khavdawala.apputils.SPreferenceManager
 import com.app.khavdawala.apputils.getCartProductList
+import com.app.khavdawala.apputils.gone
+import com.app.khavdawala.apputils.visible
 import com.app.khavdawala.databinding.ActivityCartBinding
 import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.ui.adapter.CartProductAdapter
@@ -30,6 +34,10 @@ class CartActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+        binding.btClearCart.setOnClickListener {
+            showAlertToClearCart()
+        }
+
         layoutManager = LinearLayoutManager(this)
         binding.rvMLAs.layoutManager = layoutManager
 
@@ -42,7 +50,6 @@ class CartActivity : AppCompatActivity() {
         }, updateCartClick = { product, _ ->
             updateToCart(product)
             updateTotalCount()
-            //categoryProductListAdapter.notifyItemChanged(position)
         })
         binding.rvMLAs.adapter = govtWorkNewsAdapter
 
@@ -58,6 +65,48 @@ class CartActivity : AppCompatActivity() {
         updateTotalCount()
     }
 
+    private fun showAlertToClearCart() {
+        val alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
+        alertDialogBuilder.setMessage("Are you sure want to clear your Cart? All the items in your cart will be removed.")
+        alertDialogBuilder.setCancelable(false)
+
+        alertDialogBuilder.setPositiveButton(
+            getString(R.string.Clear_Cart)
+        ) { dialog, _ ->
+            dialog.dismiss()
+            clearCart()
+        }
+
+        alertDialogBuilder.setNegativeButton(
+            getString(android.R.string.cancel)
+        ) { dialog, _ ->
+            dialog.dismiss()
+        }
+
+        val alertDialog: AlertDialog = alertDialogBuilder.create()
+        alertDialog.show()
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            .setTextColor(ContextCompat.getColor(this, R.color.btnBG))
+        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+            .setTextColor(ContextCompat.getColor(this, R.color.gray_hint))
+    }
+
+    private fun clearCart() {
+        var productList: ArrayList<ProductListResponse.Products>? =
+            SPreferenceManager.getInstance(this)
+                .getList("product", ProductListResponse.Products::class.java)
+
+        if (productList.isNullOrEmpty()) {
+            productList = ArrayList()
+            SPreferenceManager.getInstance(this).putList("product", productList)
+        } else {
+            productList.clear()
+            SPreferenceManager.getInstance(this).putList("product", productList)
+        }
+        binding.rlEmpty.visible()
+        binding.nsvCart.gone()
+    }
+
     private fun removeFromCart(product: ProductListResponse.Products) {
         var productList: ArrayList<ProductListResponse.Products>? =
             SPreferenceManager.getInstance(this)
@@ -65,7 +114,6 @@ class CartActivity : AppCompatActivity() {
 
         if (productList.isNullOrEmpty()) {
             productList = ArrayList()
-            //binding.toolbar.tvCartCount.text = productList.size.toString()
             SPreferenceManager.getInstance(this).putList("product", productList)
             return
         }
@@ -76,12 +124,7 @@ class CartActivity : AppCompatActivity() {
                 break
             }
         }
-        //binding.toolbar.tvCartCount.text = productList.size.toString()
         SPreferenceManager.getInstance(this).putList("product", productList)
-
-//        if (productList.isEmpty()) {
-//            binding.toolbar.flCartCount.gone()
-//        }
     }
 
     private fun updateToCart(product: ProductListResponse.Products) {
@@ -104,12 +147,7 @@ class CartActivity : AppCompatActivity() {
         if (!itemExistInCart) {
             productList.add(product)
         }
-        //binding.toolbar.tvCartCount.text = productList.size.toString()
         SPreferenceManager.getInstance(this).putList("product", productList)
-
-//        if (productList.isNotEmpty()) {
-//            binding.toolbar.flCartCount.visible()
-//        }
     }
 
     private fun updateTotalCount() {
@@ -120,6 +158,12 @@ class CartActivity : AppCompatActivity() {
                 totalAmount += (item.packing_list[item.selectedItemPosition].product_price.toDouble() * item.itemQuantity)
             }
             binding.tvTotalAmount.text = getString(R.string.total_rs, totalAmount.toString())
+            binding.nsvCart.visible()
+            binding.rlEmpty.gone()
+        } else {
+            binding.tvTotalAmount.text = getString(R.string.total_rs, "0")
+            binding.rlEmpty.visible()
+            binding.nsvCart.gone()
         }
     }
 }

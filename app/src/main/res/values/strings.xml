@@ -36,4 +36,5 @@
     <string name="address_">Address :</string>
     <string name="make_call_">Make A Call :</string>
     <string name="send_msg_">Send a Message :</string>
+    <string name="empty_cart">No Items in Cart!</string>
 </resources>

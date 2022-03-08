@@ -34,6 +34,7 @@ class CartProductAdapter(
     fun itemRemovedFromCart(position: Int) {
         productList.removeAt(position)
         notifyItemRemoved(position)
+        notifyItemRangeChanged(position, productList.size)
     }
 
     fun setItem(newList: ArrayList<ProductListResponse.Products>) {
@@ -63,6 +64,8 @@ class CartProductAdapter(
             position: Int
         ) {
             with(newsPortal) {
+
+                println("updated item name is: ${newsPortal.name} and position is $position")
                 binding.tvMLAName.text = newsPortal.name
                 binding.tvProductCount.text = newsPortal.itemQuantity.toString()
 

@@ -56,6 +56,7 @@ class FavProductListAdapter(
     fun notifyItemRemove(position: Int) {
         list.removeAt(position)
         notifyItemRemoved(position)
+        notifyItemRangeChanged(position, list.size)
     }
 
     fun itemAddedInCart(position: Int) {

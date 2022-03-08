@@ -10,6 +10,7 @@
         <entry key="app/src/main/res/drawable/about_tab_selector.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/bottom_tab_color.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/btn_bg.xml" value="0.1655" />
+        <entry key="app/src/main/res/drawable/ic_emptycart6.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/nonselecteditem_dot.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/red_arc.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/red_circle.xml" value="0.1655" />
@@ -29,7 +30,7 @@
         <entry key="app/src/main/res/drawable/tab_background_unselected.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/tab_selector.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/white_rounded_corner_bg.xml" value="0.1655" />
-        <entry key="app/src/main/res/layout/activity_cart.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/activity_cart.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_checkout.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.2" />
