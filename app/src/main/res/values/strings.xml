@@ -4,11 +4,14 @@
     <string name="no_internet">Internet connection not available</string>
     <string name="something_went_wrong">Something went wrong.</string>
     <string name="name_empty">Kindly enter name.</string>
+    <string name="invalid_email">Kindly enter valid email.</string>
+    <string name="invalid_msg_inq">Kindly enter valid message or inquiry</string>
     <string name="mobile_no_empty">Kindly enter Mobile no.</string>
     <string name="bdate_no_empty">Kindly enter Birth date.</string>
     <string name="invalid_mobile_no">Kindly enter valid Mobile no.</string>
 
     <string name="your_name">You Name</string>
+    <string name="your_email">Your Email</string>
     <string name="add_plus">Add +</string>
     <string name="mobile_no">Mobile No.</string>
     <string name="your_bd">Your Birth Date</string>
@@ -28,4 +31,9 @@
     <string name="digit_1">1</string>
     <string name="you_may_like">You May Also Like</string>
     <string name="total_rs">Rs. %1$s</string>
+    <string name="get_in_touch">Get In Touch</string>
+    <string name="msg_inq">Your message or inquiry</string>
+    <string name="address_">Address :</string>
+    <string name="make_call_">Make A Call :</string>
+    <string name="send_msg_">Send a Message :</string>
 </resources>

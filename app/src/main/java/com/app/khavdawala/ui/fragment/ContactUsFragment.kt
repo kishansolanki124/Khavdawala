@@ -1,17 +1,25 @@
 package com.app.khavdawala.ui.fragment
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.graphics.Paint
+import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.app.khavdawala.R
+import com.app.khavdawala.apputils.hideKeyboard
 import com.app.khavdawala.apputils.isConnected
 import com.app.khavdawala.apputils.showSnackBar
 import com.app.khavdawala.databinding.FragmentContactUsBinding
 import com.app.khavdawala.pojo.response.ContactUsResponse
+import com.app.khavdawala.pojo.response.RegisterResponse
 import com.app.khavdawala.viewmodel.StaticPageViewModel
 
 class ContactUsFragment : Fragment() {
@@ -37,7 +45,65 @@ class ContactUsFragment : Fragment() {
             handleResponse(it)
         }
 
+        staticPageViewModel.commonResponse().observe(requireActivity()) {
+            handleContactUsResponse(it)
+        }
+
         fetchMagazineList()
+
+        setupViews()
+    }
+
+    private fun handleContactUsResponse(contactUsResponse: RegisterResponse?) {
+        binding.btSubmitRegister.visibility = View.VISIBLE
+        binding.pbRegister.visibility = View.GONE
+        if (null != contactUsResponse) {
+            binding.etName.setText("")
+            binding.etMobile.setText("")
+            binding.etEmail.setText("")
+            binding.etSuggestion.setText("")
+            showAlertDialog(contactUsResponse.message!!)
+        } else {
+            showSnackBar(getString(R.string.something_went_wrong), requireActivity())
+        }
+    }
+
+    private fun setupViews() {
+        binding.tvPhone.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse("tel:${binding.tvPhone.text}")
+            startActivity(intent)
+        }
+
+        binding.tvEmail.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SENDTO)
+            intent.data = Uri.parse("mailto:")
+            intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(binding.tvEmail.text.toString()))
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Contact Us")
+            startActivity(Intent.createChooser(intent, "Email via..."))
+        }
+
+        binding.btSubmitRegister.setOnClickListener {
+            if (fieldsValid()) {
+                if (isConnected(requireContext())) {
+                    hideKeyboard(requireActivity())
+                    binding.btSubmitRegister.visibility = View.INVISIBLE
+                    binding.pbRegister.visibility = View.VISIBLE
+                    staticPageViewModel.inquiry(
+                        binding.etName.text.toString(),
+                        binding.etMobile.text.toString(),
+                        binding.etEmail.text.toString(),
+                        binding.etSuggestion.text.toString()
+                    )
+                } else {
+                    showSnackBar(getString(R.string.no_internet), requireActivity())
+                }
+            }
+        }
+
+        //underline textview so that it looks clickable
+        binding.tvEmail.paintFlags = binding.tvEmail.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+        binding.tvPhone.paintFlags = binding.tvPhone.paintFlags or Paint.UNDERLINE_TEXT_FLAG
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -70,5 +136,48 @@ class ContactUsFragment : Fragment() {
         } else {
             showSnackBar(getString(R.string.no_internet), requireActivity())
         }
+    }
+
+    private fun fieldsValid(): Boolean {
+        when {
+            TextUtils.isEmpty(binding.etName.text.toString()) -> {
+                showSnackBar(getString(R.string.name_empty), requireActivity())
+                return false
+            }
+            TextUtils.isEmpty(binding.etEmail.text.toString()) -> {
+                showSnackBar(getString(R.string.invalid_email), requireActivity())
+                return false
+            }
+            TextUtils.isEmpty(binding.etMobile.text.toString()) -> {
+                showSnackBar(getString(R.string.mobile_no_empty), requireActivity())
+                return false
+            }
+            binding.etMobile.text.toString().length < 10 -> {
+                showSnackBar(getString(R.string.invalid_mobile_no), requireActivity())
+                return false
+            }
+            TextUtils.isEmpty(binding.etSuggestion.text.toString()) -> {
+                showSnackBar(getString(R.string.invalid_msg_inq), requireActivity())
+                return false
+            }
+            else -> return true
+        }
+    }
+
+    private fun showAlertDialog(msg: String) {
+        val alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+        alertDialogBuilder.setMessage(msg)
+        alertDialogBuilder.setCancelable(false)
+
+        alertDialogBuilder.setPositiveButton(
+            getString(android.R.string.ok)
+        ) { dialog, _ ->
+            dialog.cancel()
+        }
+
+        val alertDialog: AlertDialog = alertDialogBuilder.create()
+        alertDialog.show()
+        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            .setTextColor(ContextCompat.getColor(requireContext(), R.color.btnBG))
     }
 }

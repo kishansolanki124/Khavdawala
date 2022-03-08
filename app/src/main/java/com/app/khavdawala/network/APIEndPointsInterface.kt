@@ -59,6 +59,7 @@ interface APIEndPointsInterface {
 
     @POST(AppConstants.APIEndPoints.GET_CONTACT_US)
     suspend fun getContactUs(): ContactUsResponse
+
     //
 //    @POST(AppConstants.APIEndPoints.EMAGAZINE_AUTH)
 //    suspend fun emagazineAuth(
@@ -98,11 +99,11 @@ interface APIEndPointsInterface {
 //    @POST(AppConstants.APIEndPoints.GET_GUJARATI_SAMAJ)
 //    suspend fun getGujaratiSamaj(): GujratiSamajResponse
 //
-//    @POST(AppConstants.APIEndPoints.INQUIRY)
-//    suspend fun inquiry(
-//        @Body hashMap: MultipartBody
-//    ): RegisterResponse
-//
+    @POST(AppConstants.APIEndPoints.INQUIRY)
+    suspend fun inquiry(
+        @Body hashMap: MultipartBody
+    ): RegisterResponse
+
 //    @POST(AppConstants.APIEndPoints.GET_VATAN_NU_GHAM_DETAIL)
 //    suspend fun getVatanNuGhamDetail(
 //        @Body hashMap: MultipartBody

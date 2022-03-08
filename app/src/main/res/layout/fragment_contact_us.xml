@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,7 +9,6 @@
     android:orientation="vertical"
     android:paddingVertical="@dimen/dp_30"
     android:scrollbars="none">
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,7 +46,7 @@
                 android:fontFamily="@font/bold"
                 android:paddingHorizontal="@dimen/dp_5"
                 android:paddingVertical="@dimen/dp_2"
-                android:text="Address :"
+                android:text="@string/address_"
                 android:textColor="@color/btnBG"
                 android:textSize="@dimen/sp_14" />
 
@@ -84,7 +84,7 @@
                 android:fontFamily="@font/bold"
                 android:paddingHorizontal="@dimen/dp_5"
                 android:paddingVertical="@dimen/dp_2"
-                android:text="Make A Call :"
+                android:text="@string/make_call_"
                 android:textColor="@color/btnBG"
                 android:textSize="@dimen/sp_14" />
 
@@ -111,7 +111,7 @@
                 android:fontFamily="@font/bold"
                 android:paddingHorizontal="@dimen/dp_5"
                 android:paddingVertical="@dimen/dp_2"
-                android:text="Send a Message :"
+                android:text="@string/send_msg_"
                 android:textColor="@color/btnBG"
                 android:textSize="@dimen/sp_14" />
 
@@ -126,109 +126,79 @@
                 android:textSize="@dimen/sp_12"
                 tools:text="info@colorsofgujarat.in" />
 
-            <!--                    <androidx.appcompat.widget.AppCompatTextView-->
-            <!--                        android:layout_width="match_parent"-->
-            <!--                        android:layout_height="wrap_content"-->
-            <!--                        android:layout_margin="@dimen/dp_5"-->
-            <!--                        android:background="@color/black"-->
-            <!--                        android:fontFamily="@font/bold"-->
-            <!--                        android:gravity="center"-->
-            <!--                        android:paddingHorizontal="@dimen/dp_5"-->
-            <!--                        android:paddingVertical="@dimen/dp_10"-->
-            <!--                        android:text="Get In Touch"-->
-            <!--                        android:textColor="@color/black"-->
-            <!--                        android:textSize="@dimen/sp_14" />-->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/dp_5"
+                android:background="@drawable/white_rounded_corner_bg"
+                android:fontFamily="@font/bold"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/dp_20"
+                android:paddingVertical="@dimen/dp_10"
+                android:text="@string/get_in_touch"
+                android:textColor="@color/black"
+                android:textSize="@dimen/sp_14" />
 
-            <!--                    <androidx.appcompat.widget.AppCompatEditText-->
-            <!--                        android:id="@+id/etName"-->
-            <!--                        android:layout_width="match_parent"-->
-            <!--                        android:layout_height="wrap_content"-->
-            <!--                        android:layout_margin="@dimen/dp_5"-->
-            <!--                        android:background="@drawable/white_rounded_corner_bg"-->
-            <!--                        android:fontFamily="@font/regular"-->
-            <!--                        android:hint="@string/your_name"-->
-            <!--                        android:imeOptions="actionNext"-->
-            <!--                        android:inputType="textCapWords"-->
-            <!--                        android:padding="@dimen/dp_10"-->
-            <!--                        android:textColor="@color/black"-->
-            <!--                        android:textSize="@dimen/sp_12" />-->
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etName"
+                style="@style/CommonEditText"
+                android:hint="@string/your_name"
+                android:imeOptions="actionNext"
+                android:inputType="textCapWords" />
 
-            <!--                    <androidx.appcompat.widget.AppCompatEditText-->
-            <!--                        android:id="@+id/etEmail"-->
-            <!--                        android:layout_width="match_parent"-->
-            <!--                        android:layout_height="wrap_content"-->
-            <!--                        android:layout_margin="@dimen/dp_5"-->
-            <!--                        android:background="@drawable/white_rounded_corner_bg"-->
-            <!--                        android:fontFamily="@font/regular"-->
-            <!--                        android:hint="@string/Email"-->
-            <!--                        android:imeOptions="actionNext"-->
-            <!--                        android:inputType="textEmailAddress"-->
-            <!--                        android:padding="@dimen/dp_10"-->
-            <!--                        android:textColor="@color/black"-->
-            <!--                        android:textSize="@dimen/sp_12" />-->
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etEmail"
+                style="@style/CommonEditText"
+                android:hint="@string/your_email"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress" />
 
-            <!--                    <androidx.appcompat.widget.AppCompatEditText-->
-            <!--                        android:id="@+id/etMobile"-->
-            <!--                        android:layout_width="match_parent"-->
-            <!--                        android:layout_height="wrap_content"-->
-            <!--                        android:layout_margin="@dimen/dp_5"-->
-            <!--                        android:background="@drawable/white_rounded_corner_bg"-->
-            <!--                        android:fontFamily="@font/regular"-->
-            <!--                        android:hint="@string/Mobile_No"-->
-            <!--                        android:imeOptions="actionNext"-->
-            <!--                        android:inputType="numberSigned"-->
-            <!--                        android:maxLength="10"-->
-            <!--                        android:padding="@dimen/dp_10"-->
-            <!--                        android:textColor="@color/black"-->
-            <!--                        android:textSize="@dimen/sp_12" />-->
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etMobile"
+                style="@style/CommonEditText"
+                android:hint="@string/mobile_no"
+                android:imeOptions="actionNext"
+                android:inputType="numberSigned"
+                android:maxLength="10" />
 
-            <!--                    <androidx.appcompat.widget.AppCompatEditText-->
-            <!--                        android:id="@+id/etSuggestion"-->
-            <!--                        android:layout_width="match_parent"-->
-            <!--                        android:layout_height="wrap_content"-->
-            <!--                        android:layout_margin="@dimen/dp_5"-->
-            <!--                        android:background="@drawable/white_rounded_corner_bg"-->
-            <!--                        android:fontFamily="@font/regular"-->
-            <!--                        android:gravity="start"-->
-            <!--                        android:hint="@string/quest_comment"-->
-            <!--                        android:imeOptions="actionDone"-->
-            <!--                        android:inputType="textMultiLine"-->
-            <!--                        android:minLines="5"-->
-            <!--                        android:padding="@dimen/dp_10"-->
-            <!--                        android:textColor="@color/black"-->
-            <!--                        android:textSize="@dimen/sp_12" />-->
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etSuggestion"
+                style="@style/CommonEditText"
+                android:gravity="start"
+                android:hint="@string/msg_inq"
+                android:imeOptions="actionDone"
+                android:inputType="textMultiLine"
+                android:minLines="5" />
 
-            <!--                    <androidx.constraintlayout.widget.ConstraintLayout-->
-            <!--                        android:layout_width="wrap_content"-->
-            <!--                        android:layout_height="wrap_content"-->
-            <!--                        android:layout_gravity="center">-->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_20">
 
-            <!--                        <com.google.android.material.button.MaterialButton-->
-            <!--                            android:id="@+id/btSendContactUs"-->
-            <!--                            style="@style/CommonRedButton"-->
-            <!--                            android:layout_margin="@dimen/dp_0"-->
-            <!--                            android:paddingHorizontal="@dimen/sp_30"-->
-            <!--                            android:text="@string/Send"-->
-            <!--                            android:textAllCaps="false"-->
-            <!--                            android:textSize="@dimen/sp_14"-->
-            <!--                            tools:ignore="MissingConstraints" />-->
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btSubmitRegister"
+                    style="@style/CommonButton"
+                    android:text="@string/Submit"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <!--                        <androidx.core.widget.ContentLoadingProgressBar-->
-            <!--                            android:id="@+id/pbSendContactUs"-->
-            <!--                            style="?android:attr/progressBarStyle"-->
-            <!--                            android:layout_width="0dp"-->
-            <!--                            android:layout_height="0dp"-->
-            <!--                            android:indeterminateTint="@color/red_light"-->
-            <!--                            android:indeterminateTintMode="multiply"-->
-            <!--                            android:scaleX="0.7"-->
-            <!--                            android:scaleY="0.7"-->
-            <!--                            android:visibility="gone"-->
-            <!--                            app:layout_constraintBottom_toBottomOf="@+id/btSendContactUs"-->
-            <!--                            app:layout_constraintEnd_toEndOf="@+id/btSendContactUs"-->
-            <!--                            app:layout_constraintStart_toStartOf="@+id/btSendContactUs"-->
-            <!--                            app:layout_constraintTop_toTopOf="@+id/btSendContactUs" />-->
-
-            <!--                    </androidx.constraintlayout.widget.ConstraintLayout>-->
+                <androidx.core.widget.ContentLoadingProgressBar
+                    android:id="@+id/pbRegister"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:indeterminateTint="@color/btnBG"
+                    android:indeterminateTintMode="multiply"
+                    android:scaleX="0.7"
+                    android:scaleY="0.7"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/btSubmitRegister"
+                    app:layout_constraintEnd_toEndOf="@+id/btSubmitRegister"
+                    app:layout_constraintStart_toStartOf="@+id/btSubmitRegister"
+                    app:layout_constraintTop_toTopOf="@+id/btSubmitRegister" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

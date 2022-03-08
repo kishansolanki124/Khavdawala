@@ -99,6 +99,7 @@ interface AppConstants {
             const val STATE_ID = "state_id"
             const val STATE = "state"
             const val CITY_ID = "city_id"
+            const val mobile = "mobile"
         }
     }
 }
