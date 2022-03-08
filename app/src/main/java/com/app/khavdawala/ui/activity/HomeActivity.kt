@@ -196,6 +196,8 @@ class HomeActivity : AppCompatActivity() {
                     R.drawable.home_icon_active
                 )
             )
+        } else if (fragment is GiftListFragment || fragment is FavoriteListFragment || fragment is AboutFragment || fragment is NotificationListFragment) {
+            binding.ivHome.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.home_icon))
         } else {
             binding.ivHome.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.home_icon))
         }
@@ -338,6 +340,5 @@ class HomeActivity : AppCompatActivity() {
         } else {
             binding.toolbar.flCartCount.gone()
         }
-
     }
 }
