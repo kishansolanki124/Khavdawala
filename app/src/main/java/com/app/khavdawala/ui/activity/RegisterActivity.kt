@@ -8,6 +8,7 @@ import android.text.TextUtils
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import app.app.patidarsaurabh.apputils.AppConstants
 import com.app.khavdawala.R
 import com.app.khavdawala.apputils.SPreferenceManager
 import com.app.khavdawala.apputils.isConnected
@@ -89,6 +90,8 @@ class RegisterActivity : AppCompatActivity() {
             if (signupResponseModel.status.toInt() == 1) {
                 SPreferenceManager.getInstance(this)
                     .saveSession(binding.etMob.text.toString().trim())
+                SPreferenceManager.getInstance(this)
+                    .setString(AppConstants.NAME, binding.etName.text.toString().trim())
                 startActivity(
                     Intent(
                         this,

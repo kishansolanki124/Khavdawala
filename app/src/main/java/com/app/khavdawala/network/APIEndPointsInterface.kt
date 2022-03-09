@@ -172,6 +172,13 @@ interface APIEndPointsInterface {
     suspend fun registration(
         @Body hashMap: MultipartBody
     ): RegisterResponse
+
+    //multipart/form-data
+    @POST(AppConstants.APIEndPoints.ADD_ORDER)
+    suspend fun addOrder(
+        @Body hashMap: MultipartBody
+    ): RegisterResponse
+
 //
 //    //multipart/form-data
 //    @POST(AppConstants.APIEndPoints.GET_PRATINIDHI)

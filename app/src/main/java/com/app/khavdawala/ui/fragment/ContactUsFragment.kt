@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -84,7 +85,7 @@ class ContactUsFragment : Fragment() {
         }
 
         binding.btSubmitRegister.setOnClickListener {
-            if (fieldsValid()) {
+            if (areFieldsValid()) {
                 if (isConnected(requireContext())) {
                     hideKeyboard(requireActivity())
                     binding.btSubmitRegister.visibility = View.INVISIBLE
@@ -138,16 +139,20 @@ class ContactUsFragment : Fragment() {
         }
     }
 
-    private fun fieldsValid(): Boolean {
+    private fun areFieldsValid(): Boolean {
         when {
             TextUtils.isEmpty(binding.etName.text.toString()) -> {
                 showSnackBar(getString(R.string.name_empty), requireActivity())
                 return false
             }
-            TextUtils.isEmpty(binding.etEmail.text.toString()) -> {
+
+            TextUtils.isEmpty(binding.etEmail.text.toString()) || !Patterns.EMAIL_ADDRESS.matcher(
+                binding.etEmail.text.toString()
+            ).matches() -> {
                 showSnackBar(getString(R.string.invalid_email), requireActivity())
                 return false
             }
+
             TextUtils.isEmpty(binding.etMobile.text.toString()) -> {
                 showSnackBar(getString(R.string.mobile_no_empty), requireActivity())
                 return false

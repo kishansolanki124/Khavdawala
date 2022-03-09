@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import app.app.patidarsaurabh.apputils.AppConstants
 import com.app.khavdawala.R
 import com.app.khavdawala.apputils.SPreferenceManager
 import com.app.khavdawala.apputils.getCartProductList
@@ -21,6 +22,7 @@ class CartActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCartBinding
     private lateinit var govtWorkNewsAdapter: CartProductAdapter
     private lateinit var layoutManager: LinearLayoutManager
+    private var totalAmount = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +61,9 @@ class CartActivity : AppCompatActivity() {
         }
 
         binding.btCheckout.setOnClickListener {
-            startActivity(Intent(this, CheckoutActivity::class.java))
+            startActivity(Intent(this, CheckoutActivity::class.java)
+                .putExtra(AppConstants.AMOUNT, totalAmount))
+            finish()
         }
 
         updateTotalCount()
@@ -153,7 +157,7 @@ class CartActivity : AppCompatActivity() {
     private fun updateTotalCount() {
         if (!getCartProductList().isNullOrEmpty()) {
             val cartProductList = getCartProductList()
-            var totalAmount = 0.0
+            totalAmount = 0.0
             for (item in cartProductList) {
                 totalAmount += (item.packing_list[item.selectedItemPosition].product_price.toDouble() * item.itemQuantity)
             }

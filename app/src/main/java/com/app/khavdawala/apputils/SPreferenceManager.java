@@ -53,10 +53,9 @@ public class SPreferenceManager {
         mEditor.putString(key, value).apply();
     }
 
-    //
-//    public String getString(String key, String value) {
-//        return mPreferences.getString(key, value);
-//    }
+    public String getString(String key, String value) {
+        return mPreferences.getString(key, value);
+    }
 //
 //    public void setInteger(String key, int value) {
 //        mEditor.putInt(key, value).apply();

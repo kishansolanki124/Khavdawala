@@ -5,8 +5,11 @@
     <string name="something_went_wrong">Something went wrong.</string>
     <string name="name_empty">Kindly enter name.</string>
     <string name="invalid_email">Kindly enter valid email.</string>
+    <string name="invalid_address">Kindly enter valid Address.</string>
+    <string name="kindly_accept_tnc">Kindly accept T&amp;C.</string>
     <string name="invalid_msg_inq">Kindly enter valid message or inquiry</string>
     <string name="mobile_no_empty">Kindly enter Mobile no.</string>
+    <string name="city_empty">Kindly enter City name</string>
     <string name="bdate_no_empty">Kindly enter Birth date.</string>
     <string name="invalid_mobile_no">Kindly enter valid Mobile no.</string>
 
@@ -37,4 +40,13 @@
     <string name="make_call_">Make A Call :</string>
     <string name="send_msg_">Send a Message :</string>
     <string name="empty_cart">No Items in Cart!</string>
+    <string name="Delivery_Charge">Delivery Charge</string>
+    <string name="Grand_Total">Grand Total</string>
+    <string name="Address_Information">Address Information</string>
+    <string name="Checkout_Details">Checkout Details</string>
+    <string name="City">City</string>
+    <string name="Delivery_Address">Delivery Address</string>
+    <string name="Notes_if_any">Notes if any</string>
+    <string name="gift_packing_">Gift packing : (Please mark the checkbox)</string>
+    <string name="i_agree_">I Agree : (Terms And Condition)</string>
 </resources>

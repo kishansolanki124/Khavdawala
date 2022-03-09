@@ -40,6 +40,10 @@ class RegisterViewModel : ViewModel() {
                     AppConstants.RequestParameters.BIRTH_DATE,
                     registerRequest.birth_date
                 )
+                requestBodyBuilder.addFormDataPart(
+                    AppConstants.RequestParameters.platform,
+                    registerRequest.platform
+                )
 
                 val apiResponse = apiEndPointsInterface.registration(requestBodyBuilder.build())
                 returnSignupResponse(apiResponse)

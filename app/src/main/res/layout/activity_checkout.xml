@@ -37,26 +37,17 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_subtotal"
+                    style="@style/CheckoutTextView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:padding="@dimen/dp_5"
-                    android:text="Subtotal"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_20"
-                    android:textStyle="bold" />
+                    android:text="@string/Subtotal" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_total_amount"
+                    style="@style/CheckoutTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/tv_subtotal"
                     android:gravity="end"
-                    android:padding="@dimen/dp_5"
-                    android:text="Rs. 150"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_20"
-                    android:textStyle="bold" />
+                    tools:text="Rs. 150" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -70,26 +61,18 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_delivery_charge"
+                    style="@style/CheckoutTextView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:padding="@dimen/dp_5"
-                    android:text="Delivery Charge"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_20"
+                    android:text="@string/Delivery_Charge"
                     android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_delivery_charge_amount"
+                    style="@style/CheckoutTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/tv_delivery_charge"
                     android:gravity="end"
-                    android:padding="@dimen/dp_5"
-                    android:text="Rs. 20"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_20"
-                    android:textStyle="bold" />
+                    tools:text="Rs. 20" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -103,26 +86,19 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_grand_total"
+                    style="@style/CheckoutTextView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:padding="@dimen/dp_5"
-                    android:text="Grand Total"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/sp_20"
-                    android:textStyle="bold" />
+                    android:text="@string/Grand_Total"
+                    android:textColor="@color/white" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_grand_total_amount"
+                    style="@style/CheckoutTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/tv_grand_total"
                     android:gravity="end"
-                    android:padding="@dimen/dp_5"
-                    android:text="Rs. 170"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/sp_20"
-                    android:textStyle="bold" />
+                    tools:text="Rs. 170" />
             </RelativeLayout>
 
             <androidx.appcompat.widget.LinearLayoutCompat
@@ -132,30 +108,10 @@
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/CheckoutTextView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/dp_5"
-                    android:gravity="center_horizontal"
-                    android:padding="@dimen/dp_5"
-                    android:paddingHorizontal="@dimen/dp_10"
-                    android:text="CheckOut Details"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_20"
-                    android:textStyle="bold" />
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    style="@style/CommonEditText"
-                    android:hint="Enter Mobile No." />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:padding="@dimen/dp_5"
-                    android:text="Address Information"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_20"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:text="@string/Address_Information" />
 
                 <RadioGroup
                     android:layout_width="match_parent"
@@ -195,35 +151,66 @@
                         android:textSize="@dimen/sp_14" />
                 </RadioGroup>
 
-                <androidx.appcompat.widget.AppCompatEditText
-                    style="@style/CommonEditText"
-                    android:hint="City" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/CheckoutTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:text="@string/Checkout_Details" />
 
                 <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/et_mobile"
                     style="@style/CommonEditText"
-                    android:hint="Name" />
+                    android:hint="@string/mobile_no"
+                    android:imeOptions="actionNext"
+                    android:inputType="numberSigned"
+                    android:maxLength="10" />
 
                 <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/et_city"
                     style="@style/CommonEditText"
-                    android:hint="Email" />
+                    android:hint="@string/City"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapWords" />
 
                 <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/et_name"
+                    style="@style/CommonEditText"
+                    android:hint="@string/your_name"
+                    android:imeOptions="actionNext"
+                    android:inputType="textCapWords" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/et_email"
+                    style="@style/CommonEditText"
+                    android:hint="@string/your_email"
+                    android:imeOptions="actionNext"
+                    android:inputType="textEmailAddress" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/et_delivery_address"
                     style="@style/CommonEditText"
                     android:gravity="top|start"
-                    android:hint="Delivery Address"
+                    android:hint="@string/Delivery_Address"
+                    android:imeOptions="actionNext"
+                    android:inputType="textPostalAddress|textMultiLine"
                     android:minLines="4" />
 
                 <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/et_notes"
                     style="@style/CommonEditText"
                     android:gravity="top|start"
-                    android:hint="Notes if any"
+                    android:hint="@string/Notes_if_any"
+                    android:imeOptions="actionDone"
+                    android:inputType="textMultiLine"
                     android:minLines="4" />
 
                 <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/cbGiftPack"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Gift packing : (Please mark the checkbox)"
+                    android:buttonTint="@color/btnBG"
+                    android:fontFamily="@font/medium"
+                    android:text="@string/gift_packing_"
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp_14" />
 
@@ -232,14 +219,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/dp_10"
-                    android:text="I Agree : (Terms And Condition)"
+                    android:buttonTint="@color/btnBG"
+                    android:fontFamily="@font/medium"
+                    android:text="@string/i_agree_"
                     android:textColor="@color/black"
                     android:textSize="@dimen/sp_14" />
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/bt_place_order"
                     style="@style/CommonButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_margin="@dimen/dp_0"
                     android:text="@string/Submit" />
             </androidx.appcompat.widget.LinearLayoutCompat>
