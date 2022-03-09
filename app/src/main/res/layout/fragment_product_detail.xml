@@ -215,6 +215,16 @@
             app:tabMode="auto"
             app:tabTextAppearance="@style/TabLayoutTextStyle" />
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:visibility="gone"
+            android:id="@+id/tv_html"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:justificationMode="inter_word"
+            android:padding="@dimen/dp_10"
+            android:textColor="@color/black"
+            android:textSize="@dimen/sp_16" />
+
         <com.app.khavdawala.apputils.WrapContentWebView
             android:id="@+id/wv_product_detail"
             android:layout_width="match_parent"

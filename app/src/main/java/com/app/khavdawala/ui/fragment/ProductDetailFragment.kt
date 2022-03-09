@@ -1,7 +1,9 @@
 package com.app.khavdawala.ui.fragment
 
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -231,7 +233,7 @@ class ProductDetailFragment : Fragment() {
         }
 
         fragmentList.clear()
-        fragmentList.add(ProductDescriptionFragment.newInstance(productDetailResponse.description))
+        fragmentList.add(WebViewFragment.newInstance(productDetailResponse.description, false))
         fragmentList.add(ProductDescriptionFragment.newInstance((productDetailResponse.nutrition)))
 
         binding.wvProductDetail.setBackgroundColor(Color.TRANSPARENT)
@@ -250,15 +252,24 @@ class ProductDetailFragment : Fragment() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when (tab?.position) {
                     0 -> {
-                        binding.wvProductDetail.loadDataWithBaseURL(
-                            null,
-                            productDetailResponse.description,
-                            "text/html",
-                            "UTF-8",
-                            null
-                        )
+                        binding.wvProductDetail.gone()
+                        binding.tvHtml.visible()
+                        binding.tvHtml.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            Html.fromHtml(productDetailResponse.description, Html.FROM_HTML_MODE_COMPACT)
+                        } else {
+                            Html.fromHtml(productDetailResponse.description)
+                        }
+//                        binding.wvProductDetail.loadDataWithBaseURL(
+//                            null,
+//                            productDetailResponse.description,
+//                            "text/html",
+//                            "UTF-8",
+//                            null
+//                        )
                     }
                     else -> {
+                        binding.tvHtml.gone()
+                        binding.wvProductDetail.visible()
                         binding.wvProductDetail.loadDataWithBaseURL(
                             null,
                             productDetailResponse.nutrition,
@@ -275,9 +286,11 @@ class ProductDetailFragment : Fragment() {
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-
+                onTabSelected(tab)
             }
         })
+
+        binding.tabLayout.getTabAt(0)!!.select()
     }
 
     private fun setupSpinner(productPacking: List<ProductDetailResponse.ProductPacking>) {

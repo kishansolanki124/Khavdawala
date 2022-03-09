@@ -59,7 +59,7 @@ class AboutFragment : Fragment() {
         for (item in list) {
             if (item.name.contains("About") || item.name.contains("Terms")) {
                 staticPage.add(item)
-                fragmentList.add(WebViewFragment.newInstance(item.description))
+                fragmentList.add(WebViewFragment.newInstance(item.description, true))
             }
         }
 

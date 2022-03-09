@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sv_html"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/transparent"
     android:clipToPadding="false"
     android:orientation="vertical"
     android:paddingVertical="@dimen/dp_30">
 
-    <WebView
-        android:id="@+id/wv_product"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_html"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/bg_image"
-        android:padding="@dimen/dp_10" />
-</androidx.appcompat.widget.LinearLayoutCompat>
+        android:layout_height="wrap_content"
+        android:justificationMode="inter_word"
+        android:padding="@dimen/dp_10"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_14" />
+</ScrollView>
