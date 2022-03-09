@@ -17,7 +17,15 @@ badhi screen ma uper nu banner pan scroll thy e rite set karvu atyare banner ne 
 gift screen ma heading avtu nti
 banner uper heading na font size badhi screen ma same rakhva about ma che e rite j product category ma pan kari nakh jo
 product detail ma j product ma description ne nutrition value na avta hoy ama e tab hide kari deva
-share app nu icon work nti kartu
 product detail ma addtocart kariye tyare cart nu btn change karvu
 app update apde j rite badha ma dynamic kariye che e rite j levu get_settings vadi API mathi
 ne app share no msg pan dynamic avse same api mathi
+
+share app nu icon work nti kartu
+
+
+gujarat and out of gujarat
+if gujarat selected then
+rajkot and out of rajkot
+
+selection upar nu kare ne pachi niche na edittext show krvana based on it

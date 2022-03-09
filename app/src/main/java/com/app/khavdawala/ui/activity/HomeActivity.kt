@@ -8,10 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.app.khavdawala.R
-import com.app.khavdawala.apputils.SPreferenceManager
-import com.app.khavdawala.apputils.getCartProductList
-import com.app.khavdawala.apputils.gone
-import com.app.khavdawala.apputils.visible
+import com.app.khavdawala.apputils.*
 import com.app.khavdawala.databinding.ActivityHomeBinding
 import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.ui.fragment.*
@@ -76,6 +73,10 @@ class HomeActivity : AppCompatActivity() {
 
         binding.toolbar.ibBack.setOnClickListener {
             onBackPressed()
+        }
+
+        binding.toolbar.ivShare.setOnClickListener {
+            shareApp()
         }
 
         binding.bottomNavigationView.selectedItemId = R.id.navigation_home

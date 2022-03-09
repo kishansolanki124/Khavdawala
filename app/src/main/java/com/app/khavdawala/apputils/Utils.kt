@@ -2,15 +2,19 @@ package com.app.khavdawala.apputils
 
 import android.app.Activity
 import android.app.Application
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
 import android.os.Build
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
+import com.app.khavdawala.BuildConfig
+import com.app.khavdawala.R
 import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.ui.activity.SplashActivity
 import com.bumptech.glide.Glide
@@ -424,4 +428,39 @@ fun Context.getCartItemCount(
         }
     }
     return 0
+}
+
+fun Context.shareApp() {
+    val txtIntent = Intent(Intent.ACTION_SEND)
+    txtIntent.type = "text/plain"
+    txtIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
+    txtIntent.putExtra(
+        Intent.EXTRA_TEXT, SPreferenceManager.getInstance(this).settings.settings[0].appsharemsg
+    )
+    startActivity(Intent.createChooser(txtIntent, "Share"))
+}
+
+fun Context.rateApp() {
+    val uri: Uri = Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID)
+    val goToMarket = Intent(Intent.ACTION_VIEW, uri)
+    // To count with Play market backstack, After pressing back button,
+    // to taken back to our application, we need to add following flags to intent.
+    goToMarket.addFlags(
+        Intent.FLAG_ACTIVITY_NO_HISTORY or
+                Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
+                Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+    )
+    try {
+        startActivity(goToMarket)
+    } catch (e: ActivityNotFoundException) {
+        startActivity(
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse(
+                    "http://play.google.com/store/apps/details?id="
+                            + BuildConfig.APPLICATION_ID
+                )
+            )
+        )
+    }
 }

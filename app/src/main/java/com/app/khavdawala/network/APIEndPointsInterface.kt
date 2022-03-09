@@ -18,6 +18,12 @@ interface APIEndPointsInterface {
 //        @Body hashMap: MultipartBody
 //    ): ShraddhanjaliResponse
 //
+
+    @POST(AppConstants.APIEndPoints.GET_SETTINGS)
+    suspend fun getSettings(
+        @Body hashMap: MultipartBody
+    ): SettingsResponse
+
     @POST(AppConstants.APIEndPoints.GET_PRODUCT)
     suspend fun getProductList(
         @Body hashMap: MultipartBody
