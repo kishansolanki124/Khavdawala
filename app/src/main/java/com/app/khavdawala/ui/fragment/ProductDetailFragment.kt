@@ -233,20 +233,23 @@ class ProductDetailFragment : Fragment() {
         }
 
         fragmentList.clear()
-        fragmentList.add(WebViewFragment.newInstance(productDetailResponse.description, false))
-        fragmentList.add(ProductDescriptionFragment.newInstance((productDetailResponse.nutrition)))
+        if (!productDetailResponse.description.isNullOrEmpty()) {
+            fragmentList.add(
+                WebViewFragment.newInstance(
+                    productDetailResponse.description!!,
+                    false
+                )
+            )
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Description"))
+
+        }
+
+        if (!productDetailResponse.nutrition.isNullOrEmpty()) {
+            fragmentList.add(ProductDescriptionFragment.newInstance((productDetailResponse.nutrition!!)))
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Nutrition Value"))
+        }
 
         binding.wvProductDetail.setBackgroundColor(Color.TRANSPARENT)
-        binding.wvProductDetail.loadDataWithBaseURL(
-            null,
-            productDetailResponse.description,
-            "text/html",
-            "UTF-8",
-            null
-        )
-
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Description"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Nutrition Value"))
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -255,7 +258,10 @@ class ProductDetailFragment : Fragment() {
                         binding.wvProductDetail.gone()
                         binding.tvHtml.visible()
                         binding.tvHtml.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            Html.fromHtml(productDetailResponse.description, Html.FROM_HTML_MODE_COMPACT)
+                            Html.fromHtml(
+                                productDetailResponse.description,
+                                Html.FROM_HTML_MODE_COMPACT
+                            )
                         } else {
                             Html.fromHtml(productDetailResponse.description)
                         }
@@ -272,7 +278,7 @@ class ProductDetailFragment : Fragment() {
                         binding.wvProductDetail.visible()
                         binding.wvProductDetail.loadDataWithBaseURL(
                             null,
-                            productDetailResponse.nutrition,
+                            productDetailResponse.nutrition!!,
                             "text/html",
                             "UTF-8",
                             null
@@ -290,7 +296,7 @@ class ProductDetailFragment : Fragment() {
             }
         })
 
-        binding.tabLayout.getTabAt(0)!!.select()
+        binding.tabLayout.getTabAt(0)?.select()
     }
 
     private fun setupSpinner(productPacking: List<ProductDetailResponse.ProductPacking>) {

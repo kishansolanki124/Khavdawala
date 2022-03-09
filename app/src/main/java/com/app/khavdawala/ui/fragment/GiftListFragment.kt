@@ -46,6 +46,9 @@ class GiftListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.ivCategoryHeader.setBackgroundResource(R.drawable.banner_top)
+        binding.tvHeader.text = getString(R.string.gift)
+
         initRecyclerView()
 
         categoryViewModel = ViewModelProvider(this)[ProductViewModel::class.java]

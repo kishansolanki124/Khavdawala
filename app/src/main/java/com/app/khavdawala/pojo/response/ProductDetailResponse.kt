@@ -9,10 +9,10 @@ data class ProductDetailResponse(
     var youmay_alsolike: ArrayList<YoumayAlsolike> = ArrayList()
 ) {
     data class ProductDetail(
-        var description: String = "",
+        var description: String? = null,
         var name: String = "",
         var favourite: String = "",
-        var nutrition: String = "",
+        var nutrition: String? = null,
         var price: String = "",
         var product_id: String = ""
     )

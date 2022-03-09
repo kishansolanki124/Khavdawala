@@ -48,5 +48,6 @@
     <string name="Delivery_Address">Delivery Address</string>
     <string name="Notes_if_any">Notes if any</string>
     <string name="gift_packing_">Gift packing : (Please mark the checkbox)</string>
+    <string name="gift">Gift</string>
     <string name="i_agree_">I Agree : (Terms And Condition)</string>
 </resources>
