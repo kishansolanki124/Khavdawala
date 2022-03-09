@@ -1,5 +1,7 @@
 package com.app.khavdawala.ui.adapter
 
+import android.os.Build
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -48,7 +50,11 @@ class NotificationListAdapter :
             newsPortal: NotificationResponse.Notification
         ) {
             binding.tvNotTitle.text = newsPortal.title
-            binding.tvNotDesc.text = newsPortal.description
+            binding.tvNotDesc.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Html.fromHtml(newsPortal.description, Html.FROM_HTML_MODE_COMPACT)
+            } else {
+                Html.fromHtml(newsPortal.description)
+            }
             binding.tvNotTime.text = newsPortal.pdate
         }
     }
