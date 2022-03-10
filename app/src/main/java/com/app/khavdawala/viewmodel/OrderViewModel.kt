@@ -9,6 +9,7 @@ import com.app.khavdawala.network.APIEndPointsInterface
 import com.app.khavdawala.network.RetrofitFactory
 import com.app.khavdawala.pojo.request.OrderPlaceRequest
 import com.app.khavdawala.pojo.response.RegisterResponse
+import com.app.khavdawala.pojo.response.ShippingChargeResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -17,6 +18,7 @@ import okhttp3.MultipartBody
 class OrderViewModel : ViewModel() {
 
     private val mutableSignupResponseModel = MutableLiveData<RegisterResponse>()
+    private val mutableShippingChargeResponse = MutableLiveData<ShippingChargeResponse>()
     private var apiEndPointsInterface =
         RetrofitFactory.createService(APIEndPointsInterface::class.java)
 
@@ -117,6 +119,25 @@ class OrderViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Dispatchers.IO for network or disk operations that takes longer time and runs in background thread
+     */
+    fun getShippingCharge() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val apiResponse = apiEndPointsInterface.getShippingCharge()
+                returnShippingCharge(apiResponse)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private suspend fun returnShippingCharge(shippingChargeResponse: ShippingChargeResponse) {
+        withContext(Dispatchers.Main) {
+            mutableShippingChargeResponse.value = shippingChargeResponse
+        }
+    }
 
     /**
      * Dispatchers.Main for UI related stuff which runs on Main thread
@@ -131,4 +152,7 @@ class OrderViewModel : ViewModel() {
         return mutableSignupResponseModel
     }
 
+    fun shippingChargeResponse(): LiveData<ShippingChargeResponse> {
+        return mutableShippingChargeResponse
+    }
 }

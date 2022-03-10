@@ -31,6 +31,7 @@ interface AppConstants {
             const val BASE_URL = "https://khavdawala.com/khavdawalaapi/"
             const val REGISTRATION: String = "registration"
             const val ADD_ORDER: String = "add_order"
+            const val GET_SHIPPING_CHARGE: String = "get_shipping_charge"
             const val GET_CATEGORY: String = "get_category"
             const val GET_NEWS: String = "get_news"
             const val GET_NEWS_DETAIL: String = "get_news_detail"

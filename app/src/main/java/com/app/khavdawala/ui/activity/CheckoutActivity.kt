@@ -10,20 +10,20 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import app.app.patidarsaurabh.apputils.AppConstants
 import com.app.khavdawala.R
-import com.app.khavdawala.apputils.SPreferenceManager
-import com.app.khavdawala.apputils.getCartProductList
-import com.app.khavdawala.apputils.isConnected
-import com.app.khavdawala.apputils.showSnackBar
+import com.app.khavdawala.apputils.*
 import com.app.khavdawala.databinding.ActivityCheckoutBinding
 import com.app.khavdawala.pojo.request.OrderPlaceRequest
 import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.pojo.response.RegisterResponse
+import com.app.khavdawala.pojo.response.ShippingChargeResponse
 import com.app.khavdawala.viewmodel.OrderViewModel
 
 class CheckoutActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCheckoutBinding
+    private lateinit var shippingChargeResponse: ShippingChargeResponse
     private var totalAmount = 0.0
+    private var shippingCharge = 0.0
     private lateinit var orderViewModel: OrderViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +36,10 @@ class CheckoutActivity : AppCompatActivity() {
 
         orderViewModel.registerResponse().observe(this) {
             handleResponse(it)
+        }
+
+        orderViewModel.shippingChargeResponse().observe(this) {
+            handleShippingChargeResponse(it)
         }
 
         totalAmount = intent.getDoubleExtra(AppConstants.AMOUNT, 0.0)
@@ -53,9 +57,9 @@ class CheckoutActivity : AppCompatActivity() {
         )
 
         binding.btPlaceOrder.setOnClickListener {
+
             if (areFieldsValid()) {
                 if (isConnected(this)) {
-
                     var productId = ""
                     var productName = ""
                     var packingId = ""
@@ -108,6 +112,83 @@ class CheckoutActivity : AppCompatActivity() {
                 }
             }
         }
+
+        if (isConnected(this)) {
+            binding.rlCheckout.gone()
+            binding.loading.pbCommon.visible()
+            orderViewModel.getShippingCharge()
+        } else {
+            showSnackBar(getString(R.string.no_internet), this)
+        }
+
+        binding.tvDeliveryCharge.text = getString(R.string.total_rs, "0")
+        binding.llCheckoutDetails.gone()
+    }
+
+    private fun handleShippingChargeResponse(shippingChargeResponse: ShippingChargeResponse?) {
+        binding.loading.pbCommon.gone()
+        binding.rlCheckout.visible()
+        if (null != shippingChargeResponse) {
+            this.shippingChargeResponse = shippingChargeResponse
+            setupRadioButtons()
+        } else {
+            showSnackBar(getString(R.string.something_went_wrong), this)
+        }
+    }
+
+    private fun setupRadioButtons() {
+        binding.rgCity.setOnCheckedChangeListener { _, optionId ->
+            run {
+                when (optionId) {
+                    R.id.rb_rajkot -> {
+                        shippingCharge =
+                            shippingChargeResponse.shipping_charge[0].rajkot_shipping.toDouble()
+
+                    }
+
+                    R.id.rb_outside_rajkot -> {
+                        shippingCharge =
+                            shippingChargeResponse.shipping_charge[0].gujarat_shipping.toDouble()
+
+                    }
+                }
+            }
+        }
+
+        binding.rgState.setOnCheckedChangeListener { _, optionId ->
+            run {
+                when (optionId) {
+                    R.id.rb_gujarat -> {
+                        binding.rgCity.visible()
+                        binding.tvCity.visible()
+                        binding.rbRajkot.isChecked = true
+                        shippingCharge =
+                            shippingChargeResponse.shipping_charge[0].rajkot_shipping.toDouble()
+                    }
+
+                    R.id.rb_outside_gujarat -> {
+                        binding.rgCity.gone()
+                        binding.tvCity.gone()
+                        shippingCharge =
+                            shippingChargeResponse.shipping_charge[0].outof_gujarat_shipping.toDouble()
+
+                    }
+                }
+            }
+        }
+
+        if (shippingChargeResponse.shipping_charge[0].gujarat_active == "yes") {
+            binding.rbGujarat.visible()
+            binding.rbGujarat.isChecked = true
+        } else {
+            binding.rbGujarat.gone()
+        }
+
+        if (shippingChargeResponse.shipping_charge[0].outofgujarat_active == "yes") {
+            binding.rbOutsideGujarat.visible()
+        } else {
+            binding.rbOutsideGujarat.gone()
+        }
     }
 
     private fun handleResponse(registerResponse: RegisterResponse?) {
@@ -121,7 +202,6 @@ class CheckoutActivity : AppCompatActivity() {
         } else {
             showSnackBar(getString(R.string.something_went_wrong), this)
         }
-
     }
 
     private fun areFieldsValid(): Boolean {

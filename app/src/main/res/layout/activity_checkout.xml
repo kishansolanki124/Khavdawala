@@ -16,6 +16,10 @@
         android:scaleType="centerCrop"
         android:src="@drawable/banner_top3" />
 
+    <include
+        android:id="@+id/loading"
+        layout="@layout/loading_indicator" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,6 +27,7 @@
         android:layout_marginVertical="@dimen/dp_5">
 
         <RelativeLayout
+            android:id="@+id/rl_checkout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/dp_10">
@@ -114,41 +119,45 @@
                     android:text="@string/Address_Information" />
 
                 <RadioGroup
+                    android:id="@+id/rg_state"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/tvGujarat"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Gujarat"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/sp_14" />
+                        android:id="@+id/rb_gujarat"
+                        style="@style/CommonRadioButton"
+                        android:text="@string/Gujarat" />
 
                     <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/tvOutsideGuj"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Outside Gujarat"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/sp_14" />
+                        android:id="@+id/rb_outside_gujarat"
+                        style="@style/CommonRadioButton"
+                        android:text="@string/Outside_Gujarat" />
+                </RadioGroup>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_city"
+                    style="@style/CheckoutTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:text="@string/Select_City"
+                    android:textSize="@dimen/sp_16" />
+
+                <RadioGroup
+                    android:id="@+id/rg_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/tvRajkot"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Rajkot"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/sp_14" />
+                        android:id="@+id/rb_rajkot"
+                        style="@style/CommonRadioButton"
+                        android:text="@string/Rajkot" />
 
                     <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/tvOutSideRaj"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Outside Rajkot"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/sp_14" />
+                        android:id="@+id/rb_outside_rajkot"
+                        style="@style/CommonRadioButton"
+                        android:text="@string/Outside_Rajkot" />
                 </RadioGroup>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -157,58 +166,65 @@
                     android:layout_marginTop="@dimen/dp_10"
                     android:text="@string/Checkout_Details" />
 
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/et_mobile"
-                    style="@style/CommonEditText"
-                    android:hint="@string/mobile_no"
-                    android:imeOptions="actionNext"
-                    android:inputType="numberSigned"
-                    android:maxLength="10" />
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_checkout_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/et_city"
-                    style="@style/CommonEditText"
-                    android:hint="@string/City"
-                    android:imeOptions="actionNext"
-                    android:inputType="textCapWords" />
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_mobile"
+                        style="@style/CommonEditText"
+                        android:hint="@string/mobile_no"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberSigned"
+                        android:maxLength="10" />
 
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/et_name"
-                    style="@style/CommonEditText"
-                    android:hint="@string/your_name"
-                    android:imeOptions="actionNext"
-                    android:inputType="textCapWords" />
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_city"
+                        style="@style/CommonEditText"
+                        android:hint="@string/City"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords" />
 
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/et_email"
-                    style="@style/CommonEditText"
-                    android:hint="@string/your_email"
-                    android:imeOptions="actionNext"
-                    android:inputType="textEmailAddress" />
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_name"
+                        style="@style/CommonEditText"
+                        android:hint="@string/your_name"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords" />
 
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/et_delivery_address"
-                    style="@style/CommonEditText"
-                    android:gravity="top|start"
-                    android:hint="@string/Delivery_Address"
-                    android:imeOptions="actionNext"
-                    android:inputType="textPostalAddress|textMultiLine"
-                    android:minLines="4" />
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_email"
+                        style="@style/CommonEditText"
+                        android:hint="@string/your_email"
+                        android:imeOptions="actionNext"
+                        android:inputType="textEmailAddress" />
 
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/et_notes"
-                    style="@style/CommonEditText"
-                    android:gravity="top|start"
-                    android:hint="@string/Notes_if_any"
-                    android:imeOptions="actionDone"
-                    android:inputType="textMultiLine"
-                    android:minLines="4" />
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_delivery_address"
+                        style="@style/CommonEditText"
+                        android:gravity="top|start"
+                        android:hint="@string/Delivery_Address"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPostalAddress|textMultiLine"
+                        android:minLines="4" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_notes"
+                        style="@style/CommonEditText"
+                        android:gravity="top|start"
+                        android:hint="@string/Notes_if_any"
+                        android:imeOptions="actionDone"
+                        android:inputType="textMultiLine"
+                        android:minLines="4" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.AppCompatCheckBox
                     android:id="@+id/cbGiftPack"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:buttonTint="@color/btnBG"
+                    android:buttonTint="@color/black"
                     android:fontFamily="@font/medium"
                     android:text="@string/gift_packing_"
                     android:textColor="@color/black"
@@ -219,7 +235,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/dp_10"
-                    android:buttonTint="@color/btnBG"
+                    android:buttonTint="@color/black"
                     android:fontFamily="@font/medium"
                     android:text="@string/i_agree_"
                     android:textColor="@color/black"

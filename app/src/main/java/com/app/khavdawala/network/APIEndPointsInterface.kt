@@ -110,7 +110,7 @@ interface APIEndPointsInterface {
         @Body hashMap: MultipartBody
     ): RegisterResponse
 
-//    @POST(AppConstants.APIEndPoints.GET_VATAN_NU_GHAM_DETAIL)
+    //    @POST(AppConstants.APIEndPoints.GET_VATAN_NU_GHAM_DETAIL)
 //    suspend fun getVatanNuGhamDetail(
 //        @Body hashMap: MultipartBody
 //    ): VatanNuGhamDetailResponse
@@ -184,6 +184,9 @@ interface APIEndPointsInterface {
     suspend fun addOrder(
         @Body hashMap: MultipartBody
     ): RegisterResponse
+
+    @POST(AppConstants.APIEndPoints.GET_SHIPPING_CHARGE)
+    suspend fun getShippingCharge(): ShippingChargeResponse
 
 //
 //    //multipart/form-data

@@ -51,4 +51,9 @@
     <string name="gift">Gift</string>
     <string name="i_agree_">I Agree : (Terms And Condition)</string>
     <string name="update_now">UPDATE NOW</string>
+    <string name="Gujarat">Gujarat</string>
+    <string name="Outside_Gujarat">Outside Gujarat</string>
+    <string name="Rajkot">Rajkot</string>
+    <string name="Outside_Rajkot">Outside Rajkot</string>
+    <string name="Select_City">Select City</string>
 </resources>
