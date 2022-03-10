@@ -31,7 +31,7 @@
         <entry key="app/src/main/res/drawable/tab_selector.xml" value="0.1655" />
         <entry key="app/src/main/res/drawable/white_rounded_corner_bg.xml" value="0.1655" />
         <entry key="app/src/main/res/layout/activity_cart.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/activity_checkout.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_checkout.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.25" />

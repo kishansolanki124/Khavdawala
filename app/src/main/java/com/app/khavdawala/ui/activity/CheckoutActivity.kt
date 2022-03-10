@@ -13,6 +13,7 @@ import com.app.khavdawala.R
 import com.app.khavdawala.apputils.*
 import com.app.khavdawala.databinding.ActivityCheckoutBinding
 import com.app.khavdawala.pojo.request.OrderPlaceRequest
+import com.app.khavdawala.pojo.response.OrderAddressResponse
 import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.pojo.response.RegisterResponse
 import com.app.khavdawala.pojo.response.ShippingChargeResponse
@@ -42,6 +43,10 @@ class CheckoutActivity : AppCompatActivity() {
             handleShippingChargeResponse(it)
         }
 
+        orderViewModel.addressResponse().observe(this) {
+            handleAddressResponse(it)
+        }
+
         totalAmount = intent.getDoubleExtra(AppConstants.AMOUNT, 0.0)
 
         binding.tvTotalAmount.text = getString(R.string.total_rs, totalAmount.toString())
@@ -51,10 +56,21 @@ class CheckoutActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        binding.etMobile.setText(SPreferenceManager.getInstance(this).session.toString())
-        binding.etName.setText(
-            SPreferenceManager.getInstance(this).getString(AppConstants.NAME, "").toString()
-        )
+        binding.btMobAddress.setOnClickListener {
+            if (binding.etMobile.text.toString().isEmpty()) {
+                showSnackBar(getString(R.string.mobile_no_empty), this)
+            } else if (binding.etMobile.text.toString().length != 10) {
+                showSnackBar(getString(R.string.invalid_mobile_no), this)
+            } else {
+                if (isConnected(this)) {
+                    binding.loadingAddress.pbCommon.visible()
+                    binding.llCheckoutDetails.gone()
+                    orderViewModel.getAddress(binding.etMobile.text.toString())
+                } else {
+                    showSnackBar(getString(R.string.no_internet), this)
+                }
+            }
+        }
 
         binding.btPlaceOrder.setOnClickListener {
 
@@ -121,8 +137,28 @@ class CheckoutActivity : AppCompatActivity() {
             showSnackBar(getString(R.string.no_internet), this)
         }
 
-        binding.tvDeliveryCharge.text = getString(R.string.total_rs, "0")
+        binding.tvDeliveryChargeAmount.text = getString(R.string.total_rs, "0")
         binding.llCheckoutDetails.gone()
+    }
+
+    private fun handleAddressResponse(addressRsponse: OrderAddressResponse?) {
+        binding.loadingAddress.pbCommon.gone()
+        binding.llCheckoutDetails.visible()
+        if (null != addressRsponse) {
+            if (addressRsponse.status == "1") {
+                setAddresField(addressRsponse)
+            }
+        } else {
+            showSnackBar(getString(R.string.something_went_wrong), this)
+        }
+
+    }
+
+    private fun setAddresField(addressRsponse: OrderAddressResponse) {
+        binding.etCity.setText(addressRsponse.address_detail[0].city)
+        binding.etName.setText(addressRsponse.address_detail[0].customer_name)
+        binding.etEmail.setText(addressRsponse.address_detail[0].customer_email)
+        //todo work here
     }
 
     private fun handleShippingChargeResponse(shippingChargeResponse: ShippingChargeResponse?) {

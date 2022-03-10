@@ -166,19 +166,28 @@
                     android:layout_marginTop="@dimen/dp_10"
                     android:text="@string/Checkout_Details" />
 
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/et_mobile"
+                    style="@style/CommonEditText"
+                    android:hint="@string/mobile_no"
+                    android:imeOptions="actionNext"
+                    android:inputType="numberSigned"
+                    android:maxLength="10" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/bt_mob_address"
+                    style="@style/CommonButton"
+                    android:text="@string/Continue" />
+
+                <include
+                    android:id="@+id/loading_address"
+                    layout="@layout/loading_indicator"/>
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_checkout_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/et_mobile"
-                        style="@style/CommonEditText"
-                        android:hint="@string/mobile_no"
-                        android:imeOptions="actionNext"
-                        android:inputType="numberSigned"
-                        android:maxLength="10" />
 
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/et_city"
@@ -218,34 +227,34 @@
                         android:imeOptions="actionDone"
                         android:inputType="textMultiLine"
                         android:minLines="4" />
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/cbGiftPack"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="@color/black"
+                        android:fontFamily="@font/medium"
+                        android:text="@string/gift_packing_"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp_14" />
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/cbIAgree"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp_10"
+                        android:buttonTint="@color/black"
+                        android:fontFamily="@font/medium"
+                        android:text="@string/i_agree_"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/sp_14" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/bt_place_order"
+                        style="@style/CommonButton"
+                        android:layout_margin="@dimen/dp_0"
+                        android:text="@string/Submit" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
-
-                <androidx.appcompat.widget.AppCompatCheckBox
-                    android:id="@+id/cbGiftPack"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="@color/black"
-                    android:fontFamily="@font/medium"
-                    android:text="@string/gift_packing_"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_14" />
-
-                <androidx.appcompat.widget.AppCompatCheckBox
-                    android:id="@+id/cbIAgree"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp_10"
-                    android:buttonTint="@color/black"
-                    android:fontFamily="@font/medium"
-                    android:text="@string/i_agree_"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_14" />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/bt_place_order"
-                    style="@style/CommonButton"
-                    android:layout_margin="@dimen/dp_0"
-                    android:text="@string/Submit" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </RelativeLayout>
     </ScrollView>

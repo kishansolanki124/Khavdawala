@@ -185,6 +185,12 @@ interface APIEndPointsInterface {
         @Body hashMap: MultipartBody
     ): RegisterResponse
 
+    //multipart/form-data
+    @POST(AppConstants.APIEndPoints.GET_ADDRESS)
+    suspend fun getAddress(
+        @Body hashMap: MultipartBody
+    ): OrderAddressResponse
+
     @POST(AppConstants.APIEndPoints.GET_SHIPPING_CHARGE)
     suspend fun getShippingCharge(): ShippingChargeResponse
 

@@ -8,6 +8,7 @@ import app.app.patidarsaurabh.apputils.AppConstants
 import com.app.khavdawala.network.APIEndPointsInterface
 import com.app.khavdawala.network.RetrofitFactory
 import com.app.khavdawala.pojo.request.OrderPlaceRequest
+import com.app.khavdawala.pojo.response.OrderAddressResponse
 import com.app.khavdawala.pojo.response.RegisterResponse
 import com.app.khavdawala.pojo.response.ShippingChargeResponse
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +19,7 @@ import okhttp3.MultipartBody
 class OrderViewModel : ViewModel() {
 
     private val mutableSignupResponseModel = MutableLiveData<RegisterResponse>()
+    private val mutableAddressResponse = MutableLiveData<OrderAddressResponse>()
     private val mutableShippingChargeResponse = MutableLiveData<ShippingChargeResponse>()
     private var apiEndPointsInterface =
         RetrofitFactory.createService(APIEndPointsInterface::class.java)
@@ -133,6 +135,31 @@ class OrderViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Dispatchers.IO for network or disk operations that takes longer time and runs in background thread
+     */
+    fun getAddress(mobileNo: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val requestBodyBuilder = MultipartBody.Builder().setType(MultipartBody.FORM)
+                requestBodyBuilder.addFormDataPart(
+                    AppConstants.RequestParameters.mobile_no,
+                    mobileNo
+                )
+                val apiResponse = apiEndPointsInterface.getAddress(requestBodyBuilder.build())
+                returnAddressResponse(apiResponse)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private suspend fun returnAddressResponse(apiResponse: OrderAddressResponse) {
+        withContext(Dispatchers.Main) {
+            mutableAddressResponse.value = apiResponse
+        }
+    }
+
     private suspend fun returnShippingCharge(shippingChargeResponse: ShippingChargeResponse) {
         withContext(Dispatchers.Main) {
             mutableShippingChargeResponse.value = shippingChargeResponse
@@ -154,5 +181,9 @@ class OrderViewModel : ViewModel() {
 
     fun shippingChargeResponse(): LiveData<ShippingChargeResponse> {
         return mutableShippingChargeResponse
+    }
+
+    fun addressResponse(): LiveData<OrderAddressResponse> {
+        return mutableAddressResponse
     }
 }
