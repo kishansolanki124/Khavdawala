@@ -75,6 +75,8 @@ class CheckoutActivity : AppCompatActivity() {
         binding.btPlaceOrder.setOnClickListener {
             if (areFieldsValid()) {
                 if (isConnected(this)) {
+                    binding.btPlaceOrder.invisible()
+                    binding.pbPlaceOrder.visible()
                     var totalWeightInGrams = 0.0
                     var productId = ""
                     var productName = ""
@@ -255,8 +257,9 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     private fun handleResponse(registerResponse: RegisterResponse?) {
+        binding.btPlaceOrder.visible()
+        binding.pbPlaceOrder.gone()
         if (null != registerResponse) {
-            println(registerResponse)
             if (registerResponse.status.toInt() == 1) {
                 showAlertToClearCart(registerResponse.message)
             } else {
