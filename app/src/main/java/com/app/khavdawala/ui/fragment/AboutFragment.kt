@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.app.khavdawala.R
+import com.app.khavdawala.apputils.gone
 import com.app.khavdawala.apputils.isConnected
 import com.app.khavdawala.apputils.showSnackBar
+import com.app.khavdawala.apputils.visible
 import com.app.khavdawala.databinding.FragmentAboutBinding
 import com.app.khavdawala.pojo.response.StaticPageResponse
 import com.app.khavdawala.ui.adapter.TabFragmentAdapter
@@ -43,10 +45,10 @@ class AboutFragment : Fragment() {
     }
 
     private fun handleResponse(staticPageResponse: StaticPageResponse?) {
-        binding.pbHome.visibility = View.GONE
+        binding.loading.pbCommon.gone()
         if (null != staticPageResponse) {
-            binding.vpStaticPage.visibility = View.VISIBLE
-            binding.tabLayout.visibility = View.VISIBLE
+            binding.vpStaticPage.visible()
+            binding.tabLayout.visible()
             setupViewPager(staticPageResponse.staticpage)
         } else {
             showSnackBar(getString(R.string.something_went_wrong), requireActivity())
@@ -84,9 +86,9 @@ class AboutFragment : Fragment() {
 
     private fun fetchMagazineList() {
         if (isConnected(requireContext())) {
-            binding.vpStaticPage.visibility = View.GONE
-            binding.tabLayout.visibility = View.GONE
-            binding.pbHome.visibility = View.VISIBLE
+            binding.vpStaticPage.gone()
+            binding.tabLayout.gone()
+            binding.loading.pbCommon.visible()
             staticPageViewModel.getStaticPage()
         } else {
             showSnackBar(getString(R.string.no_internet), requireActivity())
