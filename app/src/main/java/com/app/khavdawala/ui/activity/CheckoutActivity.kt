@@ -149,12 +149,12 @@ class CheckoutActivity : AppCompatActivity() {
         binding.llCheckoutDetails.gone()
     }
 
-    private fun handleAddressResponse(addressRsponse: OrderAddressResponse?) {
+    private fun handleAddressResponse(addressResponse: OrderAddressResponse?) {
         binding.loadingAddress.pbCommon.gone()
         binding.llCheckoutDetails.visible()
-        if (null != addressRsponse) {
-            if (addressRsponse.status == "1") {
-                setAddressField(addressRsponse)
+        if (null != addressResponse) {
+            if (addressResponse.status == "1") {
+                setAddressField(addressResponse)
             }
         } else {
             showSnackBar(getString(R.string.something_went_wrong), this)

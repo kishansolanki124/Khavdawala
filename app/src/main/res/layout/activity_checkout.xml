@@ -27,14 +27,6 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/banner_top3" />
 
-            <include
-                android:id="@+id/loading"
-                layout="@layout/loading_indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/newsHomeViewPager"
-                android:layout_centerHorizontal="true" />
-
             <RelativeLayout
                 android:id="@+id/rl_sbtotal"
                 android:layout_width="match_parent"
@@ -323,6 +315,13 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
         </RelativeLayout>
     </ScrollView>
+
+    <include
+        android:id="@+id/loading"
+        layout="@layout/loading_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true" />
 
     <include
         android:id="@+id/toolbar"
