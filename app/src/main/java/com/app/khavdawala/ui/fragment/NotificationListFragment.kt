@@ -48,7 +48,7 @@ class NotificationListFragment : Fragment() {
 
         if (isConnected(requireContext())) {
             binding.rvNotification.visibility = View.GONE
-            binding.pbHome.visibility = View.VISIBLE
+            binding.loading.pbCommon.visibility = View.VISIBLE
             staticPageViewModel.getNotification()
         } else {
             showSnackBar(getString(R.string.no_internet), requireActivity())
@@ -56,7 +56,7 @@ class NotificationListFragment : Fragment() {
     }
 
     private fun handleResponse(notificationResponse: NotificationResponse?) {
-        binding.pbHome.visibility = View.GONE
+        binding.loading.pbCommon.visibility = View.GONE
         if (null != notificationResponse) {
             binding.rvNotification.visibility = View.VISIBLE
             setupList(notificationResponse.notification_list)

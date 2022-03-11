@@ -16,5 +16,5 @@
         android:padding="@dimen/dp_10"
         android:scaleX="0.8"
         android:scaleY="0.8"
-        android:visibility="visible" />
+        android:visibility="gone" />
 </androidx.appcompat.widget.LinearLayoutCompat>
