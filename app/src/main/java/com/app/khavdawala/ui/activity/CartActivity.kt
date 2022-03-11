@@ -108,7 +108,7 @@ class CartActivity : AppCompatActivity() {
             SPreferenceManager.getInstance(this).putList("product", productList)
         }
         binding.rlEmpty.visible()
-        binding.nsvCart.gone()
+        binding.rlCart.gone()
     }
 
     private fun removeFromCart(product: ProductListResponse.Products) {
@@ -162,12 +162,12 @@ class CartActivity : AppCompatActivity() {
                 totalAmount += (item.packing_list[item.selectedItemPosition].product_price.toDouble() * item.itemQuantity)
             }
             binding.tvTotalAmount.text = getString(R.string.total_rs, totalAmount.toString())
-            binding.nsvCart.visible()
+            binding.rlCart.visible()
             binding.rlEmpty.gone()
         } else {
             binding.tvTotalAmount.text = getString(R.string.total_rs, "0")
             binding.rlEmpty.visible()
-            binding.nsvCart.gone()
+            binding.rlCart.gone()
         }
     }
 }

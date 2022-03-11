@@ -10,9 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.app.khavdawala.R
-import com.app.khavdawala.apputils.SPreferenceManager
-import com.app.khavdawala.apputils.isConnected
-import com.app.khavdawala.apputils.showSnackBar
+import com.app.khavdawala.apputils.*
 import com.app.khavdawala.databinding.FragmentCategoryProductListBinding
 import com.app.khavdawala.pojo.request.AddFavRequest
 import com.app.khavdawala.pojo.request.ProductRequest
@@ -46,7 +44,6 @@ class GiftListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.ivCategoryHeader.setBackgroundResource(R.drawable.banner_top)
         binding.tvHeader.text = getString(R.string.gift)
 
         initRecyclerView()
@@ -170,10 +167,6 @@ class GiftListFragment : Fragment() {
                 } else {
                     categoryProductListAdapter.addItems(productListResponse.products_list)
                 }
-
-//                if (productListResponse.banner_list.isNotEmpty()) {
-//                    setupHorizontalMainNews(productListResponse.banner_list)
-//                }
             } else {
                 showSnackBar(productListResponse.message, requireActivity())
             }
@@ -182,22 +175,14 @@ class GiftListFragment : Fragment() {
         } else {
             showSnackBar(getString(R.string.something_went_wrong), requireActivity())
         }
-        binding.ivCategoryHeader.visibility = View.VISIBLE
-        binding.rvProduct.visibility = View.VISIBLE
-        binding.loading.pbCommon.visibility = View.GONE
+        binding.rvProduct.visible()
+        binding.loading.pbCommon.gone()
     }
-
-//    private fun setupHorizontalMainNews(bannerList: java.util.ArrayList<ProductListResponse.Banner>) {
-//        if (bannerList.isNotEmpty()) {
-//            binding.ivCategoryHeader.loadImage(bannerList[0].banner_img)
-//        }
-//    }
 
     private fun getProducts() {
         if (isConnected(requireContext())) {
-            binding.ivCategoryHeader.visibility = View.GONE
-            binding.rvProduct.visibility = View.GONE
-            binding.loading.pbCommon.visibility = View.VISIBLE
+            binding.rvProduct.gone()
+            binding.loading.pbCommon.visible()
             categoryViewModel.getGiftProduct(
                 ProductRequest(
                     start = start, end = end,

@@ -46,6 +46,7 @@ class FavoriteListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.ivCategoryHeader.setBackgroundResource(R.drawable.banner_top6)
+        binding.tvHeader.text = getString(R.string.Favourite)
         initRecyclerView()
 
         categoryViewModel = ViewModelProvider(this)[ProductViewModel::class.java]
