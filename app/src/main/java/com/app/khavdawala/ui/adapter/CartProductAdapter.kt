@@ -82,7 +82,6 @@ class CartProductAdapter(
                 }
 
                 binding.ivDelete.setOnClickListener {
-                    //todo remove from cart
                     removeFromCartClick(newsPortal, position)
                 }
 

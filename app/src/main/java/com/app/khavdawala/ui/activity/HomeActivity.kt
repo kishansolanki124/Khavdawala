@@ -59,14 +59,6 @@ class HomeActivity : AppCompatActivity() {
             true // return true;
         }
 
-//        if (!getCartProductList().isNullOrEmpty()) {
-//            //todo work here
-//            binding.toolbar.tvCartCount.text = getCartProductList().size.toString()
-//            binding.toolbar.flCartCount.visible()
-//        } else {
-//            binding.toolbar.flCartCount.gone()
-//        }
-
         binding.toolbar.rlCart.setOnClickListener {
             startActivity(Intent(this, CartActivity::class.java))
         }
@@ -335,7 +327,6 @@ class HomeActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         if (!getCartProductList().isNullOrEmpty()) {
-            //todo work here
             binding.toolbar.tvCartCount.text = getCartProductList().size.toString()
             binding.toolbar.flCartCount.visible()
         } else {

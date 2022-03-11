@@ -110,8 +110,7 @@ class FavProductListAdapter(
                     )
                 ) {
                     product.available_in_cart = true
-                    //todo work here , change this icon
-                    binding.ivCart.setBackgroundResource(R.drawable.favorite_button_active)
+                    binding.ivCart.setBackgroundResource(R.drawable.cart_icon_active)
                 } else {
                     product.available_in_cart = false
                     binding.ivCart.setBackgroundResource(R.drawable.cart_button)

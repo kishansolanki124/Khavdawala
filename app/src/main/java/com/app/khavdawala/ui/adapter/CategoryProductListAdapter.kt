@@ -107,9 +107,8 @@ class CategoryProductListAdapter(
                         newsPortal.packing_list
                     )
                 ) {
-                    //todo work here , change this icon
                     newsPortal.available_in_cart = true
-                    binding.ivCart.setBackgroundResource(R.drawable.favorite_button_active)
+                    binding.ivCart.setBackgroundResource(R.drawable.cart_icon_active)
                 } else {
                     newsPortal.available_in_cart = false
                     binding.ivCart.setBackgroundResource(R.drawable.cart_button)

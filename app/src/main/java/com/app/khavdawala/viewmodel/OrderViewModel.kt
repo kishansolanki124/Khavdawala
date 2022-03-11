@@ -101,6 +101,14 @@ class OrderViewModel : ViewModel() {
                     registerRequest.packing_price
                 )
                 requestBodyBuilder.addFormDataPart(
+                    AppConstants.RequestParameters.notes,
+                    registerRequest.notes
+                )
+                requestBodyBuilder.addFormDataPart(
+                    AppConstants.RequestParameters.gift_pack,
+                    registerRequest.gift_pack
+                )
+                requestBodyBuilder.addFormDataPart(
                     AppConstants.RequestParameters.order_amount,
                     registerRequest.order_amount
                 )

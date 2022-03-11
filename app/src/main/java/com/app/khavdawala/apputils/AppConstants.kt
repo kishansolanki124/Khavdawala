@@ -123,6 +123,8 @@ interface AppConstants {
             const val packing_weight_type = "packing_weight_type"
             const val packing_quantity = "packing_quantity"
             const val packing_price = "packing_price"
+            const val gift_pack = "gift_pack"
+            const val notes = "notes"
             const val order_amount = "order_amount"
             const val shipping_charge = "shipping_charge"
             const val platform = "platform"

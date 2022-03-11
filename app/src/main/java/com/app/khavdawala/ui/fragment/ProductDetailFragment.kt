@@ -79,6 +79,7 @@ class ProductDetailFragment : Fragment() {
             binding.tvProductCount.text = "1"
             products.itemQuantity = 1
             (requireActivity() as HomeActivity).updateToCart(products)
+            binding.ivCart.setBackgroundResource(R.drawable.cart_icon_active)
         }
 
         binding.tvMinus.setOnClickListener {
@@ -92,6 +93,7 @@ class ProductDetailFragment : Fragment() {
             products.itemQuantity = currentProductCount
 
             if (currentProductCount == 0) {
+                binding.ivCart.setBackgroundResource(R.drawable.cart_button)
                 binding.llBlankItem.visible()
                 binding.llPlusMin.invisible()
                 if (products.available_in_cart) {
@@ -197,8 +199,7 @@ class ProductDetailFragment : Fragment() {
             )
         ) {
             products.available_in_cart = true
-            //todo work here , change this icon
-            binding.ivCart.setBackgroundResource(R.drawable.favorite_button_active)
+            binding.ivCart.setBackgroundResource(R.drawable.cart_icon_active)
         } else {
             products.available_in_cart = false
             binding.ivCart.setBackgroundResource(R.drawable.cart_button)
@@ -322,7 +323,6 @@ class ProductDetailFragment : Fragment() {
                     products.cartPackingId =
                         products.packing_list[dropdownPosition].packing_id
 
-                    //todo work here
                     checkItemExistInCart()
                 }
             }

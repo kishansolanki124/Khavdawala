@@ -18,6 +18,8 @@ data class OrderPlaceRequest(
     val packing_weight_type: String,
     val packing_quantity: String,
     val packing_price: String,
+    val gift_pack: String,
+    val notes: String,
     val order_amount: String,
     val shipping_charge: String,
     val platform: String = "android"

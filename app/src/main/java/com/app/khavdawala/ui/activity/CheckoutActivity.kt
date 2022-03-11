@@ -18,6 +18,7 @@ import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.pojo.response.RegisterResponse
 import com.app.khavdawala.pojo.response.ShippingChargeResponse
 import com.app.khavdawala.viewmodel.OrderViewModel
+import kotlin.math.roundToInt
 
 class CheckoutActivity : AppCompatActivity() {
 
@@ -79,7 +80,6 @@ class CheckoutActivity : AppCompatActivity() {
                 if (isConnected(this)) {
                     binding.btPlaceOrder.invisible()
                     binding.pbPlaceOrder.visible()
-                    var totalWeightInGrams = 0.0
                     var productId = ""
                     var productName = ""
                     var packingId = ""
@@ -100,12 +100,6 @@ class CheckoutActivity : AppCompatActivity() {
                             packingQuantity = item.itemQuantity.toString() + ","
                             packingPrice =
                                 item.packing_list[item.selectedItemPosition].product_price + ","
-
-                            if (item.packing_list[item.selectedItemPosition].weight_type == "GM") {
-                                totalWeightInGrams += (item.packing_list[item.selectedItemPosition].product_weight.toDouble() * item.itemQuantity)
-                            } else if (item.packing_list[item.selectedItemPosition].weight_type == "KG") {
-                                totalWeightInGrams += ((item.packing_list[item.selectedItemPosition].product_weight.toDouble() * 1000) * item.itemQuantity)
-                            }
                         }
                     }
 
@@ -128,6 +122,10 @@ class CheckoutActivity : AppCompatActivity() {
                             packingWeightType,
                             packingQuantity,
                             packingPrice,
+                            if (binding.cbGiftPack.isChecked) {
+                                "yes"
+                            } else "",
+                            binding.etNotes.text.toString(),
                             totalAmount.toString(),
                             shippingCharge.toString(),
                             "android"
@@ -170,6 +168,7 @@ class CheckoutActivity : AppCompatActivity() {
         binding.etSubArea.setText(addressResponse.address_detail[0].sub_area)
         binding.etZip.setText(addressResponse.address_detail[0].zipcode)
         binding.etCity.setText(addressResponse.address_detail[0].city)
+        binding.etDeliveryAddress.setText(addressResponse.address_detail[0].address)
         binding.etMobile.setText(addressResponse.address_detail[0].mobile_no)
         binding.etAlternateMob.setText(addressResponse.address_detail[0].alternate_contact_no)
     }
@@ -190,26 +189,15 @@ class CheckoutActivity : AppCompatActivity() {
             run {
                 when (optionId) {
                     R.id.rb_rajkot -> {
-                        shippingCharge =
-                            shippingChargeResponse.shipping_charge[0].rajkot_shipping.toDouble()
                         binding.etCity.setText(getString(R.string.Rajkot))
                         binding.etState.setText(getString(R.string.Gujarat))
-
-                        binding.tvDeliveryChargeAmount.text =
-                            getString(R.string.total_rs, shippingCharge.toString())
-                        binding.tvGrandTotalAmount.text =
-                            getString(R.string.total_rs, (shippingCharge + totalAmount).toString())
+                        calculateDeliveryCharge()
                     }
 
                     R.id.rb_outside_rajkot -> {
-                        shippingCharge =
-                            shippingChargeResponse.shipping_charge[0].gujarat_shipping.toDouble()
                         binding.etCity.setText("")
                         binding.etState.setText(getString(R.string.Gujarat))
-                        binding.tvDeliveryChargeAmount.text =
-                            getString(R.string.total_rs, shippingCharge.toString())
-                        binding.tvGrandTotalAmount.text =
-                            getString(R.string.total_rs, (shippingCharge + totalAmount).toString())
+                        calculateDeliveryCharge()
                     }
                 }
             }
@@ -222,29 +210,17 @@ class CheckoutActivity : AppCompatActivity() {
                         binding.rgCity.visible()
                         binding.tvCity.visible()
                         binding.rbRajkot.isChecked = true
-                        shippingCharge =
-                            shippingChargeResponse.shipping_charge[0].rajkot_shipping.toDouble()
-
                         binding.etCity.setText(getString(R.string.Rajkot))
                         binding.etState.setText(getString(R.string.Gujarat))
-                        binding.tvDeliveryChargeAmount.text =
-                            getString(R.string.total_rs, shippingCharge.toString())
-                        binding.tvGrandTotalAmount.text =
-                            getString(R.string.total_rs, (shippingCharge + totalAmount).toString())
+                        calculateDeliveryCharge()
                     }
 
                     R.id.rb_outside_gujarat -> {
                         binding.rgCity.gone()
                         binding.tvCity.gone()
-                        shippingCharge =
-                            shippingChargeResponse.shipping_charge[0].outof_gujarat_shipping.toDouble()
-
                         binding.etCity.setText("")
                         binding.etState.setText("")
-                        binding.tvDeliveryChargeAmount.text =
-                            getString(R.string.total_rs, shippingCharge.toString())
-                        binding.tvGrandTotalAmount.text =
-                            getString(R.string.total_rs, (shippingCharge + totalAmount).toString())
+                        calculateDeliveryCharge()
                     }
                 }
             }
@@ -377,5 +353,53 @@ class CheckoutActivity : AppCompatActivity() {
             productList.clear()
             SPreferenceManager.getInstance(this).putList("product", productList)
         }
+    }
+
+    private fun calculateDeliveryCharge() {
+        var totalWeightInGrams = 0.0
+
+        if (!getCartProductList().isNullOrEmpty()) {
+            for (item in getCartProductList()) {
+                if (item.packing_list[item.selectedItemPosition].weight_type == "GM") {
+                    totalWeightInGrams += (item.packing_list[item.selectedItemPosition].product_weight.toDouble() * item.itemQuantity)
+                } else if (item.packing_list[item.selectedItemPosition].weight_type == "KG") {
+                    totalWeightInGrams += ((item.packing_list[item.selectedItemPosition].product_weight.toDouble() * 1000) * item.itemQuantity)
+                }
+            }
+        }
+
+        val weightInKg = if (totalWeightInGrams < 999) {
+            1
+        } else {
+            (totalWeightInGrams / 1000).roundToInt()
+        }
+
+        if (binding.rbGujarat.isChecked && binding.rbRajkot.isChecked) {
+            //gujarat, Rajkot
+            //check minimum order value
+            shippingCharge =
+                if (totalAmount < shippingChargeResponse.shipping_charge[0].rajkot_min_amount.toDouble()) {
+                    //Fix, shipping charge applicable
+                    shippingChargeResponse.shipping_charge[0].rajkot_shipping.toDouble()
+                } else {
+                    //no shipping charge
+                    0.0
+                }
+        } else if (binding.rbGujarat.isChecked && binding.rbOutsideRajkot.isChecked) {
+            //gujarat, outside rajkot
+            shippingCharge = shippingChargeResponse.shipping_charge[0].gujarat_shipping.toDouble()
+            shippingCharge = (weightInKg * shippingCharge)
+        } else if (binding.rbOutsideGujarat.isChecked) {
+            //outside gujarat
+            shippingCharge =
+                shippingChargeResponse.shipping_charge[0].outof_gujarat_shipping.toDouble()
+            shippingCharge = (weightInKg * shippingCharge)
+        }
+
+        binding.tvDeliveryChargeAmount.text =
+            getString(R.string.total_rs, shippingCharge.toString())
+
+        binding.tvGrandTotalAmount.text =
+            getString(R.string.total_rs, (shippingCharge + totalAmount).toString())
     }
 }
