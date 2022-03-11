@@ -73,9 +73,9 @@ class CheckoutActivity : AppCompatActivity() {
         }
 
         binding.btPlaceOrder.setOnClickListener {
-
             if (areFieldsValid()) {
                 if (isConnected(this)) {
+                    var totalWeightInGrams = 0.0
                     var productId = ""
                     var productName = ""
                     var packingId = ""
@@ -96,6 +96,12 @@ class CheckoutActivity : AppCompatActivity() {
                             packingQuantity = item.itemQuantity.toString() + ","
                             packingPrice =
                                 item.packing_list[item.selectedItemPosition].product_price + ","
+
+                            if (item.packing_list[item.selectedItemPosition].weight_type == "GM") {
+                                totalWeightInGrams += (item.packing_list[item.selectedItemPosition].product_weight.toDouble() * item.itemQuantity)
+                            } else if (item.packing_list[item.selectedItemPosition].weight_type == "KG") {
+                                totalWeightInGrams += ((item.packing_list[item.selectedItemPosition].product_weight.toDouble() * 1000) * item.itemQuantity)
+                            }
                         }
                     }
 
@@ -103,13 +109,13 @@ class CheckoutActivity : AppCompatActivity() {
                         OrderPlaceRequest(
                             binding.etName.text.toString(),
                             binding.etEmail.text.toString(),
-                            "Kutch",
-                            "Bhuj",
+                            binding.etArea.text.toString(),
+                            binding.etSubArea.text.toString(),
                             binding.etDeliveryAddress.text.toString(),
-                            "370001",
+                            binding.etZip.text.toString(),
                             binding.etCity.text.toString(),
-                            "Gujarat",
-                            "8656265656",
+                            binding.etState.text.toString(),
+                            binding.etAlternateMob.text.toString(),
                             binding.etMobile.text.toString(),
                             productId,
                             productName,
@@ -119,7 +125,7 @@ class CheckoutActivity : AppCompatActivity() {
                             packingQuantity,
                             packingPrice,
                             totalAmount.toString(),
-                            "0",
+                            shippingCharge.toString(),
                             "android"
                         )
                     )
@@ -146,19 +152,22 @@ class CheckoutActivity : AppCompatActivity() {
         binding.llCheckoutDetails.visible()
         if (null != addressRsponse) {
             if (addressRsponse.status == "1") {
-                setAddresField(addressRsponse)
+                setAddressField(addressRsponse)
             }
         } else {
             showSnackBar(getString(R.string.something_went_wrong), this)
         }
-
     }
 
-    private fun setAddresField(addressRsponse: OrderAddressResponse) {
-        binding.etCity.setText(addressRsponse.address_detail[0].city)
-        binding.etName.setText(addressRsponse.address_detail[0].customer_name)
-        binding.etEmail.setText(addressRsponse.address_detail[0].customer_email)
-        //todo work here
+    private fun setAddressField(addressResponse: OrderAddressResponse) {
+        binding.etName.setText(addressResponse.address_detail[0].customer_name)
+        binding.etEmail.setText(addressResponse.address_detail[0].customer_email)
+        binding.etArea.setText(addressResponse.address_detail[0].area)
+        binding.etSubArea.setText(addressResponse.address_detail[0].sub_area)
+        binding.etZip.setText(addressResponse.address_detail[0].zipcode)
+        binding.etCity.setText(addressResponse.address_detail[0].city)
+        binding.etMobile.setText(addressResponse.address_detail[0].mobile_no)
+        binding.etAlternateMob.setText(addressResponse.address_detail[0].alternate_contact_no)
     }
 
     private fun handleShippingChargeResponse(shippingChargeResponse: ShippingChargeResponse?) {
@@ -179,13 +188,20 @@ class CheckoutActivity : AppCompatActivity() {
                     R.id.rb_rajkot -> {
                         shippingCharge =
                             shippingChargeResponse.shipping_charge[0].rajkot_shipping.toDouble()
+                        binding.etCity.setText(getString(R.string.Rajkot))
+                        binding.etState.setText(getString(R.string.Gujarat))
 
+                        binding.tvDeliveryChargeAmount.text =
+                            getString(R.string.total_rs, shippingCharge.toString())
                     }
 
                     R.id.rb_outside_rajkot -> {
                         shippingCharge =
                             shippingChargeResponse.shipping_charge[0].gujarat_shipping.toDouble()
-
+                        binding.etCity.setText("")
+                        binding.etState.setText(getString(R.string.Gujarat))
+                        binding.tvDeliveryChargeAmount.text =
+                            getString(R.string.total_rs, shippingCharge.toString())
                     }
                 }
             }
@@ -200,6 +216,11 @@ class CheckoutActivity : AppCompatActivity() {
                         binding.rbRajkot.isChecked = true
                         shippingCharge =
                             shippingChargeResponse.shipping_charge[0].rajkot_shipping.toDouble()
+
+                        binding.etCity.setText(getString(R.string.Rajkot))
+                        binding.etState.setText(getString(R.string.Gujarat))
+                        binding.tvDeliveryChargeAmount.text =
+                            getString(R.string.total_rs, shippingCharge.toString())
                     }
 
                     R.id.rb_outside_gujarat -> {
@@ -208,6 +229,10 @@ class CheckoutActivity : AppCompatActivity() {
                         shippingCharge =
                             shippingChargeResponse.shipping_charge[0].outof_gujarat_shipping.toDouble()
 
+                        binding.etCity.setText("")
+                        binding.etState.setText("")
+                        binding.tvDeliveryChargeAmount.text =
+                            getString(R.string.total_rs, shippingCharge.toString())
                     }
                 }
             }
@@ -215,7 +240,7 @@ class CheckoutActivity : AppCompatActivity() {
 
         if (shippingChargeResponse.shipping_charge[0].gujarat_active == "yes") {
             binding.rbGujarat.visible()
-            binding.rbGujarat.isChecked = true
+            //binding.rbGujarat.isChecked = true
         } else {
             binding.rbGujarat.gone()
         }
@@ -225,6 +250,8 @@ class CheckoutActivity : AppCompatActivity() {
         } else {
             binding.rbOutsideGujarat.gone()
         }
+
+        binding.rgCity.gone()
     }
 
     private fun handleResponse(registerResponse: RegisterResponse?) {
@@ -241,18 +268,8 @@ class CheckoutActivity : AppCompatActivity() {
     }
 
     private fun areFieldsValid(): Boolean {
-        if (TextUtils.isEmpty(binding.etMobile.text.toString())) {
-            showSnackBar(getString(R.string.mobile_no_empty), this)
-            return false
-        }
-
-        if (binding.etMobile.text.toString().length != 10) {
-            showSnackBar(getString(R.string.invalid_mobile_no), this)
-            return false
-        }
-
-        if (TextUtils.isEmpty(binding.etCity.text.toString())) {
-            showSnackBar(getString(R.string.city_empty), this)
+        if ((!binding.rbGujarat.isChecked) && (!binding.rbOutsideGujarat.isChecked)) {
+            showSnackBar(getString(R.string.kindly_select_any_state), this)
             return false
         }
 
@@ -269,8 +286,43 @@ class CheckoutActivity : AppCompatActivity() {
             return false
         }
 
+        if (TextUtils.isEmpty(binding.etArea.text.toString())) {
+            showSnackBar(getString(R.string.area_empty), this)
+            return false
+        }
+
+        if (TextUtils.isEmpty(binding.etSubArea.text.toString())) {
+            showSnackBar(getString(R.string.sub_area_empty), this)
+            return false
+        }
+
         if (TextUtils.isEmpty(binding.etDeliveryAddress.text.toString())) {
             showSnackBar(getString(R.string.invalid_address), this)
+            return false
+        }
+
+        if (TextUtils.isEmpty(binding.etZip.text.toString())) {
+            showSnackBar(getString(R.string.invalid_zip), this)
+            return false
+        }
+
+        if (TextUtils.isEmpty(binding.etCity.text.toString())) {
+            showSnackBar(getString(R.string.city_empty), this)
+            return false
+        }
+
+        if (TextUtils.isEmpty(binding.etState.text.toString())) {
+            showSnackBar(getString(R.string.state_empty), this)
+            return false
+        }
+
+        if (TextUtils.isEmpty(binding.etAlternateMob.text.toString())) {
+            showSnackBar(getString(R.string.alternate_mobile_no_empty), this)
+            return false
+        }
+
+        if (binding.etAlternateMob.text.toString().length != 10) {
+            showSnackBar(getString(R.string.alternate_invalid_mobile_no), this)
             return false
         }
 
@@ -278,7 +330,6 @@ class CheckoutActivity : AppCompatActivity() {
             showSnackBar(getString(R.string.kindly_accept_tnc), this)
             return false
         }
-
         return true
     }
 

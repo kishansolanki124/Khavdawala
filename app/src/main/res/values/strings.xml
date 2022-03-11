@@ -9,9 +9,16 @@
     <string name="kindly_accept_tnc">Kindly accept T&amp;C.</string>
     <string name="invalid_msg_inq">Kindly enter valid message or inquiry</string>
     <string name="mobile_no_empty">Kindly enter Mobile no.</string>
+    <string name="alternate_mobile_no_empty">Kindly enter Alternate Mobile no.</string>
+    <string name="area_empty">Kindly enter Area.</string>
+    <string name="sub_area_empty">Kindly enter Sub Area.</string>
+    <string name="invalid_zip">Kindly enter valid ZipCode.</string>
     <string name="city_empty">Kindly enter City name</string>
+    <string name="state_empty">Kindly enter Steta name</string>
     <string name="bdate_no_empty">Kindly enter Birth date.</string>
     <string name="invalid_mobile_no">Kindly enter valid Mobile no.</string>
+    <string name="alternate_invalid_mobile_no">Kindly enter valid Alternate Mobile no.</string>
+    <string name="kindly_select_any_state">Kindly select Gujarat or Outside Gujarat</string>
 
     <string name="your_name">You Name</string>
     <string name="your_email">Your Email</string>
@@ -57,4 +64,9 @@
     <string name="Outside_Rajkot">Outside Rajkot</string>
     <string name="Select_City">Select City</string>
     <string name="Continue">Continue</string>
+    <string name="Area">Area</string>
+    <string name="Sub_Area">Sub Area</string>
+    <string name="State">State</string>
+    <string name="Zipcode">Zipcode</string>
+    <string name="alternate_mobile_no">Alternate Mobile No.</string>
 </resources>

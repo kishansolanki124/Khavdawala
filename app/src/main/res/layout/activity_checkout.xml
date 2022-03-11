@@ -18,7 +18,11 @@
 
     <include
         android:id="@+id/loading"
-        layout="@layout/loading_indicator" />
+        layout="@layout/loading_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/newsHomeViewPager"
+        android:layout_centerHorizontal="true" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -170,7 +174,7 @@
                     android:id="@+id/et_mobile"
                     style="@style/CommonEditText"
                     android:hint="@string/mobile_no"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionDone"
                     android:inputType="numberSigned"
                     android:maxLength="10" />
 
@@ -181,20 +185,13 @@
 
                 <include
                     android:id="@+id/loading_address"
-                    layout="@layout/loading_indicator"/>
+                    layout="@layout/loading_indicator" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_checkout_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/et_city"
-                        style="@style/CommonEditText"
-                        android:hint="@string/City"
-                        android:imeOptions="actionNext"
-                        android:inputType="textCapWords" />
 
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/et_name"
@@ -211,6 +208,20 @@
                         android:inputType="textEmailAddress" />
 
                     <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_area"
+                        style="@style/CommonEditText"
+                        android:hint="@string/Area"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_sub_area"
+                        style="@style/CommonEditText"
+                        android:hint="@string/Sub_Area"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/et_delivery_address"
                         style="@style/CommonEditText"
                         android:gravity="top|start"
@@ -218,6 +229,36 @@
                         android:imeOptions="actionNext"
                         android:inputType="textPostalAddress|textMultiLine"
                         android:minLines="4" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_zip"
+                        style="@style/CommonEditText"
+                        android:hint="@string/Zipcode"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberSigned"
+                        android:maxLength="7" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_city"
+                        style="@style/CommonEditText"
+                        android:hint="@string/City"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_state"
+                        style="@style/CommonEditText"
+                        android:hint="@string/State"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_alternate_mob"
+                        style="@style/CommonEditText"
+                        android:hint="@string/alternate_mobile_no"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberSigned"
+                        android:maxLength="10" />
 
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/et_notes"
