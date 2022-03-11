@@ -50,6 +50,8 @@ class CheckoutActivity : AppCompatActivity() {
         totalAmount = intent.getDoubleExtra(AppConstants.AMOUNT, 0.0)
 
         binding.tvTotalAmount.text = getString(R.string.total_rs, totalAmount.toString())
+        binding.tvGrandTotalAmount.text =
+            getString(R.string.total_rs, (shippingCharge + totalAmount).toString())
         binding.toolbar.ibBack.visibility = View.VISIBLE
         binding.toolbar.rlCart.visibility = View.GONE
         binding.toolbar.ibBack.setOnClickListener {
@@ -195,6 +197,8 @@ class CheckoutActivity : AppCompatActivity() {
 
                         binding.tvDeliveryChargeAmount.text =
                             getString(R.string.total_rs, shippingCharge.toString())
+                        binding.tvGrandTotalAmount.text =
+                            getString(R.string.total_rs, (shippingCharge + totalAmount).toString())
                     }
 
                     R.id.rb_outside_rajkot -> {
@@ -204,6 +208,8 @@ class CheckoutActivity : AppCompatActivity() {
                         binding.etState.setText(getString(R.string.Gujarat))
                         binding.tvDeliveryChargeAmount.text =
                             getString(R.string.total_rs, shippingCharge.toString())
+                        binding.tvGrandTotalAmount.text =
+                            getString(R.string.total_rs, (shippingCharge + totalAmount).toString())
                     }
                 }
             }
@@ -223,6 +229,8 @@ class CheckoutActivity : AppCompatActivity() {
                         binding.etState.setText(getString(R.string.Gujarat))
                         binding.tvDeliveryChargeAmount.text =
                             getString(R.string.total_rs, shippingCharge.toString())
+                        binding.tvGrandTotalAmount.text =
+                            getString(R.string.total_rs, (shippingCharge + totalAmount).toString())
                     }
 
                     R.id.rb_outside_gujarat -> {
@@ -235,6 +243,8 @@ class CheckoutActivity : AppCompatActivity() {
                         binding.etState.setText("")
                         binding.tvDeliveryChargeAmount.text =
                             getString(R.string.total_rs, shippingCharge.toString())
+                        binding.tvGrandTotalAmount.text =
+                            getString(R.string.total_rs, (shippingCharge + totalAmount).toString())
                     }
                 }
             }
