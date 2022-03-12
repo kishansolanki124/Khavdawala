@@ -1,23 +1,12 @@
 package com.app.khavdawala.network
 
-import app.app.patidarsaurabh.apputils.AppConstants
+import com.app.khavdawala.apputils.AppConstants
 import com.app.khavdawala.pojo.response.*
 import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface APIEndPointsInterface {
-
-    //    @POST(AppConstants.APIEndPoints.NEWS_CATEGORY)
-//    suspend fun newsCategory(
-//
-//    ): NewsCategoryResponse
-//
-//    @POST(AppConstants.APIEndPoints.GET_SHRADDHANJALI)
-//    suspend fun getShraddhanjali(
-//        @Body hashMap: MultipartBody
-//    ): ShraddhanjaliResponse
-//
 
     @POST(AppConstants.APIEndPoints.GET_SETTINGS)
     suspend fun getSettings(
@@ -183,7 +172,7 @@ interface APIEndPointsInterface {
     @POST(AppConstants.APIEndPoints.ADD_ORDER)
     suspend fun addOrder(
         @Body hashMap: MultipartBody
-    ): RegisterResponse
+    ): AddOrderResponse
 
     //multipart/form-data
     @POST(AppConstants.APIEndPoints.GET_ADDRESS)

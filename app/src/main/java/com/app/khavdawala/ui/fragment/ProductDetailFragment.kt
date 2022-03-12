@@ -1,5 +1,6 @@
 package com.app.khavdawala.ui.fragment
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -21,12 +22,14 @@ import com.app.khavdawala.pojo.request.ProductRequest
 import com.app.khavdawala.pojo.response.AddFavResponse
 import com.app.khavdawala.pojo.response.ProductDetailResponse
 import com.app.khavdawala.pojo.response.ProductListResponse
+import com.app.khavdawala.ui.activity.DisplayPictureActivity
 import com.app.khavdawala.ui.activity.HomeActivity
 import com.app.khavdawala.ui.adapter.HorizontalProductListAdapter
 import com.app.khavdawala.ui.adapter.ProductDetailImagesAdapter
 import com.app.khavdawala.viewmodel.ProductViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import java.io.Serializable
 
 class ProductDetailFragment : Fragment() {
 
@@ -344,12 +347,15 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun setupHorizontalMainNews(scrollNewsList: List<ProductDetailResponse.ProductGallery>) {
-        val adapter = ProductDetailImagesAdapter {
-//            startActivity(
-//                Intent(
-//                    requireActivity(), NewsDetailsActivity::class.java
-//                ).putExtra(AppConstants.NEWS_ID, it.id)
-//            )
+        val adapter = ProductDetailImagesAdapter { item, position ->
+            startActivity(
+                Intent(requireActivity(), DisplayPictureActivity::class.java)
+                    .putExtra(AppConstants.IMAGE_POSITION, position)
+                    .putExtra(
+                        AppConstants.IMAGE_LIST,
+                        scrollNewsList as Serializable
+                    )
+            )
         }
         adapter.setItem(scrollNewsList)
         binding.vpProductDetail.adapter = adapter

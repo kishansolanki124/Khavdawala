@@ -1,26 +1,30 @@
 package com.app.khavdawala.ui.activity
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Patterns
 import android.view.View
-import androidx.appcompat.app.AlertDialog
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import app.app.patidarsaurabh.apputils.AppConstants
 import com.app.khavdawala.R
 import com.app.khavdawala.apputils.*
 import com.app.khavdawala.databinding.ActivityCheckoutBinding
 import com.app.khavdawala.pojo.request.OrderPlaceRequest
+import com.app.khavdawala.pojo.response.AddOrderResponse
 import com.app.khavdawala.pojo.response.OrderAddressResponse
 import com.app.khavdawala.pojo.response.ProductListResponse
-import com.app.khavdawala.pojo.response.RegisterResponse
 import com.app.khavdawala.pojo.response.ShippingChargeResponse
 import com.app.khavdawala.viewmodel.OrderViewModel
+import com.razorpay.Checkout
+import com.razorpay.PaymentResultListener
+import org.json.JSONObject
 import kotlin.math.roundToInt
 
-class CheckoutActivity : AppCompatActivity() {
+class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
 
     private lateinit var binding: ActivityCheckoutBinding
     private lateinit var shippingChargeResponse: ShippingChargeResponse
@@ -33,6 +37,9 @@ class CheckoutActivity : AppCompatActivity() {
 
         binding = ActivityCheckoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //initialising RazorPay SDK
+        Checkout.preload(this)
 
         orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
 
@@ -60,6 +67,7 @@ class CheckoutActivity : AppCompatActivity() {
         }
 
         binding.btMobAddress.setOnClickListener {
+            hideKeyboard(this)
             if (binding.etMobile.text.toString().isEmpty()) {
                 showSnackBar(getString(R.string.mobile_no_empty), this)
             } else if (binding.etMobile.text.toString().length != 10) {
@@ -76,6 +84,7 @@ class CheckoutActivity : AppCompatActivity() {
         }
 
         binding.btPlaceOrder.setOnClickListener {
+            hideKeyboard(this)
             if (areFieldsValid()) {
                 if (isConnected(this)) {
                     binding.btPlaceOrder.invisible()
@@ -228,7 +237,6 @@ class CheckoutActivity : AppCompatActivity() {
 
         if (shippingChargeResponse.shipping_charge[0].gujarat_active == "yes") {
             binding.rbGujarat.visible()
-            //binding.rbGujarat.isChecked = true
         } else {
             binding.rbGujarat.gone()
         }
@@ -242,14 +250,14 @@ class CheckoutActivity : AppCompatActivity() {
         binding.rgCity.gone()
     }
 
-    private fun handleResponse(registerResponse: RegisterResponse?) {
+    private fun handleResponse(addOrderResponse: AddOrderResponse?) {
         binding.btPlaceOrder.visible()
         binding.pbPlaceOrder.gone()
-        if (null != registerResponse) {
-            if (registerResponse.status.toInt() == 1) {
-                showAlertToClearCart(registerResponse.message)
+        if (null != addOrderResponse) {
+            if (addOrderResponse.status.toInt() == 1) {
+                startPayment(addOrderResponse.razorpay_orderid)
             } else {
-                showSnackBar(registerResponse.message, this)
+                showSnackBar(addOrderResponse.message, this)
             }
         } else {
             showSnackBar(getString(R.string.something_went_wrong), this)
@@ -322,9 +330,9 @@ class CheckoutActivity : AppCompatActivity() {
         return true
     }
 
-    private fun showAlertToClearCart(message: String?) {
+    private fun showSuccessPaymentAlert() {
         val alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
-        alertDialogBuilder.setMessage(message)
+        alertDialogBuilder.setMessage(getString(R.string.payment_success_msg))
         alertDialogBuilder.setCancelable(false)
 
         alertDialogBuilder.setPositiveButton(
@@ -401,5 +409,51 @@ class CheckoutActivity : AppCompatActivity() {
 
         binding.tvGrandTotalAmount.text =
             getString(R.string.total_rs, (shippingCharge + totalAmount).toString())
+    }
+
+    private fun startPayment(razorpayOrderId: String) {
+        val checkout = Checkout()
+        checkout.setKeyID(AppConstants.RAZOR_PAY_ID)
+
+        val activity: Activity = this
+        try {
+            val options = JSONObject()
+            options.put("name", binding.etName.text.toString())
+            options.put("description", getString(R.string.app_name))
+            //You can omit the image option to fetch the image from dashboard
+            options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png")
+            options.put("theme.color", "#C51C23")
+            options.put("currency", "INR")
+            options.put("order_id", razorpayOrderId)
+            options.put(
+                "amount",
+                (totalAmount + shippingCharge).toString() + "00"
+            )
+
+            val retryObj = JSONObject()
+            retryObj.put("enabled", true)
+            retryObj.put("max_count", 4)
+            options.put("retry", retryObj)
+
+            val prefill = JSONObject()
+            prefill.put("email", binding.etEmail.text.toString())
+            prefill.put("contact", binding.etMobile.text.toString())
+
+            options.put("prefill", prefill)
+            checkout.open(activity, options)
+        } catch (e: Exception) {
+            Toast.makeText(activity, "Error in payment: " + e.message, Toast.LENGTH_LONG).show()
+            e.printStackTrace()
+        }
+    }
+
+    override fun onPaymentSuccess(razorpayPaymentID: String?) {
+        println("Payment status: Success: $razorpayPaymentID")
+        //todo call new API here
+        showSuccessPaymentAlert()
+    }
+
+    override fun onPaymentError(code: Int, response: String?) {
+        println("Payment status: Error: $response")
     }
 }

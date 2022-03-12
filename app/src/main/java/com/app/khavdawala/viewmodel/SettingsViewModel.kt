@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.app.patidarsaurabh.apputils.AppConstants
+import com.app.khavdawala.apputils.AppConstants
 import com.app.khavdawala.network.APIEndPointsInterface
 import com.app.khavdawala.network.RetrofitFactory
 import com.app.khavdawala.pojo.response.SettingsResponse

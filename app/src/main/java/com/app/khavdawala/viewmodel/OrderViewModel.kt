@@ -4,12 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import app.app.patidarsaurabh.apputils.AppConstants
+import com.app.khavdawala.apputils.AppConstants
 import com.app.khavdawala.network.APIEndPointsInterface
 import com.app.khavdawala.network.RetrofitFactory
 import com.app.khavdawala.pojo.request.OrderPlaceRequest
+import com.app.khavdawala.pojo.response.AddOrderResponse
 import com.app.khavdawala.pojo.response.OrderAddressResponse
-import com.app.khavdawala.pojo.response.RegisterResponse
 import com.app.khavdawala.pojo.response.ShippingChargeResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,7 +18,7 @@ import okhttp3.MultipartBody
 
 class OrderViewModel : ViewModel() {
 
-    private val mutableSignupResponseModel = MutableLiveData<RegisterResponse>()
+    private val mutableSignupResponseModel = MutableLiveData<AddOrderResponse>()
     private val mutableAddressResponse = MutableLiveData<OrderAddressResponse>()
     private val mutableShippingChargeResponse = MutableLiveData<ShippingChargeResponse>()
     private var apiEndPointsInterface =
@@ -177,13 +177,13 @@ class OrderViewModel : ViewModel() {
     /**
      * Dispatchers.Main for UI related stuff which runs on Main thread
      */
-    private suspend fun returnSignupResponse(registerResponse: RegisterResponse) {
+    private suspend fun returnSignupResponse(registerResponse: AddOrderResponse) {
         withContext(Dispatchers.Main) {
             mutableSignupResponseModel.value = registerResponse
         }
     }
 
-    fun registerResponse(): LiveData<RegisterResponse> {
+    fun registerResponse(): LiveData<AddOrderResponse> {
         return mutableSignupResponseModel
     }
 

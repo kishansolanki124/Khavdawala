@@ -69,4 +69,5 @@
     <string name="State">State</string>
     <string name="Zipcode">Zipcode</string>
     <string name="alternate_mobile_no">Alternate Mobile No.</string>
+    <string name="payment_success_msg">Congratulations! Your order is placed successfully.</string>
 </resources>

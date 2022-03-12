@@ -11,8 +11,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import app.app.patidarsaurabh.apputils.AppConstants;
-
 public class SPreferenceManager {
 
     private static final String PREF_NAME = "khavda";

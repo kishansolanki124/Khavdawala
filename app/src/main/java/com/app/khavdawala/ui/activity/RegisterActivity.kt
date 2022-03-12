@@ -8,7 +8,7 @@ import android.text.TextUtils
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import app.app.patidarsaurabh.apputils.AppConstants
+import com.app.khavdawala.apputils.AppConstants
 import com.app.khavdawala.R
 import com.app.khavdawala.apputils.SPreferenceManager
 import com.app.khavdawala.apputils.isConnected

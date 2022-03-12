@@ -1,5 +1,7 @@
 package com.app.khavdawala.pojo.response
 
+import java.io.Serializable
+
 data class ProductDetailResponse(
     var message: String = "",
     var product_detail: List<ProductDetail> = listOf(),
@@ -21,7 +23,7 @@ data class ProductDetailResponse(
         var id: String = "",
         var product_id: String = "",
         var up_pro_img: String = ""
-    )
+    ) : Serializable
 
     data class ProductPacking(
         var packing_id: String = "",
@@ -29,7 +31,7 @@ data class ProductDetailResponse(
         var product_price: String = "",
         var product_weight: String = "",
         var weight_type: String = ""
-    ){
+    ) {
         override fun toString(): String {
             return "Rs. $product_price ($product_weight$weight_type)"
         }

@@ -7,7 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import app.app.patidarsaurabh.apputils.AppConstants
+import com.app.khavdawala.apputils.AppConstants
 import com.app.khavdawala.R
 import com.app.khavdawala.apputils.SPreferenceManager
 import com.app.khavdawala.apputils.getCartProductList
