@@ -1,14 +1,12 @@
 package com.app.khavdawala.ui.activity
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.app.khavdawala.R
 import com.app.khavdawala.apputils.*
@@ -19,6 +17,7 @@ import com.app.khavdawala.pojo.response.OrderAddressResponse
 import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.pojo.response.ShippingChargeResponse
 import com.app.khavdawala.viewmodel.OrderViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import org.json.JSONObject
@@ -331,22 +330,16 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
     }
 
     private fun showSuccessPaymentAlert() {
-        val alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
-        alertDialogBuilder.setMessage(getString(R.string.payment_success_msg))
-        alertDialogBuilder.setCancelable(false)
-
-        alertDialogBuilder.setPositiveButton(
-            getString(android.R.string.ok)
-        ) { dialog, _ ->
-            dialog.dismiss()
-            clearCart()
-            finish()
-        }
-
-        val alertDialog: AlertDialog = alertDialogBuilder.create()
-        alertDialog.show()
-        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-            .setTextColor(ContextCompat.getColor(this, R.color.btnBG))
+        MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme)
+            .setTitle(getString(R.string.app_name))
+            .setMessage(getString(R.string.payment_success_msg))
+            .setCancelable(false)
+            .setPositiveButton(resources.getString(android.R.string.ok)) { dialog, _ ->
+                dialog.dismiss()
+                clearCart()
+                finish()
+            }
+            .show()
     }
 
     private fun clearCart() {

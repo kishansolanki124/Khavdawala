@@ -3,19 +3,14 @@ package com.app.khavdawala.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.app.khavdawala.apputils.AppConstants
 import com.app.khavdawala.R
-import com.app.khavdawala.apputils.SPreferenceManager
-import com.app.khavdawala.apputils.getCartProductList
-import com.app.khavdawala.apputils.gone
-import com.app.khavdawala.apputils.visible
+import com.app.khavdawala.apputils.*
 import com.app.khavdawala.databinding.ActivityCartBinding
 import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.ui.adapter.CartProductAdapter
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class CartActivity : AppCompatActivity() {
 
@@ -61,8 +56,10 @@ class CartActivity : AppCompatActivity() {
         }
 
         binding.btCheckout.setOnClickListener {
-            startActivity(Intent(this, CheckoutActivity::class.java)
-                .putExtra(AppConstants.AMOUNT, totalAmount))
+            startActivity(
+                Intent(this, CheckoutActivity::class.java)
+                    .putExtra(AppConstants.AMOUNT, totalAmount)
+            )
             finish()
         }
 
@@ -70,29 +67,18 @@ class CartActivity : AppCompatActivity() {
     }
 
     private fun showAlertToClearCart() {
-        val alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
-        alertDialogBuilder.setMessage("Are you sure want to clear your Cart? All the items in your cart will be removed.")
-        alertDialogBuilder.setCancelable(false)
-
-        alertDialogBuilder.setPositiveButton(
-            getString(R.string.Clear_Cart)
-        ) { dialog, _ ->
-            dialog.dismiss()
-            clearCart()
-        }
-
-        alertDialogBuilder.setNegativeButton(
-            getString(android.R.string.cancel)
-        ) { dialog, _ ->
-            dialog.dismiss()
-        }
-
-        val alertDialog: AlertDialog = alertDialogBuilder.create()
-        alertDialog.show()
-        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-            .setTextColor(ContextCompat.getColor(this, R.color.btnBG))
-        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-            .setTextColor(ContextCompat.getColor(this, R.color.gray_hint))
+        MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme)
+            .setTitle(getString(R.string.app_name))
+            .setMessage(getString(R.string.Clear_Cart_msg))
+            .setCancelable(false)
+            .setPositiveButton(resources.getString(R.string.Clear_Cart)) { dialog, _ ->
+                dialog.dismiss()
+                clearCart()
+            }
+            .setNegativeButton(resources.getString(android.R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 
     private fun clearCart() {

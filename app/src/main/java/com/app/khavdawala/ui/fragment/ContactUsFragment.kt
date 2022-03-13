@@ -10,8 +10,6 @@ import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.app.khavdawala.R
@@ -22,6 +20,7 @@ import com.app.khavdawala.databinding.FragmentContactUsBinding
 import com.app.khavdawala.pojo.response.ContactUsResponse
 import com.app.khavdawala.pojo.response.RegisterResponse
 import com.app.khavdawala.viewmodel.StaticPageViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ContactUsFragment : Fragment() {
 
@@ -170,19 +169,13 @@ class ContactUsFragment : Fragment() {
     }
 
     private fun showAlertDialog(msg: String) {
-        val alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
-        alertDialogBuilder.setMessage(msg)
-        alertDialogBuilder.setCancelable(false)
-
-        alertDialogBuilder.setPositiveButton(
-            getString(android.R.string.ok)
-        ) { dialog, _ ->
-            dialog.cancel()
-        }
-
-        val alertDialog: AlertDialog = alertDialogBuilder.create()
-        alertDialog.show()
-        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
-            .setTextColor(ContextCompat.getColor(requireContext(), R.color.btnBG))
+        MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
+            .setTitle(resources.getString(R.string.app_name))
+            .setMessage(msg)
+            .setCancelable(false)
+            .setPositiveButton(resources.getString(android.R.string.ok)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 }

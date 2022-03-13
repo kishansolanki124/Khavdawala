@@ -70,4 +70,5 @@
     <string name="Zipcode">Zipcode</string>
     <string name="alternate_mobile_no">Alternate Mobile No.</string>
     <string name="payment_success_msg">Congratulations! Your order is placed successfully.</string>
+    <string name="Clear_Cart_msg">Are you sure want to clear your Cart? All the items in your cart will be removed.</string>
 </resources>

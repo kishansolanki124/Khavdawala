@@ -155,4 +155,25 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/sp_14</item>
     </style>
+
+    <style name="AlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/Alert.Button.Positive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Alert.Button.Neutral</item>
+    </style>
+
+    <style name="Alert.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="rippleColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="Alert.Button.Neutral" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="rippleColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/gray_hint</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
 </resources>
