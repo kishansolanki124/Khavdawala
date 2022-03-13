@@ -56,7 +56,9 @@
     <string name="Notes_if_any">Notes if any</string>
     <string name="gift_packing_">Gift packing : (Please mark the checkbox)</string>
     <string name="gift">Gift</string>
-    <string name="i_agree_">I Agree : (Terms And Condition)</string>
+    <string name="i_agree_1">I Agree :</string>
+    <string name="i_agree_2"> (Terms &amp; Condition)</string>
+    <string name="tnc">Terms &amp; Condition</string>
     <string name="update_now">UPDATE NOW</string>
     <string name="Gujarat">Gujarat</string>
     <string name="Outside_Gujarat">Outside Gujarat</string>

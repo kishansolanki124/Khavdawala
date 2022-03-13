@@ -1,10 +1,15 @@
 package com.app.khavdawala.ui.activity
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.os.Build
 import android.os.Bundle
+import android.text.Html
 import android.text.TextUtils
 import android.util.Patterns
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -12,16 +17,15 @@ import com.app.khavdawala.R
 import com.app.khavdawala.apputils.*
 import com.app.khavdawala.databinding.ActivityCheckoutBinding
 import com.app.khavdawala.pojo.request.OrderPlaceRequest
-import com.app.khavdawala.pojo.response.AddOrderResponse
-import com.app.khavdawala.pojo.response.OrderAddressResponse
-import com.app.khavdawala.pojo.response.ProductListResponse
-import com.app.khavdawala.pojo.response.ShippingChargeResponse
+import com.app.khavdawala.pojo.response.*
 import com.app.khavdawala.viewmodel.OrderViewModel
+import com.app.khavdawala.viewmodel.StaticPageViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import org.json.JSONObject
 import kotlin.math.roundToInt
+
 
 class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
 
@@ -30,6 +34,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
     private var totalAmount = 0.0
     private var shippingCharge = 0.0
     private lateinit var orderViewModel: OrderViewModel
+    private lateinit var staticPageViewModel: StaticPageViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,9 +46,14 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
         Checkout.preload(this)
 
         orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
+        staticPageViewModel = ViewModelProvider(this)[StaticPageViewModel::class.java]
 
         orderViewModel.registerResponse().observe(this) {
             handleResponse(it)
+        }
+
+        staticPageViewModel.categoryResponse().observe(this) {
+            handleStaticPageResponse(it)
         }
 
         orderViewModel.shippingChargeResponse().observe(this) {
@@ -155,6 +165,60 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
 
         binding.tvDeliveryChargeAmount.text = getString(R.string.total_rs, "0")
         binding.llCheckoutDetails.gone()
+
+        highlightTNC()
+    }
+
+    private fun handleStaticPageResponse(staticPageResponse: StaticPageResponse?) {
+        binding.tvTnc.visible()
+        binding.pbTnc.gone()
+        if (null != staticPageResponse) {
+            if (staticPageResponse.status == "1") {
+                for (item in staticPageResponse.staticpage) {
+                    if (item.name.contains("Terms")) {
+                        showTNCDialog(item.description)
+                    }
+                }
+            }
+        } else {
+            showSnackBar(getString(R.string.something_went_wrong), this)
+        }
+    }
+
+    private fun showTNCDialog(description: String) {
+        val dialogBuilder = AlertDialog.Builder(this)
+        val inflater = this.layoutInflater
+        val dialogView: View = inflater.inflate(R.layout.tnc_alert, null)
+        dialogBuilder.setView(dialogView)
+
+        val tncTextView = dialogView.findViewById<View>(R.id.tv_html) as TextView
+        val ivClose = dialogView.findViewById<View>(R.id.iv_close) as ImageView
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            tncTextView.text = Html.fromHtml(description, Html.FROM_HTML_MODE_COMPACT)
+        } else {
+            tncTextView.text = Html.fromHtml(description)
+        }
+
+        val alertDialog: AlertDialog = dialogBuilder.create()
+        alertDialog.show()
+
+        ivClose.setOnClickListener {
+            alertDialog.dismiss()
+        }
+
+
+    }
+
+    private fun highlightTNC() {
+        binding.tvTnc.setOnClickListener {
+            if (isConnected(this)) {
+                binding.pbTnc.visible()
+                binding.tvTnc.invisible()
+                staticPageViewModel.getStaticPage()
+            } else {
+                showSnackBar(getString(R.string.no_internet), this)
+            }
+        }
     }
 
     private fun handleAddressResponse(addressResponse: OrderAddressResponse?) {
