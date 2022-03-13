@@ -56,16 +56,26 @@ class AboutFragment : Fragment() {
     }
 
     private fun setupViewPager(list: List<StaticPageResponse.Staticpage>) {
-        val staticPage: ArrayList<StaticPageResponse.Staticpage> = ArrayList()
+        val staticPageList: ArrayList<StaticPageResponse.Staticpage> = ArrayList()
         val fragmentList: ArrayList<Fragment> = ArrayList()
+        val expandableDetailList: HashMap<String, String> = HashMap()
+
         for (item in list) {
-            if (item.name.contains("About") || item.name.contains("Terms")) {
-                staticPage.add(item)
+            if (item.name.contains("Terms") || item.name.contains("Refund") || item.name.contains("Privacy")
+            ) {
+                expandableDetailList[item.name] = item.description
+            }
+
+            if (item.name.contains("About")) {
+                staticPageList.add(item)
                 fragmentList.add(WebViewFragment.newInstance(item.description, true))
             }
         }
 
-        staticPage.add(StaticPageResponse.Staticpage("", "Contact Us"))
+        staticPageList.add(StaticPageResponse.Staticpage("", "Terms"))
+        fragmentList.add(ExpandableWebDataFragment.newInstance(expandableDetailList))
+
+        staticPageList.add(StaticPageResponse.Staticpage("", "Contact Us"))
         fragmentList.add(ContactUsFragment())
 
         for (i in 0 until binding.tabLayout.tabCount) {
@@ -75,12 +85,12 @@ class AboutFragment : Fragment() {
             tab.requestLayout()
         }
 
-        tabFragmentAdapter = TabFragmentAdapter(this, fragmentList, staticPage.size)
+        tabFragmentAdapter = TabFragmentAdapter(this, fragmentList, staticPageList.size)
         binding.vpStaticPage.adapter = tabFragmentAdapter
         binding.vpStaticPage.isUserInputEnabled = false
 
         TabLayoutMediator(binding.tabLayout, binding.vpStaticPage) { tab, position ->
-            tab.text = staticPage[position].name
+            tab.text = staticPageList[position].name
         }.attach()
     }
 

@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="gray_hint">#737373</color>
+    <color name="dark_gray">#494949</color>
     <color name="btnBG">#C51C23</color>
     <color name="category_header">#FEEED5</color>
 </resources>

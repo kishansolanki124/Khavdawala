@@ -44,6 +44,9 @@
         <entry key="app/src/main/res/layout/dharasabhyo_item.xml" value="0.67" />
         <entry key="app/src/main/res/layout/display_spinner_dropdown_item.xml" value="0.24375" />
         <entry key="app/src/main/res/layout/display_spinner_item.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/expandable_list_child_item.xml" value="0.21614583333333334" />
+        <entry key="app/src/main/res/layout/expandable_list_group_item.xml" value="0.22552083333333334" />
+        <entry key="app/src/main/res/layout/expandable_webview.xml" value="0.262037037037037" />
         <entry key="app/src/main/res/layout/fragment_about.xml" value="0.18" />
         <entry key="app/src/main/res/layout/fragment_category_product_list.xml" value="0.1896969696969697" />
         <entry key="app/src/main/res/layout/fragment_contact_us.xml" value="0.2" />
@@ -55,6 +58,8 @@
         <entry key="app/src/main/res/layout/horizontal_product_list_item.xml" value="1.1" />
         <entry key="app/src/main/res/layout/intro_item.xml" value="0.2916666666666667" />
         <entry key="app/src/main/res/layout/item_zoom_image.xml" value="0.2760416666666667" />
+        <entry key="app/src/main/res/layout/list_group.xml" value="0.34791666666666665" />
+        <entry key="app/src/main/res/layout/list_item.xml" value="0.34791666666666665" />
         <entry key="app/src/main/res/layout/loading_indicator.xml" value="0.30625" />
         <entry key="app/src/main/res/layout/notification_item.xml" value="0.2265625" />
         <entry key="app/src/main/res/layout/simple_spinner_dropdown_item.xml" value="0.2916666666666667" />
