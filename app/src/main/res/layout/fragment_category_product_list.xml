@@ -2,9 +2,10 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@drawable/bg_image"
     android:clickable="true"
+    android:fillViewport="true"
     android:focusable="true"
     android:orientation="vertical">
 
@@ -35,10 +36,10 @@
                 android:layout_gravity="center"
                 android:fontFamily="@font/bold_2"
                 android:gravity="center"
+                android:letterSpacing="0.01"
                 android:padding="@dimen/dp_10"
                 android:textColor="@color/category_header"
                 android:textSize="@dimen/sp_40"
-                android:letterSpacing="0.01"
                 tools:text="sweets" />
         </FrameLayout>
 
