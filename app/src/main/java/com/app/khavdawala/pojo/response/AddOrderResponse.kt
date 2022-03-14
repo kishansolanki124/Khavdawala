@@ -5,5 +5,6 @@ data class AddOrderResponse(
     var order_id: Int = 0,
     var order_no: String = "",
     var razorpay_orderid: String = "",
+    var keyId: String = "",
     var status: String = ""
 )

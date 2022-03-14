@@ -38,6 +38,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/dp_15"
+                    android:padding="@dimen/dp_10"
                     android:background="@drawable/back_button"
                     android:theme="@style/ClickableTextView"
                     android:visibility="gone" />

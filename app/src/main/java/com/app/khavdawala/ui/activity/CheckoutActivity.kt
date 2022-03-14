@@ -2,6 +2,7 @@ package com.app.khavdawala.ui.activity
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.Html
@@ -16,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.app.khavdawala.R
 import com.app.khavdawala.apputils.*
 import com.app.khavdawala.databinding.ActivityCheckoutBinding
+import com.app.khavdawala.pojo.request.AddOrderStatusRequest
 import com.app.khavdawala.pojo.request.OrderPlaceRequest
 import com.app.khavdawala.pojo.response.*
 import com.app.khavdawala.viewmodel.OrderViewModel
@@ -33,6 +35,8 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
     private lateinit var shippingChargeResponse: ShippingChargeResponse
     private var totalAmount = 0.0
     private var shippingCharge = 0.0
+    private var orderNo = ""
+    private var razorPayOrderId = ""
     private lateinit var orderViewModel: OrderViewModel
     private lateinit var staticPageViewModel: StaticPageViewModel
 
@@ -50,6 +54,10 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
 
         orderViewModel.registerResponse().observe(this) {
             handleResponse(it)
+        }
+
+        orderViewModel.addOrderStatusResponse().observe(this) {
+            handleOrderStatusResponse(it)
         }
 
         staticPageViewModel.categoryResponse().observe(this) {
@@ -108,15 +116,15 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
 
                     if (!getCartProductList().isNullOrEmpty()) {
                         for (item in getCartProductList()) {
-                            productId = item.product_id + ","
-                            productName = item.name + ","
-                            packingId = item.cartPackingId + ","
-                            packingWeight =
+                            productId += item.product_id + ","
+                            productName += item.name + ","
+                            packingId += item.cartPackingId + ","
+                            packingWeight +=
                                 item.packing_list[item.selectedItemPosition].product_weight + ","
-                            packingWeightType =
+                            packingWeightType +=
                                 item.packing_list[item.selectedItemPosition].weight_type + ","
-                            packingQuantity = item.itemQuantity.toString() + ","
-                            packingPrice =
+                            packingQuantity += item.itemQuantity.toString() + ","
+                            packingPrice +=
                                 item.packing_list[item.selectedItemPosition].product_price + ","
                         }
                     }
@@ -167,6 +175,19 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
         binding.llCheckoutDetails.gone()
 
         highlightTNC()
+    }
+
+    private fun handleOrderStatusResponse(registerResponse: RegisterResponse?) {
+        binding.btPlaceOrder.visible()
+        binding.pbPlaceOrder.gone()
+        if (null != registerResponse) {
+            if (registerResponse.status == "1") {
+                showSuccessPaymentAlert()
+            }
+        } else {
+            showSnackBar(getString(R.string.something_went_wrong), this)
+        }
+
     }
 
     private fun handleStaticPageResponse(staticPageResponse: StaticPageResponse?) {
@@ -318,7 +339,9 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
         binding.pbPlaceOrder.gone()
         if (null != addOrderResponse) {
             if (addOrderResponse.status.toInt() == 1) {
-                startPayment(addOrderResponse.razorpay_orderid)
+                orderNo = addOrderResponse.order_no
+                razorPayOrderId = addOrderResponse.razorpay_orderid
+                startPayment(addOrderResponse.keyId)
             } else {
                 showSnackBar(addOrderResponse.message, this)
             }
@@ -401,7 +424,11 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
             .setPositiveButton(resources.getString(android.R.string.ok)) { dialog, _ ->
                 dialog.dismiss()
                 clearCart()
-                finish()
+
+                //finish all previous activities
+                val intent = Intent(this, HomeActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
             }
             .show()
     }
@@ -468,20 +495,20 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
             getString(R.string.total_rs, (shippingCharge + totalAmount).toString())
     }
 
-    private fun startPayment(razorpayOrderId: String) {
+    private fun startPayment(keyId: String) {
         val checkout = Checkout()
-        checkout.setKeyID(AppConstants.RAZOR_PAY_ID)
+        checkout.setKeyID(keyId)
 
         val activity: Activity = this
         try {
             val options = JSONObject()
-            options.put("name", binding.etName.text.toString())
-            options.put("description", getString(R.string.app_name))
-            //You can omit the image option to fetch the image from dashboard
-            options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png")
+            options.put("name", getString(R.string.app_name))
+            options.put("description", "Order From: " + binding.etName.text.toString())
+            options.put("image", "https://khavdawala.com/images/rpay_logo.png")
             options.put("theme.color", "#C51C23")
             options.put("currency", "INR")
-            options.put("order_id", razorpayOrderId)
+            options.put("order_id", razorPayOrderId)
+            options.put("merchant_order_id", orderNo)
             options.put(
                 "amount",
                 (totalAmount + shippingCharge).toString() + "00"
@@ -506,8 +533,15 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
 
     override fun onPaymentSuccess(razorpayPaymentID: String?) {
         println("Payment status: Success: $razorpayPaymentID")
-        //todo call new API here
-        showSuccessPaymentAlert()
+        binding.btPlaceOrder.invisible()
+        binding.pbPlaceOrder.visible()
+        orderViewModel.addOrderStatus(
+            AddOrderStatusRequest(
+                orderNo,
+                razorPayOrderId,
+                razorpayPaymentID.toString()
+            )
+        )
     }
 
     override fun onPaymentError(code: Int, response: String?) {

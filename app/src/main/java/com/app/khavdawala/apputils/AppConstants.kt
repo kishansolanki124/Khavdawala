@@ -10,8 +10,6 @@ interface AppConstants {
         const val SETTINGS: String = "SETTINGS"
         const val NAME: String = "NAME"
         const val AMOUNT: String = "AMOUNT"
-        const val RAZOR_PAY_ID: String =
-            "rzp_test_1PuKWG8pBq4pb3"//todo change this live when making live
     }
 
     interface APIEndPoints {
@@ -19,6 +17,7 @@ interface AppConstants {
             const val BASE_URL = "https://khavdawala.com/khavdawalaapi/"
             const val REGISTRATION: String = "registration"
             const val ADD_ORDER: String = "add_order"
+            const val ADD_ORDER_STATUS: String = "add_order_status"
             const val GET_ADDRESS: String = "get_order_address"
             const val GET_SHIPPING_CHARGE: String = "get_shipping_charge"
             const val GET_CATEGORY: String = "get_category"
@@ -71,6 +70,9 @@ interface AppConstants {
             const val order_amount = "order_amount"
             const val shipping_charge = "shipping_charge"
             const val platform = "platform"
+            const val order_no = "order_no"
+            const val razorpay_orderid = "razorpay_orderid"
+            const val razorpay_paymentid = "razorpay_paymentid"
         }
     }
 }

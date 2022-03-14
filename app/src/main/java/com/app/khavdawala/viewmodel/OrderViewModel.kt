@@ -7,9 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.app.khavdawala.apputils.AppConstants
 import com.app.khavdawala.network.APIEndPointsInterface
 import com.app.khavdawala.network.RetrofitFactory
+import com.app.khavdawala.pojo.request.AddOrderStatusRequest
 import com.app.khavdawala.pojo.request.OrderPlaceRequest
 import com.app.khavdawala.pojo.response.AddOrderResponse
 import com.app.khavdawala.pojo.response.OrderAddressResponse
+import com.app.khavdawala.pojo.response.RegisterResponse
 import com.app.khavdawala.pojo.response.ShippingChargeResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,6 +21,7 @@ import okhttp3.MultipartBody
 class OrderViewModel : ViewModel() {
 
     private val mutableSignupResponseModel = MutableLiveData<AddOrderResponse>()
+    private val mutableRegisterResponse = MutableLiveData<RegisterResponse>()
     private val mutableAddressResponse = MutableLiveData<OrderAddressResponse>()
     private val mutableShippingChargeResponse = MutableLiveData<ShippingChargeResponse>()
     private var apiEndPointsInterface =
@@ -132,6 +135,36 @@ class OrderViewModel : ViewModel() {
     /**
      * Dispatchers.IO for network or disk operations that takes longer time and runs in background thread
      */
+    fun addOrderStatus(addOrderStatusRequest: AddOrderStatusRequest) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val requestBodyBuilder = MultipartBody.Builder().setType(MultipartBody.FORM)
+
+                requestBodyBuilder.addFormDataPart(
+                    AppConstants.RequestParameters.order_no,
+                    addOrderStatusRequest.order_no
+                )
+                requestBodyBuilder.addFormDataPart(
+                    AppConstants.RequestParameters.razorpay_orderid,
+                    addOrderStatusRequest.razorpay_orderid
+                )
+                requestBodyBuilder.addFormDataPart(
+                    AppConstants.RequestParameters.razorpay_paymentid,
+                    addOrderStatusRequest.razorpay_paymentid
+                )
+
+
+                val apiResponse = apiEndPointsInterface.addOrderStatus(requestBodyBuilder.build())
+                returnSignupResponse(apiResponse)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    /**
+     * Dispatchers.IO for network or disk operations that takes longer time and runs in background thread
+     */
     fun getShippingCharge() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
@@ -183,8 +216,21 @@ class OrderViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Dispatchers.Main for UI related stuff which runs on Main thread
+     */
+    private suspend fun returnSignupResponse(registerResponse: RegisterResponse) {
+        withContext(Dispatchers.Main) {
+            mutableRegisterResponse.value = registerResponse
+        }
+    }
+
     fun registerResponse(): LiveData<AddOrderResponse> {
         return mutableSignupResponseModel
+    }
+
+    fun addOrderStatusResponse(): LiveData<RegisterResponse> {
+        return mutableRegisterResponse
     }
 
     fun shippingChargeResponse(): LiveData<ShippingChargeResponse> {

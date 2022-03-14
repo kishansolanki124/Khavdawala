@@ -175,6 +175,12 @@ interface APIEndPointsInterface {
     ): AddOrderResponse
 
     //multipart/form-data
+    @POST(AppConstants.APIEndPoints.ADD_ORDER_STATUS)
+    suspend fun addOrderStatus(
+        @Body hashMap: MultipartBody
+    ): RegisterResponse
+
+    //multipart/form-data
     @POST(AppConstants.APIEndPoints.GET_ADDRESS)
     suspend fun getAddress(
         @Body hashMap: MultipartBody
