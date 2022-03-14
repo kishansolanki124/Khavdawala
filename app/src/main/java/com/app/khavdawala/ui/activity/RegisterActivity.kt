@@ -8,14 +8,14 @@ import android.text.TextUtils
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.app.khavdawala.apputils.AppConstants
 import com.app.khavdawala.R
+import com.app.khavdawala.apputils.AppConstants
 import com.app.khavdawala.apputils.SPreferenceManager
 import com.app.khavdawala.apputils.isConnected
 import com.app.khavdawala.apputils.showSnackBar
 import com.app.khavdawala.databinding.ActivityRegisterBinding
-import com.app.khavdawala.pojo.response.RegisterResponse
 import com.app.khavdawala.pojo.request.RegisterRequest
+import com.app.khavdawala.pojo.response.RegisterResponse
 import com.app.khavdawala.viewmodel.RegisterViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -121,6 +121,7 @@ class RegisterActivity : AppCompatActivity() {
         binding.etBirthDate.setOnClickListener {
             val datePickerDialog = DatePickerDialog(
                 this@RegisterActivity,
+                R.style.DialogTheme,
                 date,
                 myCalendar[Calendar.YEAR],
                 myCalendar[Calendar.MONTH],

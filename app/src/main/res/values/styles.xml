@@ -176,4 +176,8 @@
         <item name="android:textSize">@dimen/sp_14</item>
         <item name="android:textAllCaps">true</item>
     </style>
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/btnBG</item>
+    </style>
 </resources>

@@ -9,6 +9,7 @@ import android.text.Html
 import android.text.TextUtils
 import android.util.Patterns
 import android.view.View
+import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -229,6 +230,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
         }
 
         val alertDialog: AlertDialog = dialogBuilder.create()
+        alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         alertDialog.show()
 
         ivClose.setOnClickListener {
