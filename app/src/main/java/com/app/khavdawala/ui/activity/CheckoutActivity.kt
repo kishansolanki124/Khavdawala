@@ -127,6 +127,14 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
                             packingPrice +=
                                 item.packing_list[item.selectedItemPosition].product_price + ","
                         }
+
+                        productId = productId.removeLastComma()
+                        productName = productName.removeLastComma()
+                        packingId = packingId.removeLastComma()
+                        packingWeight = packingWeight.removeLastComma()
+                        packingWeightType = packingWeightType.removeLastComma()
+                        packingQuantity = packingQuantity.removeLastComma()
+                        packingPrice = packingPrice.removeLastComma()
                     }
 
                     orderViewModel.addOrder(
@@ -522,7 +530,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
             val prefill = JSONObject()
             prefill.put("email", binding.etEmail.text.toString())
             prefill.put("contact", binding.etMobile.text.toString())
-
+            prefill.put("merchant_order_id", orderNo)
             options.put("prefill", prefill)
             checkout.open(activity, options)
         } catch (e: Exception) {

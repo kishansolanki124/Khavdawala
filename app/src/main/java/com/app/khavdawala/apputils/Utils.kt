@@ -71,11 +71,6 @@ fun showSnackBar(message: String?, activity: Activity?) {
     }
 }
 
-//
-fun showToast(text: String, context: Context) {
-    Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
-}
-
 fun Context.showToast(text: String) {
     Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
 }
@@ -463,4 +458,12 @@ fun Context.rateApp() {
             )
         )
     }
+}
+
+fun String.removeLastComma(): String {
+    var str = this
+    if (str.isNotEmpty() && str[str.length - 1] == ',') {
+        str = str.substring(0, str.length - 1)
+    }
+    return str
 }
