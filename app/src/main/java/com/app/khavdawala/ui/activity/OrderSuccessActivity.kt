@@ -24,7 +24,10 @@ class OrderSuccessActivity : AppCompatActivity() {
         binding.toolbar.rlCart.visibility = View.GONE
         binding.toolbar.ibBack.visibility = View.VISIBLE
         binding.toolbar.ibBack.setOnClickListener {
-            startActivity(Intent(this, HomeActivity::class.java))
+            //finish all previous activities
+            val intent = Intent(this, HomeActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
         }
 
         orderId = intent.getStringExtra(AppConstants.orderId)!!
@@ -37,7 +40,9 @@ class OrderSuccessActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
-        startActivity(Intent(this, HomeActivity::class.java))
+        //finish all previous activities
+        val intent = Intent(this, HomeActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
     }
 }
