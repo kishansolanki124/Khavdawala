@@ -40,7 +40,6 @@
     <string name="minus_sign">-</string>
     <string name="digit_1">1</string>
     <string name="you_may_like">You May Also Like</string>
-<!--    <string name="total_rs">Rs. %1$s</string>-->
     <string name="get_in_touch">Get In Touch</string>
     <string name="msg_inq">Your message or inquiry</string>
     <string name="address_">Address :</string>
@@ -71,6 +70,11 @@
     <string name="State">State</string>
     <string name="Zipcode">Zipcode</string>
     <string name="alternate_mobile_no">Alternate Mobile No.</string>
-    <string name="payment_success_msg">Congratulations! Your order is placed successfully.</string>
+    <string name="payment_success_1">Congratulations!</string>
+    <string name="payment_success_2">Your order is placed successfully.</string>
     <string name="Clear_Cart_msg">Are you sure want to clear your Cart? All the items in your cart will be removed.</string>
+    <string name="payment_status">Payment Status</string>
+    <string name="Paid_Amount">Paid Amount:</string>
+    <string name="Order_No">Order No.:</string>
+    <string name="Payment_Id">Payment Id:</string>
 </resources>

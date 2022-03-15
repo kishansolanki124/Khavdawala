@@ -10,6 +10,9 @@ interface AppConstants {
         const val SETTINGS: String = "SETTINGS"
         const val NAME: String = "NAME"
         const val AMOUNT: String = "AMOUNT"
+        const val orderId: String = "orderId"
+        const val paymentId: String = "paymentId"
+        const val totalPaidAmount: String = "totalPaidAmount"
     }
 
     interface APIEndPoints {

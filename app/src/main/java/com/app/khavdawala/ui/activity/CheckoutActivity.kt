@@ -23,7 +23,6 @@ import com.app.khavdawala.pojo.request.OrderPlaceRequest
 import com.app.khavdawala.pojo.response.*
 import com.app.khavdawala.viewmodel.OrderViewModel
 import com.app.khavdawala.viewmodel.StaticPageViewModel
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import org.json.JSONObject
@@ -189,7 +188,18 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
         binding.pbPlaceOrder.gone()
         if (null != registerResponse) {
             if (registerResponse.status == "1") {
-                showSuccessPaymentAlert()
+                clearCart()
+                //finish all previous activities
+                val intent = Intent(this, OrderSuccessActivity::class.java)
+                    .putExtra(AppConstants.orderId, orderNo)
+                    .putExtra(AppConstants.paymentId, razorPayOrderId)
+                    .putExtra(
+                        AppConstants.totalPaidAmount,
+                        (totalAmount + shippingCharge).toString()
+                    )
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                startActivity(intent)
+                //showSuccessPaymentAlert()
             }
         } else {
             showSnackBar(getString(R.string.something_went_wrong), this)
@@ -422,22 +432,22 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
         return true
     }
 
-    private fun showSuccessPaymentAlert() {
-        MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme)
-            .setTitle(getString(R.string.app_name))
-            .setMessage(getString(R.string.payment_success_msg))
-            .setCancelable(false)
-            .setPositiveButton(resources.getString(android.R.string.ok)) { dialog, _ ->
-                dialog.dismiss()
-                clearCart()
-
-                //finish all previous activities
-                val intent = Intent(this, HomeActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(intent)
-            }
-            .show()
-    }
+//    private fun showSuccessPaymentAlert() {
+//        MaterialAlertDialogBuilder(this, R.style.AlertDialogTheme)
+//            .setTitle(getString(R.string.app_name))
+//            .setMessage(getString(R.string.payment_success_msg))
+//            .setCancelable(false)
+//            .setPositiveButton(resources.getString(android.R.string.ok)) { dialog, _ ->
+//                dialog.dismiss()
+//                clearCart()
+//
+//                //finish all previous activities
+//                val intent = Intent(this, HomeActivity::class.java)
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//                startActivity(intent)
+//            }
+//            .show()
+//    }
 
     private fun clearCart() {
         var productList: ArrayList<ProductListResponse.Products>? =
@@ -510,7 +520,10 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
         try {
             val options = JSONObject()
             options.put("name", getString(R.string.app_name))
-            options.put("description", "Order From: " + binding.etName.text.toString() + ", Order No.: "+ orderNo)
+            options.put(
+                "description",
+                "Order From: " + binding.etName.text.toString() + ", Order No.: " + orderNo
+            )
             options.put("image", "https://khavdawala.com/images/rpay_logo.png")
             options.put("theme.color", "#C51C23")
             options.put("currency", "INR")

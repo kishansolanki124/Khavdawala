@@ -34,6 +34,7 @@
         <entry key="app/src/main/res/layout/activity_checkout.xml" value="0.28906955736224027" />
         <entry key="app/src/main/res/layout/activity_display_picture.xml" value="0.2760416666666667" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/activity_order_success.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.25" />
         <entry key="app/src/main/res/layout/category_item.xml" value="0.25" />
