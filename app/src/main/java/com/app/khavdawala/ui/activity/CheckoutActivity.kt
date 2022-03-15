@@ -83,7 +83,9 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
 
         binding.btMobAddress.setOnClickListener {
             hideKeyboard(this)
-            if (binding.etMobile.text.toString().isEmpty()) {
+            if ((!binding.rbGujarat.isChecked) && (!binding.rbOutsideGujarat.isChecked)) {
+                showSnackBar(getString(R.string.kindly_select_any_state), this)
+            } else if (binding.etMobile.text.toString().isEmpty()) {
                 showSnackBar(getString(R.string.mobile_no_empty), this)
             } else if (binding.etMobile.text.toString().length != 10) {
                 showSnackBar(getString(R.string.invalid_mobile_no), this)
@@ -264,10 +266,24 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
         if (null != addressResponse) {
             if (addressResponse.status == "1") {
                 setAddressField(addressResponse)
+            } else {
+                makeAddressFieldsBlank()
             }
         } else {
             showSnackBar(getString(R.string.something_went_wrong), this)
         }
+    }
+
+    private fun makeAddressFieldsBlank() {
+        binding.etName.setText("")
+        binding.etEmail.setText("")
+        binding.etArea.setText("")
+        binding.etSubArea.setText("")
+        binding.etZip.setText("")
+        binding.etState.setText("")
+        binding.etCity.setText("")
+        binding.etDeliveryAddress.setText("")
+        binding.etAlternateMob.setText("")
     }
 
     private fun setAddressField(addressResponse: OrderAddressResponse) {
@@ -335,11 +351,12 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
             }
         }
 
-        if (shippingChargeResponse.shipping_charge[0].gujarat_active == "yes") {
-            binding.rbGujarat.visible()
-        } else {
-            binding.rbGujarat.gone()
-        }
+        binding.rbGujarat.visible()
+//        if (shippingChargeResponse.shipping_charge[0].gujarat_active == "yes") {
+//
+//        } else {
+//            binding.rbGujarat.gone()
+//        }
 
         if (shippingChargeResponse.shipping_charge[0].outofgujarat_active == "yes") {
             binding.rbOutsideGujarat.visible()

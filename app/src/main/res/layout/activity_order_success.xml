@@ -47,7 +47,7 @@
             android:layout_height="@dimen/dp_100"
             android:layout_below="@id/fl_top"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/payment_success_3" />
+            android:src="@drawable/payment_success" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_payment_success_1"

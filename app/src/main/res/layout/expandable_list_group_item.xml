@@ -12,5 +12,5 @@
         android:paddingVertical="@dimen/dp_10"
         android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
         android:textColor="@android:color/black"
-        android:textSize="@dimen/sp_14" />
+        android:textSize="@dimen/sp_16" />
 </LinearLayout>

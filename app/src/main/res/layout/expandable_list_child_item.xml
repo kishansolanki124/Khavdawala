@@ -13,5 +13,5 @@
         android:paddingHorizontal="@dimen/dp_10"
         android:paddingVertical="@dimen/dp_5"
         android:textColor="@color/dark_gray"
-        android:textSize="@dimen/sp_12" />
+        android:textSize="@dimen/sp_14" />
 </LinearLayout>

@@ -18,7 +18,7 @@
     <string name="bdate_no_empty">Kindly enter Birth date.</string>
     <string name="invalid_mobile_no">Kindly enter valid Mobile no.</string>
     <string name="alternate_invalid_mobile_no">Kindly enter valid Alternate Mobile no.</string>
-    <string name="kindly_select_any_state">Kindly select Gujarat or Outside Gujarat</string>
+    <string name="kindly_select_any_state">Kindly select Gujarat or Out of Gujarat</string>
 
     <string name="your_name">You Name</string>
     <string name="your_email">Your Email</string>
@@ -60,9 +60,9 @@
     <string name="tnc">Terms &amp; Condition</string>
     <string name="update_now">UPDATE NOW</string>
     <string name="Gujarat">Gujarat</string>
-    <string name="Outside_Gujarat">Outside Gujarat</string>
+    <string name="Outside_Gujarat">Out of Gujarat</string>
     <string name="Rajkot">Rajkot</string>
-    <string name="Outside_Rajkot">Outside Rajkot</string>
+    <string name="Outside_Rajkot">Out of Rajkot</string>
     <string name="Select_City">Select City</string>
     <string name="Continue">Continue</string>
     <string name="Area">Area</string>
