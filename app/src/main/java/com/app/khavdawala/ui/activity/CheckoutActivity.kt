@@ -27,8 +27,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.razorpay.Checkout
 import com.razorpay.PaymentResultListener
 import org.json.JSONObject
-import kotlin.math.roundToInt
-
 
 class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
 
@@ -75,9 +73,9 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
 
         totalAmount = intent.getDoubleExtra(AppConstants.AMOUNT, 0.0)
 
-        binding.tvTotalAmount.text = getString(R.string.total_rs, totalAmount.toString())
+        binding.tvTotalAmount.text = rupeesWithTwoDecimal(totalAmount)
         binding.tvGrandTotalAmount.text =
-            getString(R.string.total_rs, (shippingCharge + totalAmount).toString())
+            rupeesWithTwoDecimal(shippingCharge + totalAmount)
         binding.toolbar.ibBack.visibility = View.VISIBLE
         binding.toolbar.rlCart.visibility = View.GONE
         binding.toolbar.ibBack.setOnClickListener {
@@ -180,7 +178,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
             showSnackBar(getString(R.string.no_internet), this)
         }
 
-        binding.tvDeliveryChargeAmount.text = getString(R.string.total_rs, "0")
+        binding.tvDeliveryChargeAmount.text = rupeesWithTwoDecimal(0.0)
         binding.llCheckoutDetails.gone()
 
         highlightTNC()
@@ -236,8 +234,6 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
         ivClose.setOnClickListener {
             alertDialog.dismiss()
         }
-
-
     }
 
     private fun highlightTNC() {
@@ -409,15 +405,15 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
             return false
         }
 
-        if (TextUtils.isEmpty(binding.etAlternateMob.text.toString())) {
-            showSnackBar(getString(R.string.alternate_mobile_no_empty), this)
-            return false
-        }
+//        if (TextUtils.isEmpty(binding.etAlternateMob.text.toString())) {
+//            showSnackBar(getString(R.string.alternate_mobile_no_empty), this)
+//            return false
+//        }
 
-        if (binding.etAlternateMob.text.toString().length != 10) {
-            showSnackBar(getString(R.string.alternate_invalid_mobile_no), this)
-            return false
-        }
+//        if (binding.etAlternateMob.text.toString().length != 10) {
+//            showSnackBar(getString(R.string.alternate_invalid_mobile_no), this)
+//            return false
+//        }
 
         if (!binding.cbIAgree.isChecked) {
             showSnackBar(getString(R.string.kindly_accept_tnc), this)
@@ -473,7 +469,8 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
         val weightInKg = if (totalWeightInGrams < 999) {
             1
         } else {
-            (totalWeightInGrams / 1000).roundToInt()
+            //(totalWeightInGrams / 1000).roundToInt()
+            (totalWeightInGrams / 1000)
         }
 
         if (binding.rbGujarat.isChecked && binding.rbRajkot.isChecked) {
@@ -490,19 +487,19 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
         } else if (binding.rbGujarat.isChecked && binding.rbOutsideRajkot.isChecked) {
             //gujarat, outside rajkot
             shippingCharge = shippingChargeResponse.shipping_charge[0].gujarat_shipping.toDouble()
-            shippingCharge = (weightInKg * shippingCharge)
+            shippingCharge = (weightInKg.toDouble() * shippingCharge)
         } else if (binding.rbOutsideGujarat.isChecked) {
             //outside gujarat
             shippingCharge =
                 shippingChargeResponse.shipping_charge[0].outof_gujarat_shipping.toDouble()
-            shippingCharge = (weightInKg * shippingCharge)
+            shippingCharge = (weightInKg.toDouble() * shippingCharge)
         }
 
         binding.tvDeliveryChargeAmount.text =
-            getString(R.string.total_rs, shippingCharge.toString())
+            rupeesWithTwoDecimal(shippingCharge)
 
         binding.tvGrandTotalAmount.text =
-            getString(R.string.total_rs, (shippingCharge + totalAmount).toString())
+            rupeesWithTwoDecimal(shippingCharge + totalAmount)
     }
 
     private fun startPayment(keyId: String) {
@@ -513,7 +510,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
         try {
             val options = JSONObject()
             options.put("name", getString(R.string.app_name))
-            options.put("description", "Order From: " + binding.etName.text.toString())
+            options.put("description", "Order From: " + binding.etName.text.toString() + ", Order No.: "+ orderNo)
             options.put("image", "https://khavdawala.com/images/rpay_logo.png")
             options.put("theme.color", "#C51C23")
             options.put("currency", "INR")
@@ -555,6 +552,6 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
     }
 
     override fun onPaymentError(code: Int, response: String?) {
-        println("Payment status: Error: $response")
+        showToast("Payment status: Error: $response")
     }
 }

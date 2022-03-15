@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.app.khavdawala.R
+import com.app.khavdawala.apputils.rupeesWithTwoDecimal
 import com.app.khavdawala.databinding.CheckoutItemBinding
 import com.app.khavdawala.pojo.response.ProductListResponse
 
@@ -72,7 +72,7 @@ class CartProductAdapter(
                 val amount =
                     newsPortal.packing_list[newsPortal.selectedItemPosition].product_price.toDouble() * newsPortal.itemQuantity
                 binding.tvAmount.text =
-                    binding.tvAmount.context.getString(R.string.total_rs, amount.toString())
+                    rupeesWithTwoDecimal(amount)
                 binding.tvWeight.text =
                     "(${newsPortal.packing_list[newsPortal.selectedItemPosition].product_weight} " +
                             "${newsPortal.packing_list[newsPortal.selectedItemPosition].weight_type})"
@@ -99,10 +99,7 @@ class CartProductAdapter(
                         val newAmount =
                             newsPortal.packing_list[newsPortal.selectedItemPosition].product_price.toDouble() * newsPortal.itemQuantity
                         binding.tvAmount.text =
-                            binding.tvAmount.context.getString(
-                                R.string.total_rs,
-                                newAmount.toString()
-                            )
+                            rupeesWithTwoDecimal(newAmount)
                         updateCartClick(newsPortal, position)
                     }
                 }
@@ -117,8 +114,7 @@ class CartProductAdapter(
 
                     val newAmount =
                         newsPortal.packing_list[newsPortal.selectedItemPosition].product_price.toDouble() * newsPortal.itemQuantity
-                    binding.tvAmount.text =
-                        binding.tvAmount.context.getString(R.string.total_rs, newAmount.toString())
+                    binding.tvAmount.text = rupeesWithTwoDecimal(newAmount)
                     updateCartClick(newsPortal, position)
                 }
             }

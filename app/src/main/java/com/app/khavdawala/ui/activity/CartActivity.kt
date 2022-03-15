@@ -60,7 +60,7 @@ class CartActivity : AppCompatActivity() {
                 Intent(this, CheckoutActivity::class.java)
                     .putExtra(AppConstants.AMOUNT, totalAmount)
             )
-            finish()
+            //finish()
         }
 
         updateTotalCount()
@@ -147,11 +147,11 @@ class CartActivity : AppCompatActivity() {
             for (item in cartProductList) {
                 totalAmount += (item.packing_list[item.selectedItemPosition].product_price.toDouble() * item.itemQuantity)
             }
-            binding.tvTotalAmount.text = getString(R.string.total_rs, totalAmount.toString())
+            binding.tvTotalAmount.text = rupeesWithTwoDecimal(totalAmount)
             binding.rlCart.visible()
             binding.rlEmpty.gone()
         } else {
-            binding.tvTotalAmount.text = getString(R.string.total_rs, "0")
+            binding.tvTotalAmount.text = rupeesWithTwoDecimal(0.0)
             binding.rlEmpty.visible()
             binding.rlCart.gone()
         }

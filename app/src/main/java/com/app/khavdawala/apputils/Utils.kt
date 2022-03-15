@@ -467,3 +467,7 @@ fun String.removeLastComma(): String {
     }
     return str
 }
+
+fun rupeesWithTwoDecimal(value: Double): String {
+    return "Rs. " + String.format("%.2f", value)
+}

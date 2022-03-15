@@ -40,7 +40,7 @@
     <string name="minus_sign">-</string>
     <string name="digit_1">1</string>
     <string name="you_may_like">You May Also Like</string>
-    <string name="total_rs">Rs. %1$s</string>
+<!--    <string name="total_rs">Rs. %1$s</string>-->
     <string name="get_in_touch">Get In Touch</string>
     <string name="msg_inq">Your message or inquiry</string>
     <string name="address_">Address :</string>
