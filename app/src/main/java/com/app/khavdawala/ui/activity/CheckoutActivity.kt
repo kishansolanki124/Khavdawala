@@ -293,6 +293,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
         binding.etSubArea.setText(addressResponse.address_detail[0].sub_area)
         binding.etZip.setText(addressResponse.address_detail[0].zipcode)
         binding.etCity.setText(addressResponse.address_detail[0].city)
+        binding.etState.setText(addressResponse.address_detail[0].state)
         binding.etDeliveryAddress.setText(addressResponse.address_detail[0].address)
         binding.etMobile.setText(addressResponse.address_detail[0].mobile_no)
         binding.etAlternateMob.setText(addressResponse.address_detail[0].alternate_contact_no)
@@ -362,6 +363,12 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
             binding.rbOutsideGujarat.visible()
         } else {
             binding.rbOutsideGujarat.gone()
+        }
+
+        if (shippingChargeResponse.shipping_charge[0].gujarat_active == "yes") {
+            binding.rbOutsideRajkot.visible()
+        } else {
+            binding.rbOutsideRajkot.gone()
         }
 
         binding.rgCity.gone()

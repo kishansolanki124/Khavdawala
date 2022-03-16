@@ -9,6 +9,7 @@ data class OrderAddressResponse(
         var alternate_contact_no: String = "",
         var area: String = "",
         var city: String = "",
+        var state: String = "",
         var address: String = "",
         var customer_email: String = "",
         var customer_name: String = "",
