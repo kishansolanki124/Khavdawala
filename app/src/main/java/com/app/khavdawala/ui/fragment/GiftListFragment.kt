@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -23,8 +24,9 @@ import com.app.khavdawala.viewmodel.ProductViewModel
 
 class GiftListFragment : Fragment() {
 
-    private var start: Int = 0
-    private var end: Int = 10
+    private var loading = false
+    private var totalRecords = 0
+    private var pageNo = 0
 
     private lateinit var categoryProductListAdapter: CategoryProductListAdapter
     private lateinit var categoryViewModel: ProductViewModel
@@ -129,6 +131,28 @@ class GiftListFragment : Fragment() {
         binding.rvProduct.adapter = categoryProductListAdapter
         //disabling blinking effect of recyclerview
         (binding.rvProduct.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+
+        binding.nsvProduct.setOnScrollChangeListener { v: NestedScrollView, _: Int, scrollY: Int, _: Int, oldScrollY: Int ->
+            if (v.getChildAt(v.childCount - 1) != null) {
+                if (scrollY >= v.getChildAt(v.childCount - 1)
+                        .measuredHeight - v.measuredHeight &&
+                    scrollY > oldScrollY
+                ) {
+                    if (!loading && totalRecords != 0 && totalRecords > categoryProductListAdapter.itemCount) {
+                        //code to fetch more data for endless scrolling
+                        pageNo += 10
+                        loading = true
+                        binding.bottomLoading.pbCommon.visible()
+                        categoryViewModel.getGiftProduct(
+                            ProductRequest(
+                                start = pageNo, end = 10,
+                                user_mobile = SPreferenceManager.getInstance(requireContext()).session
+                            )
+                        )
+                    }
+                }
+            }
+        }
     }
 
     private fun callAddToFav(customClass: ProductListResponse.Products) {
@@ -158,10 +182,13 @@ class GiftListFragment : Fragment() {
     }
 
     private fun handleResponse(productListResponse: GiftProductResponse?) {
+        loading = false
+        binding.bottomLoading.pbCommon.gone()
         if (null != productListResponse && productListResponse.status == "1") {
             if (productListResponse.products_list.isNotEmpty()) {
+                totalRecords = productListResponse.total_records
                 productList.addAll(productListResponse.products_list)
-                if (start == 0) {
+                if (pageNo == 0) {
                     categoryProductListAdapter.reset()
                     categoryProductListAdapter.addItems(productList)
                 } else {
@@ -181,11 +208,12 @@ class GiftListFragment : Fragment() {
 
     private fun getProducts() {
         if (isConnected(requireContext())) {
+            loading = true
             binding.rvProduct.gone()
             binding.loading.pbCommon.visible()
             categoryViewModel.getGiftProduct(
                 ProductRequest(
-                    start = start, end = end,
+                    start = pageNo, end = 10,
                     user_mobile = SPreferenceManager.getInstance(requireContext()).session
                 )
             )

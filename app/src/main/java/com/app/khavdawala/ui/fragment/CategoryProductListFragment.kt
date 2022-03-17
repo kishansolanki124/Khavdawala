@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -24,8 +25,9 @@ class CategoryProductListFragment : Fragment() {
 
     private var categoryTitle = ""
     private var cid: Int = 0
-    private var start: Int = 0
-    private var end: Int = 10
+    private var loading = false
+    private var totalRecords = 0
+    private var pageNo = 0
 
     private lateinit var categoryProductListAdapter: CategoryProductListAdapter
     private lateinit var categoryViewModel: ProductViewModel
@@ -121,6 +123,28 @@ class CategoryProductListFragment : Fragment() {
 
         //disabling blinking effect of recyclerview
         (binding.rvProduct.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+
+        binding.nsvProduct.setOnScrollChangeListener { v: NestedScrollView, _: Int, scrollY: Int, _: Int, oldScrollY: Int ->
+            if (v.getChildAt(v.childCount - 1) != null) {
+                if (scrollY >= v.getChildAt(v.childCount - 1)
+                        .measuredHeight - v.measuredHeight &&
+                    scrollY > oldScrollY
+                ) {
+                    if (!loading && totalRecords != 0 && totalRecords > categoryProductListAdapter.itemCount) {
+                        //code to fetch more data for endless scrolling
+                        pageNo += 10
+                        loading = true
+                        binding.bottomLoading.pbCommon.visible()
+                        categoryViewModel.getProductList(
+                            ProductRequest(
+                                cid, pageNo, 10,
+                                SPreferenceManager.getInstance(requireContext()).session
+                            )
+                        )
+                    }
+                }
+            }
+        }
     }
 
     private fun initVIewModel() {
@@ -143,9 +167,10 @@ class CategoryProductListFragment : Fragment() {
         if (isConnected(requireContext())) {
             binding.rvProduct.gone()
             binding.loading.pbCommon.visible()
+            loading = true
             categoryViewModel.getProductList(
                 ProductRequest(
-                    cid, start, end,
+                    cid, pageNo, 10,
                     SPreferenceManager.getInstance(requireContext()).session
                 )
             )
@@ -181,10 +206,13 @@ class CategoryProductListFragment : Fragment() {
     }
 
     private fun handleResponse(productListResponse: ProductListResponse?) {
+        loading = false
+        binding.bottomLoading.pbCommon.gone()
         if (null != productListResponse && productListResponse.status == "1") {
             if (productListResponse.products_list.isNotEmpty()) {
+                totalRecords = productListResponse.total_records
                 productList.addAll(productListResponse.products_list)
-                if (start == 0) {
+                if (pageNo == 0) {
                     categoryProductListAdapter.reset()
                     categoryProductListAdapter.addItems(productList)
                 } else {
