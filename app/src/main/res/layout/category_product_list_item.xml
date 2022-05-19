@@ -172,4 +172,14 @@
             app:layout_constraintStart_toStartOf="@id/ll_buttons"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_product_desc"
+        style="@style/ProductTitle"
+        android:layout_gravity="start|center_vertical"
+        android:fontFamily="@font/regular"
+        android:gravity="start|center_vertical"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/sp_14"
+        tools:text="Sweet" />
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -245,7 +245,13 @@ class ProductDetailFragment : Fragment() {
                 )
             )
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Description"))
+        }
 
+        if (!productDetailResponse.product_availability.isNullOrEmpty()) {
+            binding.tvProductDesc.visible()
+            binding.tvProductDesc.text = productDetailResponse.product_availability
+        } else {
+            binding.tvProductDesc.gone()
         }
 
         if (!productDetailResponse.nutrition.isNullOrEmpty()) {

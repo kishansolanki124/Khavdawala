@@ -1,11 +1,11 @@
 package com.app.khavdawala.network
 
 import android.util.Log
-import com.app.khavdawala.apputils.AppConstants
 import com.app.khavdawala.KhavdaApplication
+import com.app.khavdawala.apputils.AppConstants
+import com.app.khavdawala.apputils.UnsafeOkHttpClient.Companion.getUnsafeOkHttpClient
 import com.app.khavdawala.apputils.sessionExpired
 import okhttp3.Interceptor
-import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
@@ -24,7 +24,8 @@ object RetrofitFactory {
         .baseUrl(AppConstants.APIEndPoints.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .client(
-            OkHttpClient.Builder()
+            //OkHttpClient.Builder()
+            getUnsafeOkHttpClient()
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
                 .writeTimeout(30, TimeUnit.SECONDS)

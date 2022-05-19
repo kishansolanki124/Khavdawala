@@ -14,6 +14,7 @@ data class ProductDetailResponse(
         var description: String? = null,
         var name: String = "",
         var favourite: String = "",
+        var product_availability: String ?= null,
         var nutrition: String? = null,
         var price: String = "",
         var product_id: String = ""

@@ -23,6 +23,7 @@ data class ProductListResponse(
         var price: String = "",
         var product_id: String = "",
         var favourite: String = "",
+        var product_availability: String ?= null,
         var available_in_cart: Boolean = false,
         var up_pro_img: String = ""
     ) {

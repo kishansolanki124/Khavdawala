@@ -218,6 +218,14 @@ class FavProductListAdapter(
                     binding.llBlankItem.visible()
                     binding.llPlusMin.invisible()
                 }
+
+                if (!product.product_availability.isNullOrEmpty()) {
+                    binding.tvProductDesc.visible()
+                    binding.tvProductDesc.text = product.product_availability
+                } else {
+                    binding.tvProductDesc.invisible()
+                }
+
             }
         }
     }

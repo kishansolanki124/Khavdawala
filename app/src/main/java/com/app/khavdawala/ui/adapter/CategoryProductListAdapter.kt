@@ -241,6 +241,13 @@ class CategoryProductListAdapter(
                     binding.llPlusMin.invisible()
                 }
 
+                if (!newsPortal.product_availability.isNullOrEmpty()) {
+                    binding.tvProductDesc.visible()
+                    binding.tvProductDesc.text = newsPortal.product_availability
+                } else {
+                    binding.tvProductDesc.invisible()
+                }
+
 //                binding.tvMinus.setOnClickListener {
 //                    var currentProductCount = binding.tvProductCount.text.toString().toInt()
 //                    if (currentProductCount != 0) {
