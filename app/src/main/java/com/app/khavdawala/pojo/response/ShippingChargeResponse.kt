@@ -3,6 +3,7 @@ package com.app.khavdawala.pojo.response
 data class ShippingChargeResponse(
     var message: String = "",
     var shipping_charge: List<ShippingCharge> = listOf(),
+    var banner_list: ArrayList<ProductListResponse.Banner> = ArrayList(),
     var status: String = ""
 ) {
     data class ShippingCharge(

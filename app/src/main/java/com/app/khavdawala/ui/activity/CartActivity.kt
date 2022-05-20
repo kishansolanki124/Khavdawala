@@ -4,17 +4,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.khavdawala.R
 import com.app.khavdawala.apputils.*
 import com.app.khavdawala.databinding.ActivityCartBinding
 import com.app.khavdawala.pojo.response.ProductListResponse
+import com.app.khavdawala.pojo.response.ShippingChargeResponse
 import com.app.khavdawala.ui.adapter.CartProductAdapter
+import com.app.khavdawala.viewmodel.OrderViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class CartActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCartBinding
+    private lateinit var orderViewModel: OrderViewModel
     private lateinit var govtWorkNewsAdapter: CartProductAdapter
     private lateinit var layoutManager: LinearLayoutManager
     private var totalAmount = 0.0
@@ -25,6 +29,7 @@ class CartActivity : AppCompatActivity() {
         binding = ActivityCartBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.tvHeader.text = getString(R.string.Cart)
         binding.toolbar.rlCart.visibility = View.GONE
         binding.toolbar.ibBack.visibility = View.VISIBLE
         binding.toolbar.ibBack.setOnClickListener {
@@ -64,6 +69,17 @@ class CartActivity : AppCompatActivity() {
         }
 
         updateTotalCount()
+
+        orderViewModel = ViewModelProvider(this)[OrderViewModel::class.java]
+        if (isConnected(this)) {
+            orderViewModel.getShippingCharge()
+        } else {
+            showSnackBar(getString(R.string.no_internet), this)
+        }
+
+        orderViewModel.shippingChargeResponse().observe(this) {
+            handleShippingChargeResponse(it)
+        }
     }
 
     private fun showAlertToClearCart() {
@@ -154,6 +170,25 @@ class CartActivity : AppCompatActivity() {
             binding.tvTotalAmount.text = rupeesWithTwoDecimal(0.0)
             binding.rlEmpty.visible()
             binding.rlCart.gone()
+        }
+    }
+
+    private fun handleShippingChargeResponse(shippingChargeResponse: ShippingChargeResponse?) {
+        if (null != shippingChargeResponse) {
+            setupHorizontalMainNews(shippingChargeResponse.banner_list)
+        } else {
+            showSnackBar(getString(R.string.something_went_wrong), this)
+        }
+    }
+
+    private fun setupHorizontalMainNews(bannerList: java.util.ArrayList<ProductListResponse.Banner>) {
+        if (bannerList.isNotEmpty()) {
+            for (item in bannerList) {
+                if (item.banner_name == "Cart") {
+                    binding.ivCategoryHeader.loadImage(item.banner_img)
+                    break
+                }
+            }
         }
     }
 }

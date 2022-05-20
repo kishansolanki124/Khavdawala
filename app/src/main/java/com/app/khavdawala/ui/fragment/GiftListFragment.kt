@@ -194,6 +194,9 @@ class GiftListFragment : Fragment() {
                 } else {
                     categoryProductListAdapter.addItems(productListResponse.products_list)
                 }
+                if (productListResponse.banner_list.isNotEmpty()) {
+                    setupHorizontalMainNews(productListResponse.banner_list)
+                }
             } else {
                 showSnackBar(productListResponse.message, requireActivity())
             }
@@ -204,6 +207,12 @@ class GiftListFragment : Fragment() {
         }
         binding.rvProduct.visible()
         binding.loading.pbCommon.gone()
+    }
+
+    private fun setupHorizontalMainNews(bannerList: java.util.ArrayList<ProductListResponse.Banner>) {
+        if (bannerList.isNotEmpty()) {
+            binding.ivCategoryHeader.loadImage(bannerList[0].banner_img)
+        }
     }
 
     private fun getProducts() {

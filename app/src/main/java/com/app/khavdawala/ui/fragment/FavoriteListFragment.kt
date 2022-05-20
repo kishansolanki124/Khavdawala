@@ -45,7 +45,7 @@ class FavoriteListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.ivCategoryHeader.setBackgroundResource(R.drawable.banner_top6)
+        //binding.ivCategoryHeader.setBackgroundResource(R.drawable.banner_top6)
         binding.tvHeader.text = getString(R.string.Favourite)
         initRecyclerView()
 
@@ -161,6 +161,9 @@ class FavoriteListFragment : Fragment() {
                 } else {
                     categoryProductListAdapter.addItems(productListResponse.products_list)
                 }
+                if (productListResponse.banner_list.isNotEmpty()) {
+                    setupHorizontalMainNews(productListResponse.banner_list)
+                }
             } else {
                 showSnackBar(productListResponse.message, requireActivity())
             }
@@ -186,6 +189,12 @@ class FavoriteListFragment : Fragment() {
             )
         } else {
             showSnackBar(getString(R.string.no_internet), requireActivity())
+        }
+    }
+
+    private fun setupHorizontalMainNews(bannerList: java.util.ArrayList<ProductListResponse.Banner>) {
+        if (bannerList.isNotEmpty()) {
+            binding.ivCategoryHeader.loadImage(bannerList[0].banner_img)
         }
     }
 }

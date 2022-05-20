@@ -7,11 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.app.khavdawala.R
-import com.app.khavdawala.apputils.gone
-import com.app.khavdawala.apputils.isConnected
-import com.app.khavdawala.apputils.showSnackBar
-import com.app.khavdawala.apputils.visible
+import com.app.khavdawala.apputils.*
 import com.app.khavdawala.databinding.FragmentAboutBinding
+import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.pojo.response.StaticPageResponse
 import com.app.khavdawala.ui.adapter.TabFragmentAdapter
 import com.app.khavdawala.viewmodel.StaticPageViewModel
@@ -35,6 +33,7 @@ class AboutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.tvHeader.text = getString(R.string.About)
         staticPageViewModel = ViewModelProvider(this)[StaticPageViewModel::class.java]
 
         staticPageViewModel.categoryResponse().observe(requireActivity()) {
@@ -50,6 +49,9 @@ class AboutFragment : Fragment() {
             binding.vpStaticPage.visible()
             binding.tabLayout.visible()
             setupViewPager(staticPageResponse.staticpage)
+            if (staticPageResponse.banner_list.isNotEmpty()) {
+                setupHorizontalMainNews(staticPageResponse.banner_list)
+            }
         } else {
             showSnackBar(getString(R.string.something_went_wrong), requireActivity())
         }
@@ -104,4 +106,11 @@ class AboutFragment : Fragment() {
             showSnackBar(getString(R.string.no_internet), requireActivity())
         }
     }
+
+    private fun setupHorizontalMainNews(bannerList: java.util.ArrayList<ProductListResponse.Banner>) {
+        if (bannerList.isNotEmpty()) {
+            binding.ivCategoryHeader.loadImage(bannerList[0].banner_img)
+        }
+    }
+
 }

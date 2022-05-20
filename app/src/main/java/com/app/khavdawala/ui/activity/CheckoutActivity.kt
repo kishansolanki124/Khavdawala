@@ -44,6 +44,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
         binding = ActivityCheckoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.tvHeader.text = getString(R.string.Checkout)
         //initialising RazorPay SDK
         Checkout.preload(this)
 
@@ -305,6 +306,7 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
         if (null != shippingChargeResponse) {
             this.shippingChargeResponse = shippingChargeResponse
             setupRadioButtons()
+            setupHorizontalMainNews(shippingChargeResponse.banner_list)
         } else {
             showSnackBar(getString(R.string.something_went_wrong), this)
         }
@@ -372,6 +374,17 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
         }
 
         binding.rgCity.gone()
+    }
+
+    private fun setupHorizontalMainNews(bannerList: java.util.ArrayList<ProductListResponse.Banner>) {
+        if (bannerList.isNotEmpty()) {
+            for (item in bannerList) {
+                if (item.banner_name == "Checkout") {
+                    binding.ivCategoryHeader.loadImage(item.banner_img)
+                    break
+                }
+            }
+        }
     }
 
     private fun handleResponse(addOrderResponse: AddOrderResponse?) {
@@ -589,6 +602,9 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
     }
 
     override fun onPaymentError(code: Int, response: String?) {
-        showToast("Payment status: Error: $response")
+        response?.let {
+            println(it)
+        }
+        //showToast("Payment status: Error: $response")
     }
 }
