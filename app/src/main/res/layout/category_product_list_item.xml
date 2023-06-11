@@ -9,21 +9,40 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/border"
-        android:padding="@dimen/dp_5">
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@drawable/dotted_rectangle_red"-->
+<!--        android:orientation="vertical"-->
+<!--        android:padding="@dimen/dp_5">-->
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivMLA"
-            style="@style/RoundImageViewList"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
-            tools:src="@drawable/product_photo" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--        <androidx.appcompat.widget.AppCompatImageView-->
+<!--            android:id="@+id/ivMLA"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/dp_150"-->
+<!--            android:layout_margin="@dimen/dp_5"-->
+<!--            android:scaleType="fitCenter"-->
+<!--            tools:src="@drawable/product_photo" />-->
+<!--    </LinearLayout>-->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dotted_rectangle_red"
+            android:padding="@dimen/dp_10">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivMLA"
+                style="@style/RoundImageViewList"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize10Percent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/product_photo" />
+
+<!--            app:shapeAppearanceOverlay="@style/roundedImageViewRounded"-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvMLAName"

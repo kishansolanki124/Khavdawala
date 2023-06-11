@@ -32,6 +32,14 @@
             android:textColor="@color/category_header"
             android:textSize="@dimen/sp_24"
             tools:text="sweets" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/dp_70"
+            android:layout_height="@dimen/dp_70"
+            android:layout_margin="@dimen/dp_10"
+            android:alpha="0.7"
+            android:layout_gravity="end|bottom"
+            android:src="@drawable/logo" />
     </FrameLayout>
 
     <include

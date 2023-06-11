@@ -104,6 +104,10 @@
     <!--        <item name="colorAccent">@color/btnBG</item>-->
     <!--    </style>-->
 
+    <style name="ShapeAppearanceOverlay.App.CornerSize10Percent" parent="">
+        <item name="cornerSize">1%</item>
+    </style>
+
     <style name="roundedImageViewRounded">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
