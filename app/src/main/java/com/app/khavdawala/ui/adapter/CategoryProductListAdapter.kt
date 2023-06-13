@@ -86,6 +86,14 @@ class CategoryProductListAdapter(
             with(newsPortal) {
 
                 binding.tvMLAName.text = newsPortal.name
+                if (newsPortal.product_availability.isNotEmpty()) {
+                    binding.tvProductAvailability.text = newsPortal.product_availability
+                    binding.tvProductAvailability.visible()
+                } else {
+                    binding.tvProductAvailability.text = ""
+                    binding.tvProductAvailability.invisible()
+                }
+
 
                 if (newsPortal.isLoading) {
                     binding.ivFavIcon.invisible()

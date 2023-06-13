@@ -21,9 +21,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/dp_5"
-        tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. "
         android:textColor="@color/black"
-        android:textSize="@dimen/sp_14" />
+        android:textSize="@dimen/sp_14"
+        tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry. " />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_not_time"
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:padding="@dimen/dp_5"
-        tools:text="20/12/2021 10:00 am"
         android:textColor="@color/gray_hint"
-        android:textSize="@dimen/sp_12" />
+        android:textSize="@dimen/sp_12"
+        tools:text="20/12/2021 10:00 am" />
 </androidx.appcompat.widget.LinearLayoutCompat>

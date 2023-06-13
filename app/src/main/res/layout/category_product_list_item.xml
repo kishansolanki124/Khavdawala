@@ -9,40 +9,40 @@
     android:gravity="center"
     android:orientation="vertical">
 
-<!--    <LinearLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:background="@drawable/dotted_rectangle_red"-->
-<!--        android:orientation="vertical"-->
-<!--        android:padding="@dimen/dp_5">-->
+    <!--    <LinearLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:background="@drawable/dotted_rectangle_red"-->
+    <!--        android:orientation="vertical"-->
+    <!--        android:padding="@dimen/dp_5">-->
 
-<!--        <androidx.appcompat.widget.AppCompatImageView-->
-<!--            android:id="@+id/ivMLA"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="@dimen/dp_150"-->
-<!--            android:layout_margin="@dimen/dp_5"-->
-<!--            android:scaleType="fitCenter"-->
-<!--            tools:src="@drawable/product_photo" />-->
-<!--    </LinearLayout>-->
+    <!--        <androidx.appcompat.widget.AppCompatImageView-->
+    <!--            android:id="@+id/ivMLA"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="@dimen/dp_150"-->
+    <!--            android:layout_margin="@dimen/dp_5"-->
+    <!--            android:scaleType="fitCenter"-->
+    <!--            tools:src="@drawable/product_photo" />-->
+    <!--    </LinearLayout>-->
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/dotted_rectangle_red"
-            android:padding="@dimen/dp_10">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dotted_rectangle_red"
+        android:padding="@dimen/dp_10">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/ivMLA"
-                style="@style/RoundImageViewList"
-                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize10Percent"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/product_photo" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/ivMLA"
+            style="@style/RoundImageViewList"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize10Percent"
+            tools:src="@drawable/product_photo" />
 
-<!--            app:shapeAppearanceOverlay="@style/roundedImageViewRounded"-->
+        <!--            app:shapeAppearanceOverlay="@style/roundedImageViewRounded"-->
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvMLAName"
@@ -190,5 +190,14 @@
             app:layout_constraintEnd_toEndOf="@id/ll_buttons"
             app:layout_constraintStart_toStartOf="@id/ll_buttons"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_product_availability"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minLines="2"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintTop_toBottomOf="@id/ll_buttons"
+            tools:text="Product available in 2-3 business days" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

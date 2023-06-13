@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
+import app.app.patidarsaurabh.apputils.EndlessRecyclerOnScrollListener
 import com.app.khavdawala.R
 import com.app.khavdawala.apputils.*
 import com.app.khavdawala.databinding.FragmentCategoryProductListBinding
@@ -24,8 +25,9 @@ class CategoryProductListFragment : Fragment() {
 
     private var categoryTitle = ""
     private var cid: Int = 0
-    private var start: Int = 0
-    private var end: Int = 10
+    private var totalRecords = 0
+    private var pageNo = 0
+    private var loading = false
 
     private lateinit var categoryProductListAdapter: CategoryProductListAdapter
     private lateinit var categoryViewModel: ProductViewModel
@@ -86,6 +88,22 @@ class CategoryProductListFragment : Fragment() {
         layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvProduct.layoutManager = layoutManager
 
+        binding.rvProduct.addOnScrollListener(object :
+            EndlessRecyclerOnScrollListener(layoutManager, 3) {
+            override fun onLoadMore() {
+                if (!loading && totalRecords != categoryProductListAdapter.itemCount) {
+                    loading = true
+                    pageNo += 10
+                    categoryViewModel.getProductList(
+                        ProductRequest(
+                            cid, pageNo, 10,
+                            SPreferenceManager.getInstance(requireContext()).session
+                        )
+                    )
+                }
+            }
+        })
+
         categoryProductListAdapter = CategoryProductListAdapter(itemClick = {
             (requireActivity() as HomeActivity).switchFragment(
                 ProductDetailFragment.newInstance(it.product_id),
@@ -127,7 +145,7 @@ class CategoryProductListFragment : Fragment() {
             binding.loading.pbCommon.visible()
             categoryViewModel.getProductList(
                 ProductRequest(
-                    cid, start, end,
+                    cid, pageNo, 10,
                     SPreferenceManager.getInstance(requireContext()).session
                 )
             )
@@ -164,9 +182,10 @@ class CategoryProductListFragment : Fragment() {
 
     private fun handleResponse(productListResponse: ProductListResponse?) {
         if (null != productListResponse && productListResponse.status == "1") {
+            totalRecords = productListResponse.total_records
             if (productListResponse.products_list.isNotEmpty()) {
                 productList.addAll(productListResponse.products_list)
-                if (start == 0) {
+                if (pageNo == 0) {
                     categoryProductListAdapter.reset()
                     categoryProductListAdapter.addItems(productList)
                 } else {
@@ -184,6 +203,7 @@ class CategoryProductListFragment : Fragment() {
         } else {
             showSnackBar(getString(R.string.something_went_wrong), requireActivity())
         }
+        loading = false
         binding.rvProduct.visible()
         binding.loading.pbCommon.gone()
     }
@@ -191,6 +211,7 @@ class CategoryProductListFragment : Fragment() {
     private fun setupHorizontalMainNews(bannerList: java.util.ArrayList<ProductListResponse.Banner>) {
         if (bannerList.isNotEmpty()) {
             binding.ivCategoryHeader.loadImage(bannerList[0].banner_img)
+            binding.ivWatermark.visible()
         }
     }
 
