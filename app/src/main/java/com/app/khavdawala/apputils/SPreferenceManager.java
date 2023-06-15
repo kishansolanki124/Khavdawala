@@ -1,19 +1,14 @@
 package com.app.khavdawala.apputils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
-import com.app.khavdawala.pojo.response.ProductListResponse;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
-import app.app.patidarsaurabh.apputils.AppConstants;
 
 public class SPreferenceManager {
 

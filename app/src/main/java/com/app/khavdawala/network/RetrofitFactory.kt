@@ -1,7 +1,7 @@
 package com.app.khavdawala.network
 
 import android.util.Log
-import app.app.patidarsaurabh.apputils.AppConstants
+import com.app.khavdawala.apputils.AppConstants
 import com.app.khavdawala.KhavdaApplication
 import com.app.khavdawala.apputils.sessionExpired
 import okhttp3.Interceptor

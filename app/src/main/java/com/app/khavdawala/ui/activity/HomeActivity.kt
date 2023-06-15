@@ -3,15 +3,13 @@ package com.app.khavdawala.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.app.khavdawala.R
-import com.app.khavdawala.apputils.SPreferenceManager
-import com.app.khavdawala.apputils.getCartProductList
-import com.app.khavdawala.apputils.gone
-import com.app.khavdawala.apputils.visible
+import com.app.khavdawala.apputils.*
 import com.app.khavdawala.databinding.ActivityHomeBinding
 import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.ui.fragment.*
@@ -19,10 +17,7 @@ import com.app.khavdawala.ui.fragment.*
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
-
     private lateinit var mTransaction: FragmentTransaction
-    //private lateinit var newsViewModel: NewsViewModel
-    //private var newsCategoryList: ArrayList<NewsCategoryResponse.NewsCategory> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +25,6 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //binding.bottomNavigationView.setOnNavigationItemSelectedListener(this)
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_gift -> {
@@ -62,8 +56,7 @@ class HomeActivity : AppCompatActivity() {
             true // return true;
         }
 
-        if (!getCartProductList().isNullOrEmpty()) {
-            //todo work here
+        if (getCartProductList().isNotEmpty()) {
             binding.toolbar.tvCartCount.text = getCartProductList().size.toString()
             binding.toolbar.flCartCount.visible()
         } else {
@@ -74,115 +67,21 @@ class HomeActivity : AppCompatActivity() {
             startActivity(Intent(this, CartActivity::class.java))
         }
 
+        binding.toolbar.ivSearch.setOnClickListener {
+            val intent = Intent(this, SearchActivity::class.java)
+            searchLauncher.launch(intent)
+
+//            startActivityForResult(
+//                Intent(this, ::class.java), AppConstants.RequestCode.SEARCH_ACTIVITY
+//            )
+        }
+
         binding.toolbar.ibBack.setOnClickListener {
             onBackPressed()
         }
 
         binding.bottomNavigationView.selectedItemId = R.id.navigation_home
-
-
-//        newsViewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
-//
-//        newsViewModel.newsCategoryResponse().observe(this, Observer {
-//            handleResponse(it)
-//        })
-
-        //fetchNewsCategories()
     }
-
-//    private fun fetchNewsCategories() {
-//        newsCategoryList = ArrayList()
-//        if (isConnected(this)) {
-//            showProgressDialog(this)
-//            newsViewModel.newsCategory()
-//        } else {
-//            showSnackBar(getString(R.string.no_internet), this)
-//        }
-//
-//    }
-
-//    private fun handleResponse(newsCategoryResponse: NewsCategoryResponse?) {
-//        dismissProgressDialog()
-//        if (null != newsCategoryResponse) {
-//            newsCategoryList.add(NewsCategoryResponse.NewsCategory("0", "All"))
-//            newsCategoryList.addAll(newsCategoryResponse.news_category)
-//
-//            val divider = DividerItemDecoration(
-//                rvNewsCategories.context,
-//                DividerItemDecoration.VERTICAL
-//            )
-//            divider.setDrawable(
-//                ContextCompat.getDrawable(baseContext, R.drawable.news_category_divider)!!
-//            )
-//
-//            rvNewsCategories.addItemDecoration(divider)
-//
-//            rvNewsCategories.layoutManager = LinearLayoutManager(this)
-//            val adapter = NewsCategoryAdapter {
-//                (supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NewsHomeFragment).fetchNews(
-//                    true, NewsRequest(it.id!!.toInt(), 0, 10)
-//                )
-//                if (newsCategory.isVisible) {
-//                    newsCategory.visibility = View.GONE
-//                }
-//            }
-//            adapter.setItem(newsCategoryList)
-//            rvNewsCategories.adapter = adapter
-//        } else {
-//            showSnackBar(getString(R.string.something_went_wrong), this)
-//        }
-//    }
-
-//    private fun setupListener() {
-//        binding.ivNavigation.setOnClickListener {
-//            if (newsCategoryList.isNullOrEmpty()) {
-//                return@setOnClickListener
-//            }
-//
-//            if (newsCategory.isVisible) {
-//                newsCategory.visibility = View.GONE
-//            } else {
-//                newsCategory.visibility = View.VISIBLE
-//            }
-//        }
-//
-////        newsCategory.setOnClickListener {
-////            newsCategory.visibility = View.GONE
-////        }
-//    }
-
-//    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-//        if (binding.bottomNavigationView.selectedItemId != item.itemId) {
-//            when (item.itemId) {
-//                R.id.navigation_gift -> {
-//                    switchFragment(GiftListFragment(), false)
-//                    binding.toolbar.ivShare.visibility = View.VISIBLE
-//                    binding.toolbar.ibBack.visibility = View.GONE
-//                }
-//                R.id.navigation_fav -> {
-//                    switchFragment(FavoriteListFragment(), false)
-//                    binding.toolbar.ivShare.visibility = View.VISIBLE
-//                    binding.toolbar.ibBack.visibility = View.GONE
-//                }
-//                R.id.navigation_home -> {
-//                    switchFragment(HomeFragment(), false)
-//                    binding.toolbar.ivShare.visibility = View.VISIBLE
-//                    binding.toolbar.ibBack.visibility = View.GONE
-//                }
-//                R.id.navigation_not -> {
-//                    switchFragment(NotificationListFragment(), false)
-//                    binding.toolbar.ivShare.visibility = View.VISIBLE
-//                    binding.toolbar.ibBack.visibility = View.GONE
-//                }
-//                R.id.navigation_about -> {
-//                    switchFragment(AboutFragment(), false)
-//                    binding.toolbar.ivShare.visibility = View.VISIBLE
-//                    binding.toolbar.ibBack.visibility = View.GONE
-//                }
-//            }
-//        }
-//        return true
-//    }
 
     fun switchFragment(
         fragment: Fragment,
@@ -328,4 +227,18 @@ class HomeActivity : AppCompatActivity() {
             binding.toolbar.flCartCount.gone()
         }
     }
+
+    private var searchLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == AppConstants.RequestCode.SEARCH_ACTIVITY) {
+                val data: Intent? = result.data
+                if (null != data) {
+                    switchFragment(
+                        ProductDetailFragment.newInstance(data.getStringExtra(AppConstants.SEARCH_STRING)!!),
+                        addToBackStack = true, addInsteadOfReplace = true
+                    )
+                }
+            }
+        }
+
 }

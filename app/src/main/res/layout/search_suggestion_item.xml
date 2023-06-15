@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/llSearchSuggestionRoot"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_5"
+    android:background="?attr/selectableItemBackground"
+    android:orientation="horizontal"
+    android:padding="@dimen/dp_10">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_product_search"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_50"
+        android:layout_margin="@dimen/dp_5"
+        android:scaleType="fitCenter"
+        tools:src="@drawable/product_photo" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvSearchSuggestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="@dimen/dp_5"
+        android:textColor="@color/black"
+        android:textSize="@dimen/sp_14"
+        tools:text="Search Suggestion 1" />
+</androidx.appcompat.widget.LinearLayoutCompat>

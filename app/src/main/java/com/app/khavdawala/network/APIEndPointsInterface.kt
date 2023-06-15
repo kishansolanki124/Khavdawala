@@ -1,6 +1,6 @@
 package com.app.khavdawala.network
 
-import app.app.patidarsaurabh.apputils.AppConstants
+import com.app.khavdawala.apputils.AppConstants
 import com.app.khavdawala.pojo.response.*
 import okhttp3.MultipartBody
 import retrofit2.http.Body

@@ -1,9 +1,14 @@
-package app.app.patidarsaurabh.apputils
+package com.app.khavdawala.apputils
 
 interface AppConstants {
-
+    interface RequestCode {
+        companion object {
+            const val SEARCH_ACTIVITY = 100
+        }
+    }
     companion object {
         const val ACTION_CODE_100 = 100
+        const val SEARCH_STRING: String = "SEARCH_STRING"
         const val IS_LOGIN: String = "IS_LOGIN"
         const val MOBILE: String = "MOBILE"
         const val MOBILE_VERIFIED: String = "MOBILE_VERIFIED"

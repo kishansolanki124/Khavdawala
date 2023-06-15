@@ -1,7 +1,5 @@
 package com.app.khavdawala.ui.adapter
 
-import android.os.Build
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
@@ -51,17 +49,13 @@ class NotificationListAdapter :
             newsPortal: NotificationResponse.Notification
         ) {
             binding.tvNotTitle.text = newsPortal.title
-            //binding.tvNotDesc.text = Html.fromHtml(newsPortal.description)
 
-
-            binding.tvNotDesc.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                Html.fromHtml(newsPortal.description, Html.FROM_HTML_MODE_COMPACT)
-            } else {
-                Html.fromHtml(newsPortal.description)
-            }
+            binding.tvNotDesc.text = HtmlCompat.fromHtml(
+                newsPortal.description,
+                HtmlCompat.FROM_HTML_MODE_COMPACT
+            )
 
             //HtmlCompat.fromHtml(newsPortal.description, HtmlCompat.FROM_HTML_MODE_COMPACT)
-            //binding.tvNotDesc.movementMethod = LinkMovementMethod.getInstance()
 
             binding.tvNotDesc.text = newsPortal.description
             binding.tvNotTime.text = newsPortal.pdate

@@ -11,6 +11,10 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.ui.activity.SplashActivity
 import com.bumptech.glide.Glide
@@ -363,6 +367,14 @@ fun sessionExpired(application: Application) {
 //    imeOptions = EditorInfo.IME_ACTION_NEXT
 //    setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES or InputType.TYPE_TEXT_FLAG_MULTI_LINE)
 //}
+fun setRecyclerViewLayoutManager(recyclerView: RecyclerView, context: Context) : LayoutManager {
+    val layoutManager = LinearLayoutManager(context)
+    recyclerView.layoutManager = layoutManager
+    recyclerView.itemAnimator = DefaultItemAnimator()
+    recyclerView.isNestedScrollingEnabled = true
+    return layoutManager
+}
+
 
 fun ImageView.loadImage(url: String?) {
     url?.let {

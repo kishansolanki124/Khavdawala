@@ -5,5 +5,6 @@ data class ProductRequest(
     val start: Int = 0,
     val end: Int = 0,
     val user_mobile: String = "",
-    val pid: String = ""
+    val pid: String = "",
+    val search: String = ""
 )

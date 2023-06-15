@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.appbar.AppBarLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ab_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#343434"
+    android:theme="@style/AppTheme"
+    app:elevation="0dp">
+
+    <!--    app:layout_scrollFlags="scroll|enterAlways"-->
+
+    <com.google.android.material.appbar.CollapsingToolbarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:popupTheme="@style/AppTheme.Toolbar">
+
+                <androidx.appcompat.widget.AppCompatImageButton
+                    android:id="@+id/ib_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginHorizontal="@dimen/dp_15"
+                    android:background="@drawable/back_button" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/dp_2">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/ibClear"
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/dp_20"
+                        android:background="@drawable/ic_clear"
+                        android:backgroundTint="@color/white"
+                        android:visibility="invisible" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/etSearch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/dp_10"
+                        android:layout_toStartOf="@id/ibClear"
+                        android:background="@null"
+                        android:fontFamily="@font/regular"
+                        android:hint="@string/hint_search"
+                        android:imeOptions="actionSearch"
+                        android:inputType="textCapWords"
+                        android:maxLines="1"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white_hint"
+                        android:textSize="@dimen/sp_14">
+
+                        <requestFocus />
+                    </androidx.appcompat.widget.AppCompatEditText>
+                </RelativeLayout>
+            </androidx.appcompat.widget.Toolbar>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/etSearchProduct"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/toolbar"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="@dimen/dp_15"
+                android:layout_marginEnd="@dimen/dp_15"
+                android:background="@drawable/home_search_bg"
+                android:drawableStart="@drawable/search_icon"
+                android:drawablePadding="@dimen/dp_5"
+                android:hint="@string/hint_search"
+                android:imeOptions="actionSearch"
+                android:maxLines="1"
+                android:padding="@dimen/dp_5"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray_hint"
+                android:textSize="@dimen/sp_12"
+                android:visibility="gone" />
+
+            <View
+                android:id="@+id/bvLine"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_below="@id/etSearchProduct"
+                android:layout_marginTop="@dimen/dp_5"
+                android:background="@color/colorPrimary"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </com.google.android.material.appbar.CollapsingToolbarLayout>
+</com.google.android.material.appbar.AppBarLayout>

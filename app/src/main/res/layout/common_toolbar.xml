@@ -5,7 +5,7 @@
     android:id="@+id/ab_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
+    android:background="@android:color/black"
     android:theme="@style/AppTheme"
     app:elevation="@dimen/dp_0">
 
@@ -112,6 +112,15 @@
                             tint:text="1" />
                     </FrameLayout>
                 </FrameLayout>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:background="@drawable/search_white"
+                    android:theme="@style/ClickableTextView"
+                    android:visibility="visible" />
             </androidx.appcompat.widget.Toolbar>
         </RelativeLayout>
     </com.google.android.material.appbar.CollapsingToolbarLayout>
