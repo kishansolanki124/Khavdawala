@@ -2,6 +2,7 @@ package com.app.khavdawala.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings.Secure
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ import com.app.khavdawala.databinding.ActivityHomeBinding
 import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.ui.fragment.*
 
+
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
@@ -24,6 +26,16 @@ class HomeActivity : AppCompatActivity() {
 
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val android_id = Secure.getString(
+            this.contentResolver,
+            Secure.ANDROID_ID
+        )
+
+        android_id?.let {
+            showToast(it)
+        }
+
 
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
