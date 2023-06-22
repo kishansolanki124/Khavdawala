@@ -70,6 +70,7 @@
                         android:maxLines="1"
                         android:textColor="@color/white"
                         android:textColorHint="@color/white_hint"
+                        android:textCursorDrawable="@color/white"
                         android:textSize="@dimen/sp_14">
 
                         <requestFocus />

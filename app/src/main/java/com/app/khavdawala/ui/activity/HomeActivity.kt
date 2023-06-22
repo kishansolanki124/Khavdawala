@@ -82,10 +82,6 @@ class HomeActivity : AppCompatActivity() {
         binding.toolbar.ivSearch.setOnClickListener {
             val intent = Intent(this, SearchActivity::class.java)
             searchLauncher.launch(intent)
-
-//            startActivityForResult(
-//                Intent(this, ::class.java), AppConstants.RequestCode.SEARCH_ACTIVITY
-//            )
         }
 
         binding.toolbar.ibBack.setOnClickListener {
@@ -252,5 +248,15 @@ class HomeActivity : AppCompatActivity() {
                 }
             }
         }
+
+    override fun onResume() {
+        super.onResume()
+        if (!getCartProductList().isNullOrEmpty()) {
+            binding.toolbar.tvCartCount.text = getCartProductList().size.toString()
+            binding.toolbar.flCartCount.visible()
+        } else {
+            binding.toolbar.flCartCount.gone()
+        }
+    }
 
 }

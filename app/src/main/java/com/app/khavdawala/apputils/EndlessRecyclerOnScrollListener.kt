@@ -1,4 +1,4 @@
-package app.app.patidarsaurabh.apputils
+package com.app.khavdawala.apputils
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView

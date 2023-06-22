@@ -3,6 +3,7 @@ package com.app.khavdawala.apputils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.app.khavdawala.pojo.response.SettingsResponse;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -48,11 +49,11 @@ public class SPreferenceManager {
         mEditor.putString(key, value).apply();
     }
 
+    public String getString(String key, String value) {
+        return mPreferences.getString(key, value);
+    }
+
     //
-//    public String getString(String key, String value) {
-//        return mPreferences.getString(key, value);
-//    }
-//
 //    public void setInteger(String key, int value) {
 //        mEditor.putInt(key, value).apply();
 //    }
@@ -94,5 +95,13 @@ public class SPreferenceManager {
     public <T> ArrayList<T> getList(String key, Class<T> clazz) {
         Type typeOfT = TypeToken.getParameterized(List.class, clazz).getType();
         return mGson.fromJson(mPreferences.getString(key, null), typeOfT);
+    }
+
+    public void saveSettings(SettingsResponse settingsResponse) {
+        setString(AppConstants.SETTINGS, mGson.toJson(settingsResponse));
+    }
+
+    public SettingsResponse getSettings() {
+        return mGson.fromJson(getString(AppConstants.SETTINGS, null), SettingsResponse.class);
     }
 }

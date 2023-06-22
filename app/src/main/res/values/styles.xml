@@ -142,4 +142,47 @@
         <item name="android:textSize">@dimen/sp_20</item>
         <item name="android:fontFamily">@font/bold_2</item>
     </style>
+
+    <style name="AlertDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="buttonBarPositiveButtonStyle">@style/Alert.Button.Positive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Alert.Button.Neutral</item>
+    </style>
+
+    <style name="Alert.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="rippleColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="Alert.Button.Neutral" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="rippleColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/gray_hint</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/btnBG</item>
+    </style>
+
+    <style name="CheckoutTextView" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/bold</item>
+        <item name="android:padding">@dimen/dp_5</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/sp_18</item>
+    </style>
+
+    <style name="CommonRadioButton" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:buttonTint">@color/black</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/regular</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+    </style>
+
 </resources>

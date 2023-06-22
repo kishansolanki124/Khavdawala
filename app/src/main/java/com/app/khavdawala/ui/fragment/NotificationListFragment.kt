@@ -9,9 +9,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.khavdawala.R
 import com.app.khavdawala.apputils.isConnected
+import com.app.khavdawala.apputils.loadImage
 import com.app.khavdawala.apputils.showSnackBar
 import com.app.khavdawala.databinding.FragmentNotificationBinding
 import com.app.khavdawala.pojo.response.NotificationResponse
+import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.ui.adapter.NotificationListAdapter
 import com.app.khavdawala.viewmodel.StaticPageViewModel
 
@@ -34,6 +36,7 @@ class NotificationListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.tvHeader.text = getString(R.string.Notification)
         layoutManager = LinearLayoutManager(requireContext())
         binding.rvNotification.layoutManager = layoutManager
 
@@ -48,7 +51,7 @@ class NotificationListFragment : Fragment() {
 
         if (isConnected(requireContext())) {
             binding.rvNotification.visibility = View.GONE
-            binding.pbHome.visibility = View.VISIBLE
+            binding.loading.pbCommon.visibility = View.VISIBLE
             staticPageViewModel.getNotification()
         } else {
             showSnackBar(getString(R.string.no_internet), requireActivity())
@@ -56,10 +59,13 @@ class NotificationListFragment : Fragment() {
     }
 
     private fun handleResponse(notificationResponse: NotificationResponse?) {
-        binding.pbHome.visibility = View.GONE
+        binding.loading.pbCommon.visibility = View.GONE
         if (null != notificationResponse) {
             binding.rvNotification.visibility = View.VISIBLE
             setupList(notificationResponse.notification_list)
+            if (notificationResponse.banner_list.isNotEmpty()) {
+                setupHorizontalMainNews(notificationResponse.banner_list)
+            }
         } else {
             showSnackBar(getString(R.string.something_went_wrong), requireActivity())
         }
@@ -68,5 +74,11 @@ class NotificationListFragment : Fragment() {
     private fun setupList(notificationList: ArrayList<NotificationResponse.Notification>) {
         govtWorkNewsAdapter.reset()
         govtWorkNewsAdapter.setItem(notificationList)
+    }
+
+    private fun setupHorizontalMainNews(bannerList: java.util.ArrayList<ProductListResponse.Banner>) {
+        if (bannerList.isNotEmpty()) {
+            binding.ivCategoryHeader.loadImage(bannerList[0].banner_img)
+        }
     }
 }

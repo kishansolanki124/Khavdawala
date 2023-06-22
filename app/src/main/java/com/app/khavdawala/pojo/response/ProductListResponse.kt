@@ -8,6 +8,7 @@ data class ProductListResponse(
     var total_records: Int = 0
 ) {
     data class Banner(
+        var banner_name: String = "",
         var banner_img: String = "",
         var category_id: String = ""
     )

@@ -8,16 +8,11 @@ import retrofit2.http.POST
 
 interface APIEndPointsInterface {
 
-    //    @POST(AppConstants.APIEndPoints.NEWS_CATEGORY)
-//    suspend fun newsCategory(
-//
-//    ): NewsCategoryResponse
-//
-//    @POST(AppConstants.APIEndPoints.GET_SHRADDHANJALI)
-//    suspend fun getShraddhanjali(
-//        @Body hashMap: MultipartBody
-//    ): ShraddhanjaliResponse
-//
+    @POST(AppConstants.APIEndPoints.GET_SETTINGS)
+    suspend fun getSettings(
+        @Body hashMap: MultipartBody
+    ): SettingsResponse
+
     @POST(AppConstants.APIEndPoints.GET_PRODUCT)
     suspend fun getProductList(
         @Body hashMap: MultipartBody
@@ -59,6 +54,7 @@ interface APIEndPointsInterface {
 
     @POST(AppConstants.APIEndPoints.GET_CONTACT_US)
     suspend fun getContactUs(): ContactUsResponse
+
     //
 //    @POST(AppConstants.APIEndPoints.EMAGAZINE_AUTH)
 //    suspend fun emagazineAuth(
@@ -98,12 +94,12 @@ interface APIEndPointsInterface {
 //    @POST(AppConstants.APIEndPoints.GET_GUJARATI_SAMAJ)
 //    suspend fun getGujaratiSamaj(): GujratiSamajResponse
 //
-//    @POST(AppConstants.APIEndPoints.INQUIRY)
-//    suspend fun inquiry(
-//        @Body hashMap: MultipartBody
-//    ): RegisterResponse
-//
-//    @POST(AppConstants.APIEndPoints.GET_VATAN_NU_GHAM_DETAIL)
+    @POST(AppConstants.APIEndPoints.INQUIRY)
+    suspend fun inquiry(
+        @Body hashMap: MultipartBody
+    ): RegisterResponse
+
+    //    @POST(AppConstants.APIEndPoints.GET_VATAN_NU_GHAM_DETAIL)
 //    suspend fun getVatanNuGhamDetail(
 //        @Body hashMap: MultipartBody
 //    ): VatanNuGhamDetailResponse
@@ -171,6 +167,28 @@ interface APIEndPointsInterface {
     suspend fun registration(
         @Body hashMap: MultipartBody
     ): RegisterResponse
+
+    //multipart/form-data
+    @POST(AppConstants.APIEndPoints.ADD_ORDER)
+    suspend fun addOrder(
+        @Body hashMap: MultipartBody
+    ): AddOrderResponse
+
+    //multipart/form-data
+    @POST(AppConstants.APIEndPoints.ADD_ORDER_STATUS)
+    suspend fun addOrderStatus(
+        @Body hashMap: MultipartBody
+    ): RegisterResponse
+
+    //multipart/form-data
+    @POST(AppConstants.APIEndPoints.GET_ADDRESS)
+    suspend fun getAddress(
+        @Body hashMap: MultipartBody
+    ): OrderAddressResponse
+
+    @POST(AppConstants.APIEndPoints.GET_SHIPPING_CHARGE)
+    suspend fun getShippingCharge(): ShippingChargeResponse
+
 //
 //    //multipart/form-data
 //    @POST(AppConstants.APIEndPoints.GET_PRATINIDHI)

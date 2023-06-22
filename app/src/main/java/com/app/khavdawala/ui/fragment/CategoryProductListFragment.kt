@@ -4,12 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
-import app.app.patidarsaurabh.apputils.EndlessRecyclerOnScrollListener
 import com.app.khavdawala.R
 import com.app.khavdawala.apputils.*
 import com.app.khavdawala.databinding.FragmentCategoryProductListBinding
@@ -25,9 +25,9 @@ class CategoryProductListFragment : Fragment() {
 
     private var categoryTitle = ""
     private var cid: Int = 0
+    private var loading = false
     private var totalRecords = 0
     private var pageNo = 0
-    private var loading = false
 
     private lateinit var categoryProductListAdapter: CategoryProductListAdapter
     private lateinit var categoryViewModel: ProductViewModel
@@ -88,22 +88,6 @@ class CategoryProductListFragment : Fragment() {
         layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvProduct.layoutManager = layoutManager
 
-        binding.rvProduct.addOnScrollListener(object :
-            EndlessRecyclerOnScrollListener(layoutManager, 3) {
-            override fun onLoadMore() {
-                if (!loading && totalRecords != categoryProductListAdapter.itemCount) {
-                    loading = true
-                    pageNo += 10
-                    categoryViewModel.getProductList(
-                        ProductRequest(
-                            cid, pageNo, 10,
-                            SPreferenceManager.getInstance(requireContext()).session
-                        )
-                    )
-                }
-            }
-        })
-
         categoryProductListAdapter = CategoryProductListAdapter(itemClick = {
             (requireActivity() as HomeActivity).switchFragment(
                 ProductDetailFragment.newInstance(it.product_id),
@@ -115,12 +99,52 @@ class CategoryProductListFragment : Fragment() {
             } else {
                 removeFavProduct(customClass)
             }
+        }, itemCartClick = { product, position ->
+            if (product.available_in_cart) {
+                (requireActivity() as HomeActivity).removeFromCart(product)
+                productList[position].available_in_cart = false
+                categoryProductListAdapter.itemRemovedFromCart(position)
+            } else {
+                (requireActivity() as HomeActivity).addToCart(product)
+                productList[position].available_in_cart = true
+                categoryProductListAdapter.itemAddedInCart(position)
+            }
+        }, dropdownClick = { product, position ->
+            productList[position].selectedItemPosition = product.selectedItemPosition
+            productList[position].cartPackingId = product.cartPackingId
+            categoryProductListAdapter.notifyItemChanged(position)
+        }, updateCartClick = { product, position ->
+            (requireActivity() as HomeActivity).updateToCart(product)
+            //productList[position].available_in_cart = true
+            categoryProductListAdapter.notifyItemChanged(position)
         })
 
         binding.rvProduct.adapter = categoryProductListAdapter
 
         //disabling blinking effect of recyclerview
         (binding.rvProduct.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+
+        binding.nsvProduct.setOnScrollChangeListener { v: NestedScrollView, _: Int, scrollY: Int, _: Int, oldScrollY: Int ->
+            if (v.getChildAt(v.childCount - 1) != null) {
+                if (scrollY >= v.getChildAt(v.childCount - 1)
+                        .measuredHeight - v.measuredHeight &&
+                    scrollY > oldScrollY
+                ) {
+                    if (!loading && totalRecords != 0 && totalRecords > categoryProductListAdapter.itemCount) {
+                        //code to fetch more data for endless scrolling
+                        pageNo += 10
+                        loading = true
+                        binding.bottomLoading.pbCommon.visible()
+                        categoryViewModel.getProductList(
+                            ProductRequest(
+                                cid, pageNo, 10,
+                                SPreferenceManager.getInstance(requireContext()).session
+                            )
+                        )
+                    }
+                }
+            }
+        }
     }
 
     private fun initVIewModel() {
@@ -143,6 +167,7 @@ class CategoryProductListFragment : Fragment() {
         if (isConnected(requireContext())) {
             binding.rvProduct.gone()
             binding.loading.pbCommon.visible()
+            loading = true
             categoryViewModel.getProductList(
                 ProductRequest(
                     cid, pageNo, 10,
@@ -181,9 +206,11 @@ class CategoryProductListFragment : Fragment() {
     }
 
     private fun handleResponse(productListResponse: ProductListResponse?) {
+        loading = false
+        binding.bottomLoading.pbCommon.gone()
         if (null != productListResponse && productListResponse.status == "1") {
-            totalRecords = productListResponse.total_records
             if (productListResponse.products_list.isNotEmpty()) {
+                totalRecords = productListResponse.total_records
                 productList.addAll(productListResponse.products_list)
                 if (pageNo == 0) {
                     categoryProductListAdapter.reset()
@@ -203,7 +230,6 @@ class CategoryProductListFragment : Fragment() {
         } else {
             showSnackBar(getString(R.string.something_went_wrong), requireActivity())
         }
-        loading = false
         binding.rvProduct.visible()
         binding.loading.pbCommon.gone()
     }
@@ -211,7 +237,6 @@ class CategoryProductListFragment : Fragment() {
     private fun setupHorizontalMainNews(bannerList: java.util.ArrayList<ProductListResponse.Banner>) {
         if (bannerList.isNotEmpty()) {
             binding.ivCategoryHeader.loadImage(bannerList[0].banner_img)
-            binding.ivWatermark.visible()
         }
     }
 

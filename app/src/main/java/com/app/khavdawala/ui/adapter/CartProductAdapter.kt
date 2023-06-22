@@ -4,15 +4,18 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.app.khavdawala.apputils.rupeesWithTwoDecimal
 import com.app.khavdawala.databinding.CheckoutItemBinding
-import com.app.khavdawala.pojo.CustomClass
+import com.app.khavdawala.pojo.response.ProductListResponse
 
 class CartProductAdapter(
-    private val itemClickWeb: (CustomClass) -> Unit
+    private val itemClick: (ProductListResponse.Products) -> Unit,
+    private val removeFromCartClick: (ProductListResponse.Products, Int) -> Unit,
+    private val updateCartClick: (ProductListResponse.Products, Int) -> Unit
 ) :
     RecyclerView.Adapter<CartProductAdapter.HomeOffersViewHolder>() {
 
-    private var list: ArrayList<CustomClass> = ArrayList()
+    private var productList: ArrayList<ProductListResponse.Products> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeOffersViewHolder {
         val binding =
@@ -21,74 +24,65 @@ class CartProductAdapter(
                 parent,
                 false
             )
-        return HomeOffersViewHolder(binding, itemClickWeb)
+        return HomeOffersViewHolder(binding, itemClick, removeFromCartClick, updateCartClick)
     }
 
     override fun onBindViewHolder(holder: HomeOffersViewHolder, position: Int) {
-        holder.bindForecast(list[position])
+        holder.bindForecast(productList[position], position)
     }
 
-    fun setItem(list: ArrayList<CustomClass>) {
-        this.list.addAll(list)
-        notifyDataSetChanged()
+    fun itemRemovedFromCart(position: Int) {
+        productList.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, productList.size)
+    }
+
+    fun setItem(newList: ArrayList<ProductListResponse.Products>) {
+        val size = this.productList.size
+        this.productList.addAll(newList)
+        val sizeNew = this.productList.size
+        notifyItemRangeChanged(size, sizeNew)
     }
 
     fun reset() {
-        this.list.clear()
-        notifyDataSetChanged()
+        this.productList.clear()
+        notifyItemRangeRemoved(0, this.productList.size)
     }
 
-    override fun getItemCount(): Int = list.size
+    override fun getItemCount(): Int = productList.size
 
     class HomeOffersViewHolder(
         private val binding: CheckoutItemBinding,
-        private val itemClickCall: (CustomClass) -> Unit,
+        private val itemClickCall: (ProductListResponse.Products) -> Unit,
+        private val removeFromCartClick: (ProductListResponse.Products, Int) -> Unit,
+        private val updateCartClick: (ProductListResponse.Products, Int) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
-
-//        constructor(parent: ViewGroup) : this(
-//            LayoutInflater.from(parent.context).inflate(
-//                R.layout.item_vatan_nu_gham,
-//                parent, false
-//            )
-//        )
 
         @SuppressLint("SetTextI18n")
         fun bindForecast(
-            newsPortal: CustomClass
+            newsPortal: ProductListResponse.Products,
+            position: Int
         ) {
             with(newsPortal) {
 
-                binding.tvMLAName.text = newsPortal.itemName
+                println("updated item name is: ${newsPortal.name} and position is $position")
+                binding.tvMLAName.text = newsPortal.name
+                binding.tvProductCount.text = newsPortal.itemQuantity.toString()
 
-//                Glide.with(binding.ivMLA.context)
-//                    .load(newsPortal.image)
-//                    .into(binding.ivMLA)
+                val amount =
+                    newsPortal.packing_list[newsPortal.selectedItemPosition].product_price.toDouble() * newsPortal.itemQuantity
+                binding.tvAmount.text =
+                    rupeesWithTwoDecimal(amount)
+                binding.tvWeight.text =
+                    "(${newsPortal.packing_list[newsPortal.selectedItemPosition].product_weight} " +
+                            "${newsPortal.packing_list[newsPortal.selectedItemPosition].weight_type})"
 
-//
-//                if (newsPortal.name.isNullOrEmpty()) {
-//                    binding.tvNewsPortalTitle.visibility = View.GONE
-//                }
-//                if (newsPortal.address.isNullOrEmpty()) {
-//                    binding.llNewsPortalAddress.visibility = View.GONE
-//                }
-//                if (newsPortal.contact_no.isNullOrEmpty()) {
-//                    binding.llNewsPortalPhone.visibility = View.GONE
-//                }
-//                if (newsPortal.email.isNullOrEmpty()) {
-//                    binding.llNewsPortalEmail.visibility = View.GONE
-//                }
-//                if (newsPortal.website.isNullOrEmpty()) {
-//                    binding.llNewsPortalWebsite.visibility = View.GONE
-//                }
-//
-//                binding.tvNewsPortalTitle.text = newsPortal.name
-//                binding.tvNewsPortalAddress.text = newsPortal.address
-//                binding.tvNewsPortalPhone.text = newsPortal.contact_no
-//                binding.tvNewsPortalEmail.text = newsPortal.email
-//                binding.tvNewsPortalWebsite.text = newsPortal.website
-//
                 binding.root.setOnClickListener {
                     itemClickCall(this)
+                }
+
+                binding.ivDelete.setOnClickListener {
+                    removeFromCartClick(newsPortal, position)
                 }
 
                 binding.tvMinus.setOnClickListener {
@@ -97,6 +91,17 @@ class CartProductAdapter(
                         currentProductCount -= 1
                     }
                     binding.tvProductCount.text = currentProductCount.toString()
+                    newsPortal.itemQuantity = currentProductCount
+
+                    if (currentProductCount == 0) {
+                        removeFromCartClick(newsPortal, position)
+                    } else {
+                        val newAmount =
+                            newsPortal.packing_list[newsPortal.selectedItemPosition].product_price.toDouble() * newsPortal.itemQuantity
+                        binding.tvAmount.text =
+                            rupeesWithTwoDecimal(newAmount)
+                        updateCartClick(newsPortal, position)
+                    }
                 }
 
                 binding.tvPlus.setOnClickListener {
@@ -105,11 +110,13 @@ class CartProductAdapter(
                         currentProductCount += 1
                     }
                     binding.tvProductCount.text = currentProductCount.toString()
+                    newsPortal.itemQuantity = currentProductCount
+
+                    val newAmount =
+                        newsPortal.packing_list[newsPortal.selectedItemPosition].product_price.toDouble() * newsPortal.itemQuantity
+                    binding.tvAmount.text = rupeesWithTwoDecimal(newAmount)
+                    updateCartClick(newsPortal, position)
                 }
-//
-//                binding.ivWeb.setOnClickListener {
-//                    itemClickWeb(this)
-//                }
             }
         }
     }

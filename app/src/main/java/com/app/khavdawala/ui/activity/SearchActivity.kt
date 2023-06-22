@@ -11,7 +11,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import app.app.patidarsaurabh.apputils.EndlessRecyclerOnScrollListener
+import com.app.khavdawala.apputils.EndlessRecyclerOnScrollListener
 import com.app.khavdawala.R
 import com.app.khavdawala.apputils.*
 import com.app.khavdawala.databinding.ActivitySearchBinding

@@ -2,10 +2,12 @@ package com.app.khavdawala.apputils
 
 import android.app.Activity
 import android.app.Application
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
 import android.os.Build
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -14,7 +16,8 @@ import android.widget.Toast
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import com.app.khavdawala.BuildConfig
+import com.app.khavdawala.R
 import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.ui.activity.SplashActivity
 import com.bumptech.glide.Glide
@@ -69,11 +72,6 @@ fun showSnackBar(message: String?, activity: Activity?) {
             message, Snackbar.LENGTH_SHORT
         ).show()
     }
-}
-
-//
-fun showToast(text: String, context: Context) {
-    Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
 }
 
 fun Context.showToast(text: String) {
@@ -367,7 +365,7 @@ fun sessionExpired(application: Application) {
 //    imeOptions = EditorInfo.IME_ACTION_NEXT
 //    setRawInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES or InputType.TYPE_TEXT_FLAG_MULTI_LINE)
 //}
-fun setRecyclerViewLayoutManager(recyclerView: RecyclerView, context: Context) : LayoutManager {
+fun setRecyclerViewLayoutManager(recyclerView: RecyclerView, context: Context) : RecyclerView.LayoutManager {
     val layoutManager = LinearLayoutManager(context)
     recyclerView.layoutManager = layoutManager
     recyclerView.itemAnimator = DefaultItemAnimator()
@@ -427,7 +425,8 @@ fun Context.checkItemExistInCart(
 
 fun Context.getCartItemCount(
     product_id: String,
-    cartPackingId: String): Int {
+    cartPackingId: String
+): Int {
     val cartProductList = getCartProductList()
     for (item in cartProductList) {
         if (item.product_id == product_id && item.cartPackingId == cartPackingId) {
@@ -435,4 +434,51 @@ fun Context.getCartItemCount(
         }
     }
     return 0
+}
+
+fun Context.shareApp() {
+    val txtIntent = Intent(Intent.ACTION_SEND)
+    txtIntent.type = "text/plain"
+    txtIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
+    txtIntent.putExtra(
+        Intent.EXTRA_TEXT, SPreferenceManager.getInstance(this).settings.settings[0].appsharemsg
+    )
+    startActivity(Intent.createChooser(txtIntent, "Share"))
+}
+
+fun Context.rateApp() {
+    val uri: Uri = Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID)
+    val goToMarket = Intent(Intent.ACTION_VIEW, uri)
+    // To count with Play market backstack, After pressing back button,
+    // to taken back to our application, we need to add following flags to intent.
+    goToMarket.addFlags(
+        Intent.FLAG_ACTIVITY_NO_HISTORY or
+                Intent.FLAG_ACTIVITY_NEW_DOCUMENT or
+                Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+    )
+    try {
+        startActivity(goToMarket)
+    } catch (e: ActivityNotFoundException) {
+        startActivity(
+            Intent(
+                Intent.ACTION_VIEW,
+                Uri.parse(
+                    "http://play.google.com/store/apps/details?id="
+                            + BuildConfig.APPLICATION_ID
+                )
+            )
+        )
+    }
+}
+
+fun String.removeLastComma(): String {
+    var str = this
+    if (str.isNotEmpty() && str[str.length - 1] == ',') {
+        str = str.substring(0, str.length - 1)
+    }
+    return str
+}
+
+fun rupeesWithTwoDecimal(value: Double): String {
+    return "Rs. " + String.format("%.2f", value)
 }

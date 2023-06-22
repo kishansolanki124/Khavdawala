@@ -20,7 +20,6 @@ class SearchViewModel : ViewModel() {
     private var apiEndPointsInterface =
         RetrofitFactory.createService(APIEndPointsInterface::class.java)
 
-
     /**
      * Dispatchers.IO for network or disk operations that takes longer time and runs in background thread
      */

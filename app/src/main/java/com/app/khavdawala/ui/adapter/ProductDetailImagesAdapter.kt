@@ -8,7 +8,7 @@ import com.app.khavdawala.pojo.response.ProductDetailResponse
 import com.bumptech.glide.Glide
 
 class ProductDetailImagesAdapter(
-    private val itemClick: (ProductDetailResponse.ProductGallery) -> Unit
+    private val itemClick: (ProductDetailResponse.ProductGallery, Int) -> Unit
 ) : RecyclerView.Adapter<ProductDetailImagesAdapter.HomeOffersViewHolder>() {
 
     private var list: List<ProductDetailResponse.ProductGallery> = listOf()
@@ -29,7 +29,7 @@ class ProductDetailImagesAdapter(
 
     override fun onBindViewHolder(holder: HomeOffersViewHolder, position: Int) {
         holder.itemView.setOnClickListener {
-            list[position].let { it1 -> itemClick.invoke(it1) }
+            list[position].let { it1 -> itemClick.invoke(it1, position) }
         }
         holder.bind(list[position])
     }

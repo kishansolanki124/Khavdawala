@@ -1,7 +1,10 @@
 package com.app.khavdawala.ui.fragment
 
+import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,12 +21,15 @@ import com.app.khavdawala.pojo.request.AddFavRequest
 import com.app.khavdawala.pojo.request.ProductRequest
 import com.app.khavdawala.pojo.response.AddFavResponse
 import com.app.khavdawala.pojo.response.ProductDetailResponse
+import com.app.khavdawala.pojo.response.ProductListResponse
+import com.app.khavdawala.ui.activity.DisplayPictureActivity
 import com.app.khavdawala.ui.activity.HomeActivity
 import com.app.khavdawala.ui.adapter.HorizontalProductListAdapter
 import com.app.khavdawala.ui.adapter.ProductDetailImagesAdapter
 import com.app.khavdawala.viewmodel.ProductViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import java.io.Serializable
 
 class ProductDetailFragment : Fragment() {
 
@@ -32,6 +38,7 @@ class ProductDetailFragment : Fragment() {
     private lateinit var layoutManager: LinearLayoutManager
     private var productLiked = false
     private lateinit var binding: FragmentProductDetailBinding
+    private var products = ProductListResponse.Products()
     private var pid = ""
     private lateinit var categoryViewModel: ProductViewModel
     private var fragmentList: ArrayList<Fragment> = ArrayList()
@@ -67,12 +74,41 @@ class ProductDetailFragment : Fragment() {
             }
         }
 
+        binding.btAdd.setOnClickListener {
+            binding.llPlusMin.visible()
+            binding.llBlankItem.invisible()
+
+            binding.tvProductCount.text = "1"
+            binding.tvProductCount.text = "1"
+            products.itemQuantity = 1
+            (requireActivity() as HomeActivity).updateToCart(products)
+            binding.ivCart.setBackgroundResource(R.drawable.cart_icon_active)
+        }
+
         binding.tvMinus.setOnClickListener {
             var currentProductCount = binding.tvProductCount.text.toString().toInt()
             if (currentProductCount != 0) {
                 currentProductCount -= 1
             }
             binding.tvProductCount.text = currentProductCount.toString()
+
+
+            products.itemQuantity = currentProductCount
+
+            if (currentProductCount == 0) {
+                binding.ivCart.setBackgroundResource(R.drawable.cart_button)
+                binding.llBlankItem.visible()
+                binding.llPlusMin.invisible()
+                if (products.available_in_cart) {
+                    (requireActivity() as HomeActivity).removeFromCart(products)
+                    products.available_in_cart = false
+                } else {
+                    (requireActivity() as HomeActivity).addToCart(products)
+                    products.available_in_cart = true
+                }
+            } else {
+                (requireActivity() as HomeActivity).updateToCart(products)
+            }
         }
 
         binding.tvPlus.setOnClickListener {
@@ -81,6 +117,8 @@ class ProductDetailFragment : Fragment() {
                 currentProductCount += 1
             }
             binding.tvProductCount.text = currentProductCount.toString()
+            products.itemQuantity = currentProductCount
+            (requireActivity() as HomeActivity).updateToCart(products)
         }
     }
 
@@ -127,15 +165,64 @@ class ProductDetailFragment : Fragment() {
 
         if (null != productDetailResponse) {
             if (productDetailResponse.status == "1") {
+
+                products.name = productDetailResponse.product_detail[0].name
+                products.product_id = productDetailResponse.product_detail[0].product_id
+
+                for (productPacking in productDetailResponse.product_packing) {
+                    val packing = ProductListResponse.Products.Packing()
+                    packing.packing_id = productPacking.packing_id
+                    packing.product_id = productPacking.product_id
+                    packing.product_price = productPacking.product_price
+                    packing.product_weight = productPacking.product_weight
+                    packing.weight_type = productPacking.weight_type
+                    products.packing_list.add(packing)
+                }
+
                 setupHorizontalMainNews(productDetailResponse.product_gallery)
                 setupViews(productDetailResponse.product_detail[0])
                 setupSpinner(productDetailResponse.product_packing)
                 setupList(productDetailResponse.youmay_alsolike)
+
+                //check item exist in cart
+                checkItemExistInCart()
             } else {
                 showSnackBar(productDetailResponse.message, requireActivity())
             }
         } else {
             showSnackBar(getString(R.string.no_internet), requireActivity())
+        }
+    }
+
+    private fun checkItemExistInCart() {
+        if (requireContext().checkItemExistInCart(
+                products.product_id,
+                products.cartPackingId,
+                products.packing_list
+            )
+        ) {
+            products.available_in_cart = true
+            binding.ivCart.setBackgroundResource(R.drawable.cart_icon_active)
+        } else {
+            products.available_in_cart = false
+            binding.ivCart.setBackgroundResource(R.drawable.cart_button)
+        }
+
+        binding.spStateGujaratiSamaj.setSelection(products.selectedItemPosition)
+        products.cartPackingId =
+            products.packing_list[products.selectedItemPosition].packing_id
+        products.itemQuantity = binding.tvProductCount.context.getCartItemCount(
+            products.product_id,
+            products.cartPackingId
+        )
+
+        if (products.available_in_cart && products.itemQuantity > 0) {
+            binding.llBlankItem.invisible()
+            binding.llPlusMin.visible()
+            binding.tvProductCount.text = products.itemQuantity.toString()
+        } else {
+            binding.llBlankItem.visible()
+            binding.llPlusMin.invisible()
         }
     }
 
@@ -150,37 +237,58 @@ class ProductDetailFragment : Fragment() {
         }
 
         fragmentList.clear()
-        fragmentList.add(ProductDescriptionFragment.newInstance(productDetailResponse.description))
-        fragmentList.add(ProductDescriptionFragment.newInstance((productDetailResponse.nutrition)))
+        if (!productDetailResponse.description.isNullOrEmpty()) {
+            fragmentList.add(
+                WebViewFragment.newInstance(
+                    productDetailResponse.description!!,
+                    false
+                )
+            )
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Description"))
+        }
+
+        if (!productDetailResponse.product_availability.isNullOrEmpty()) {
+            binding.tvProductDesc.visible()
+            binding.tvProductDesc.text = productDetailResponse.product_availability
+        } else {
+            binding.tvProductDesc.gone()
+        }
+
+        if (!productDetailResponse.nutrition.isNullOrEmpty()) {
+            fragmentList.add(ProductDescriptionFragment.newInstance((productDetailResponse.nutrition!!)))
+            binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Nutrition Value"))
+        }
 
         binding.wvProductDetail.setBackgroundColor(Color.TRANSPARENT)
-        binding.wvProductDetail.loadDataWithBaseURL(
-            null,
-            productDetailResponse.description,
-            "text/html",
-            "UTF-8",
-            null
-        )
-
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Description"))
-        binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Nutrition Value"))
 
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when (tab?.position) {
                     0 -> {
-                        binding.wvProductDetail.loadDataWithBaseURL(
-                            null,
-                            productDetailResponse.description,
-                            "text/html",
-                            "UTF-8",
-                            null
-                        )
+                        binding.wvProductDetail.gone()
+                        binding.tvHtml.visible()
+                        binding.tvHtml.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            Html.fromHtml(
+                                productDetailResponse.description,
+                                Html.FROM_HTML_MODE_COMPACT
+                            )
+                        } else {
+                            Html.fromHtml(productDetailResponse.description)
+                        }
+//                        binding.wvProductDetail.loadDataWithBaseURL(
+//                            null,
+//                            productDetailResponse.description,
+//                            "text/html",
+//                            "UTF-8",
+//                            null
+//                        )
                     }
                     else -> {
+                        binding.tvHtml.gone()
+                        binding.wvProductDetail.visible()
                         binding.wvProductDetail.loadDataWithBaseURL(
                             null,
-                            productDetailResponse.nutrition,
+                            productDetailResponse.nutrition!!,
                             "text/html",
                             "UTF-8",
                             null
@@ -194,9 +302,11 @@ class ProductDetailFragment : Fragment() {
             }
 
             override fun onTabReselected(tab: TabLayout.Tab?) {
-
+                onTabSelected(tab)
             }
         })
+
+        binding.tabLayout.getTabAt(0)?.select()
     }
 
     private fun setupSpinner(productPacking: List<ProductDetailResponse.ProductPacking>) {
@@ -211,24 +321,18 @@ class ProductDetailFragment : Fragment() {
         binding.spStateGujaratiSamaj.adapter = adapter
 
         binding.spStateGujaratiSamaj.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    p0: AdapterView<*>?,
-                    p1: View?,
-                    p2: Int,
-                    p3: Long
+            object : MySpinnerItemSelectionListener() {
+                override fun onUserItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    dropdownPosition: Int,
+                    id: Long
                 ) {
-//                    stateId = stateList[p2].id!!
-//                    filterCitySpinnerList(stateId)
+                    products.selectedItemPosition = dropdownPosition
+                    products.cartPackingId =
+                        products.packing_list[dropdownPosition].packing_id
 
-//                        if (selectionCount++ > 1) {
-//                            //onItemSelected(p2)
-//                            //newsPortal.let { it1 -> itemClickWeb.invoke(it1) }
-//                        }
-                }
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                    return
+                    checkItemExistInCart()
                 }
             }
     }
@@ -249,12 +353,15 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun setupHorizontalMainNews(scrollNewsList: List<ProductDetailResponse.ProductGallery>) {
-        val adapter = ProductDetailImagesAdapter {
-//            startActivity(
-//                Intent(
-//                    requireActivity(), NewsDetailsActivity::class.java
-//                ).putExtra(AppConstants.NEWS_ID, it.id)
-//            )
+        val adapter = ProductDetailImagesAdapter { item, position ->
+            startActivity(
+                Intent(requireActivity(), DisplayPictureActivity::class.java)
+                    .putExtra(AppConstants.IMAGE_POSITION, position)
+                    .putExtra(
+                        AppConstants.IMAGE_LIST,
+                        scrollNewsList as Serializable
+                    )
+            )
         }
         adapter.setItem(scrollNewsList)
         binding.vpProductDetail.adapter = adapter

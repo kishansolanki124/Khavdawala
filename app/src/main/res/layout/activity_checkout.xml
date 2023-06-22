@@ -1,62 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@drawable/bg_image"
-    android:orientation="vertical"
     tools:context=".ui.activity.CheckoutActivity">
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/newsHomeViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_200"
-        android:background="@color/black"
-        android:nestedScrollingEnabled="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/banner_top3" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/newsHomeViewPager"
-        android:layout_marginVertical="@dimen/dp_5">
+        android:layout_marginBottom="@dimen/dp_10">
 
         <RelativeLayout
+            android:id="@+id/rl_checkout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="@dimen/dp_10">
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:id="@+id/newsHomeViewPager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_category_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_200"
+                    android:background="@color/black"
+                    android:nestedScrollingEnabled="true"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/banner_top6" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/bold_2"
+                    android:gravity="center"
+                    android:letterSpacing="0.01"
+                    android:padding="@dimen/dp_10"
+                    android:textColor="@color/category_header"
+                    android:textSize="@dimen/sp_40"
+                    tools:text="@string/Cart" />
+            </FrameLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_sbtotal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/newsHomeViewPager"
+                android:layout_marginHorizontal="@dimen/dp_10"
                 android:layout_marginVertical="@dimen/dp_5"
                 android:background="@drawable/white_rounded_corner_bg"
                 android:paddingHorizontal="@dimen/dp_10">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_subtotal"
+                    style="@style/CheckoutTextView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:padding="@dimen/dp_5"
-                    android:text="Subtotal"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_20"
-                    android:textStyle="bold" />
+                    android:text="@string/Subtotal" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_total_amount"
+                    style="@style/CheckoutTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/tv_subtotal"
                     android:gravity="end"
-                    android:padding="@dimen/dp_5"
-                    android:text="Rs. 150"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_20"
-                    android:textStyle="bold" />
+                    tools:text="Rs. 150" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -64,32 +75,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rl_sbtotal"
+                android:layout_marginHorizontal="@dimen/dp_10"
                 android:layout_marginVertical="@dimen/dp_5"
                 android:background="@drawable/white_rounded_corner_bg"
                 android:paddingHorizontal="@dimen/dp_10">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_delivery_charge"
+                    style="@style/CheckoutTextView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:padding="@dimen/dp_5"
-                    android:text="Delivery Charge"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_20"
+                    android:text="@string/Delivery_Charge"
                     android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_delivery_charge_amount"
+                    style="@style/CheckoutTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/tv_delivery_charge"
                     android:gravity="end"
-                    android:padding="@dimen/dp_5"
-                    android:text="Rs. 20"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_20"
-                    android:textStyle="bold" />
+                    tools:text="Rs. 20" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -97,154 +101,291 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rl_delivery_charge"
+                android:layout_marginHorizontal="@dimen/dp_10"
                 android:layout_marginVertical="@dimen/dp_5"
                 android:background="@drawable/red_rounded_corner_bg"
                 android:paddingHorizontal="@dimen/dp_10">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_grand_total"
+                    style="@style/CheckoutTextView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:padding="@dimen/dp_5"
-                    android:text="Grand Total"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/sp_20"
-                    android:textStyle="bold" />
+                    android:text="@string/Grand_Total"
+                    android:textColor="@color/white" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_grand_total_amount"
+                    style="@style/CheckoutTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/tv_grand_total"
                     android:gravity="end"
-                    android:padding="@dimen/dp_5"
-                    android:text="Rs. 170"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/sp_20"
-                    android:textStyle="bold" />
+                    tools:text="Rs. 170" />
             </RelativeLayout>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rl_grand_total"
+                android:layout_marginHorizontal="@dimen/dp_10"
                 android:orientation="vertical">
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/CheckoutTextView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="@dimen/dp_5"
-                    android:gravity="center_horizontal"
-                    android:padding="@dimen/dp_5"
-                    android:paddingHorizontal="@dimen/dp_10"
-                    android:text="CheckOut Details"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_20"
-                    android:textStyle="bold" />
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    style="@style/CommonEditText"
-                    android:hint="Enter Mobile No." />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:padding="@dimen/dp_5"
-                    android:text="Address Information"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_20"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:text="@string/Address_Information" />
 
                 <RadioGroup
+                    android:id="@+id/rg_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/rb_gujarat"
+                        style="@style/CommonRadioButton"
+                        android:text="@string/Gujarat" />
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/rb_outside_gujarat"
+                        style="@style/CommonRadioButton"
+                        android:text="@string/Outside_Gujarat" />
+                </RadioGroup>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_city"
+                    style="@style/CheckoutTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:text="@string/Select_City"
+                    android:textSize="@dimen/sp_16" />
+
+                <RadioGroup
+                    android:id="@+id/rg_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/rb_rajkot"
+                        style="@style/CommonRadioButton"
+                        android:text="@string/Rajkot" />
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/rb_outside_rajkot"
+                        style="@style/CommonRadioButton"
+                        android:text="@string/Outside_Rajkot" />
+                </RadioGroup>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/CheckoutTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:text="@string/Checkout_Details" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/et_mobile"
+                    style="@style/CommonEditText"
+                    android:hint="@string/mobile_no"
+                    android:imeOptions="actionDone"
+                    android:inputType="numberSigned"
+                    android:maxLength="10" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/bt_mob_address"
+                    style="@style/CommonButton"
+                    android:text="@string/Continue" />
+
+                <include
+                    android:id="@+id/loading_address"
+                    layout="@layout/loading_indicator" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_checkout_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/tvGujarat"
-                        android:layout_width="wrap_content"
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_name"
+                        style="@style/CommonEditText"
+                        android:hint="@string/your_name"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_email"
+                        style="@style/CommonEditText"
+                        android:hint="@string/your_email"
+                        android:imeOptions="actionNext"
+                        android:inputType="textEmailAddress" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_area"
+                        style="@style/CommonEditText"
+                        android:hint="@string/Area"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_sub_area"
+                        style="@style/CommonEditText"
+                        android:hint="@string/Sub_Area"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_delivery_address"
+                        style="@style/CommonEditText"
+                        android:gravity="top|start"
+                        android:hint="@string/Delivery_Address"
+                        android:imeOptions="actionNext"
+                        android:inputType="textPostalAddress|textMultiLine"
+                        android:minLines="4" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_zip"
+                        style="@style/CommonEditText"
+                        android:hint="@string/Zipcode"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberSigned"
+                        android:maxLength="7" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_city"
+                        style="@style/CommonEditText"
+                        android:hint="@string/City"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_state"
+                        style="@style/CommonEditText"
+                        android:hint="@string/State"
+                        android:imeOptions="actionNext"
+                        android:inputType="textCapWords" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_alternate_mob"
+                        style="@style/CommonEditText"
+                        android:hint="@string/alternate_mobile_no"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberSigned"
+                        android:maxLength="10" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/et_notes"
+                        style="@style/CommonEditText"
+                        android:gravity="top|start"
+                        android:hint="@string/Notes_if_any"
+                        android:imeOptions="actionDone"
+                        android:inputType="textMultiLine"
+                        android:minLines="4" />
+
+                    <androidx.appcompat.widget.AppCompatCheckBox
+                        android:id="@+id/cbGiftPack"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Gujarat"
+                        android:buttonTint="@color/black"
+                        android:fontFamily="@font/medium"
+                        android:text="@string/gift_packing_"
                         android:textColor="@color/black"
                         android:textSize="@dimen/sp_14" />
 
-                    <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/tvOutsideGuj"
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/dp_10"
+                        android:orientation="horizontal">
+
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:id="@+id/cb_I_agree"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/black"
+                            android:fontFamily="@font/medium"
+                            android:text="@string/i_agree_1"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/sp_14" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:paddingStart="@dimen/dp_5"
+                            android:paddingEnd="@dimen/dp_5">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tv_tnc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="@dimen/dp_10"
+                                android:fontFamily="@font/medium"
+                                android:gravity="center_vertical"
+                                android:text="@string/i_agree_2"
+                                android:textColor="@color/btnBG"
+                                android:textSize="@dimen/sp_14"
+                                android:theme="@style/ClickableTextView"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <androidx.core.widget.ContentLoadingProgressBar
+                                android:id="@+id/pb_tnc"
+                                style="?android:attr/progressBarStyle"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:indeterminateTint="@color/btnBG"
+                                android:indeterminateTintMode="multiply"
+                                android:scaleX="0.7"
+                                android:scaleY="0.7"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="@+id/tv_tnc"
+                                app:layout_constraintEnd_toEndOf="@+id/tv_tnc"
+                                app:layout_constraintStart_toStartOf="@+id/tv_tnc"
+                                app:layout_constraintTop_toTopOf="@+id/tv_tnc" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Outside Gujarat"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/sp_14" />
+                        android:layout_marginTop="@dimen/dp_20">
 
-                    <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/tvRajkot"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Rajkot"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/sp_14" />
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/bt_place_order"
+                            style="@style/CommonButton"
+                            android:layout_margin="@dimen/dp_0"
+                            android:text="@string/Submit"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                    <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/tvOutSideRaj"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Outside Rajkot"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/sp_14" />
-                </RadioGroup>
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    style="@style/CommonEditText"
-                    android:hint="City" />
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    style="@style/CommonEditText"
-                    android:hint="Name" />
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    style="@style/CommonEditText"
-                    android:hint="Email" />
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    style="@style/CommonEditText"
-                    android:gravity="top|start"
-                    android:hint="Delivery Address"
-                    android:minLines="4" />
-
-                <androidx.appcompat.widget.AppCompatEditText
-                    style="@style/CommonEditText"
-                    android:gravity="top|start"
-                    android:hint="Notes if any"
-                    android:minLines="4" />
-
-                <androidx.appcompat.widget.AppCompatCheckBox
-                    android:id="@+id/cbGiftPack"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Gift packing : (Please mark the checkbox)"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_14" />
-
-                <androidx.appcompat.widget.AppCompatCheckBox
-                    android:id="@+id/cbIAgree"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/dp_10"
-                    android:text="I Agree : (Terms And Condition)"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/sp_14" />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    style="@style/CommonButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/dp_0"
-                    android:text="@string/Submit" />
+                        <androidx.core.widget.ContentLoadingProgressBar
+                            android:id="@+id/pb_place_order"
+                            style="?android:attr/progressBarStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:indeterminateTint="@color/btnBG"
+                            android:indeterminateTintMode="multiply"
+                            android:scaleX="0.7"
+                            android:scaleY="0.7"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="@+id/bt_place_order"
+                            app:layout_constraintEnd_toEndOf="@+id/bt_place_order"
+                            app:layout_constraintStart_toStartOf="@+id/bt_place_order"
+                            app:layout_constraintTop_toTopOf="@+id/bt_place_order" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.appcompat.widget.LinearLayoutCompat>
             </androidx.appcompat.widget.LinearLayoutCompat>
         </RelativeLayout>
     </ScrollView>
+
+    <include
+        android:id="@+id/loading"
+        layout="@layout/loading_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true" />
 
     <include
         android:id="@+id/toolbar"

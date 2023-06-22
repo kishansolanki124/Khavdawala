@@ -10,6 +10,7 @@ data class ProductDetailResponse(
 ) {
     data class ProductDetail(
         var description: String = "",
+        var product_availability: String ?= null,
         var name: String = "",
         var favourite: String = "",
         var nutrition: String = "",
@@ -21,7 +22,7 @@ data class ProductDetailResponse(
         var id: String = "",
         var product_id: String = "",
         var up_pro_img: String = ""
-    )
+    ) : java.io.Serializable
 
     data class ProductPacking(
         var packing_id: String = "",

@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.app.khavdawala.R
-import com.app.khavdawala.apputils.isConnected
-import com.app.khavdawala.apputils.showSnackBar
+import com.app.khavdawala.apputils.*
 import com.app.khavdawala.databinding.FragmentAboutBinding
+import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.pojo.response.StaticPageResponse
 import com.app.khavdawala.ui.adapter.TabFragmentAdapter
 import com.app.khavdawala.viewmodel.StaticPageViewModel
@@ -33,6 +33,7 @@ class AboutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.tvHeader.text = getString(R.string.About)
         staticPageViewModel = ViewModelProvider(this)[StaticPageViewModel::class.java]
 
         staticPageViewModel.categoryResponse().observe(requireActivity()) {
@@ -43,27 +44,40 @@ class AboutFragment : Fragment() {
     }
 
     private fun handleResponse(staticPageResponse: StaticPageResponse?) {
-        binding.pbHome.visibility = View.GONE
+        binding.loading.pbCommon.gone()
         if (null != staticPageResponse) {
-            binding.vpStaticPage.visibility = View.VISIBLE
-            binding.tabLayout.visibility = View.VISIBLE
+            binding.vpStaticPage.visible()
+            binding.tabLayout.visible()
             setupViewPager(staticPageResponse.staticpage)
+            if (staticPageResponse.banner_list.isNotEmpty()) {
+                setupHorizontalMainNews(staticPageResponse.banner_list)
+            }
         } else {
             showSnackBar(getString(R.string.something_went_wrong), requireActivity())
         }
     }
 
     private fun setupViewPager(list: List<StaticPageResponse.Staticpage>) {
-        val staticPage: ArrayList<StaticPageResponse.Staticpage> = ArrayList()
+        val staticPageList: ArrayList<StaticPageResponse.Staticpage> = ArrayList()
         val fragmentList: ArrayList<Fragment> = ArrayList()
+        val expandableDetailList: HashMap<String, String> = HashMap()
+
         for (item in list) {
-            if (item.name.contains("About") || item.name.contains("Terms")) {
-                staticPage.add(item)
-                fragmentList.add(WebViewFragment.newInstance(item.description))
+            if (item.name.contains("Terms") || item.name.contains("Refund") || item.name.contains("Privacy")
+            ) {
+                expandableDetailList[item.name] = item.description
+            }
+
+            if (item.name.contains("About")) {
+                staticPageList.add(item)
+                fragmentList.add(WebViewFragment.newInstance(item.description, true))
             }
         }
 
-        staticPage.add(StaticPageResponse.Staticpage("", "Contact Us"))
+        staticPageList.add(StaticPageResponse.Staticpage("", "Terms"))
+        fragmentList.add(ExpandableWebDataFragment.newInstance(expandableDetailList))
+
+        staticPageList.add(StaticPageResponse.Staticpage("", "Contact Us"))
         fragmentList.add(ContactUsFragment())
 
         for (i in 0 until binding.tabLayout.tabCount) {
@@ -73,23 +87,30 @@ class AboutFragment : Fragment() {
             tab.requestLayout()
         }
 
-        tabFragmentAdapter = TabFragmentAdapter(this, fragmentList, staticPage.size)
+        tabFragmentAdapter = TabFragmentAdapter(this, fragmentList, staticPageList.size)
         binding.vpStaticPage.adapter = tabFragmentAdapter
         binding.vpStaticPage.isUserInputEnabled = false
 
         TabLayoutMediator(binding.tabLayout, binding.vpStaticPage) { tab, position ->
-            tab.text = staticPage[position].name
+            tab.text = staticPageList[position].name
         }.attach()
     }
 
     private fun fetchMagazineList() {
         if (isConnected(requireContext())) {
-            binding.vpStaticPage.visibility = View.GONE
-            binding.tabLayout.visibility = View.GONE
-            binding.pbHome.visibility = View.VISIBLE
+            binding.vpStaticPage.gone()
+            binding.tabLayout.gone()
+            binding.loading.pbCommon.visible()
             staticPageViewModel.getStaticPage()
         } else {
             showSnackBar(getString(R.string.no_internet), requireActivity())
         }
     }
+
+    private fun setupHorizontalMainNews(bannerList: java.util.ArrayList<ProductListResponse.Banner>) {
+        if (bannerList.isNotEmpty()) {
+            binding.ivCategoryHeader.loadImage(bannerList[0].banner_img)
+        }
+    }
+
 }

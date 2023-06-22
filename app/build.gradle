@@ -54,4 +54,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0-alpha03"
     //glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
+    //For Razorpay checkout SDK
+    implementation 'com.razorpay:checkout:1.6.15'
 }

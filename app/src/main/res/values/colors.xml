@@ -4,6 +4,7 @@
     <color name="colorAccent">@color/btnBG</color>
     <color name="colorPrimary">@color/black</color>
     <color name="colorPrimaryDark">@color/black</color>
+    <color name="dark_gray">#494949</color>
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
