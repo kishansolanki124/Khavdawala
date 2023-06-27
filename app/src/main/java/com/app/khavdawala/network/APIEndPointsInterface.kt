@@ -169,6 +169,12 @@ interface APIEndPointsInterface {
     ): RegisterResponse
 
     //multipart/form-data
+    @POST(AppConstants.APIEndPoints.CHECK_USER)
+    suspend fun checkUser(
+        @Body hashMap: MultipartBody
+    ): CheckUserResponse
+
+    //multipart/form-data
     @POST(AppConstants.APIEndPoints.ADD_ORDER)
     suspend fun addOrder(
         @Body hashMap: MultipartBody

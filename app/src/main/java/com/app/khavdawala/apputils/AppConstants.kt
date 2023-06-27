@@ -4,6 +4,7 @@ interface AppConstants {
     interface RequestCode {
         companion object {
             const val SEARCH_ACTIVITY = 100
+            const val CART_ACTIVITY = 101
         }
     }
     companion object {
@@ -62,6 +63,7 @@ const val IS_LOGIN: String = "IS_LOGIN"
 //            const val GET_CONTACT_US: String = "get_contactus"
 const val BASE_URL = "https://khavdawala.com/khavdawalaapi/"
             const val REGISTRATION: String = "registration"
+            const val CHECK_USER: String = "check_user"
             const val ADD_ORDER: String = "add_order"
             const val ADD_ORDER_STATUS: String = "add_order_status"
             const val GET_ADDRESS: String = "get_order_address"
@@ -86,6 +88,7 @@ const val BASE_URL = "https://khavdawala.com/khavdawalaapi/"
             const val MOBILE = "mobile"
             const val NAME = "name"
             const val BIRTH_DATE = "birth_date"
+            const val device_id = "device_id"
             const val CID = "cid"
             const val START = "start"
             const val END = "end"

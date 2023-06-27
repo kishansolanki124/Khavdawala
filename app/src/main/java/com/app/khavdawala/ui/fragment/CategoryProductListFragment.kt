@@ -20,6 +20,7 @@ import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.ui.activity.HomeActivity
 import com.app.khavdawala.ui.adapter.CategoryProductListAdapter
 import com.app.khavdawala.viewmodel.ProductViewModel
+import com.app.khavdawala.viewmodel.SharedViewModel
 
 class CategoryProductListFragment : Fragment() {
 
@@ -31,6 +32,8 @@ class CategoryProductListFragment : Fragment() {
 
     private lateinit var categoryProductListAdapter: CategoryProductListAdapter
     private lateinit var categoryViewModel: ProductViewModel
+    private lateinit var sharedViewModelInstance: SharedViewModel
+
     private var productList: ArrayList<ProductListResponse.Products> = ArrayList()
     private lateinit var binding: FragmentCategoryProductListBinding
     private lateinit var layoutManager: LinearLayoutManager
@@ -149,6 +152,7 @@ class CategoryProductListFragment : Fragment() {
 
     private fun initVIewModel() {
         categoryViewModel = ViewModelProvider(this)[ProductViewModel::class.java]
+        sharedViewModelInstance = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
 
         categoryViewModel.categoryResponse().observe(requireActivity()) {
             handleResponse(it)
@@ -160,6 +164,33 @@ class CategoryProductListFragment : Fragment() {
 
         categoryViewModel.removeFavResponse().observe(requireActivity()) {
             handleRemoveFavResponse(it)
+        }
+
+        sharedViewModelInstance.getData().observe(viewLifecycleOwner) { product ->
+            refreshUpdatedItem(product)
+        }
+
+        sharedViewModelInstance.cartIsEmpty().observe(viewLifecycleOwner) { isEmptyCart ->
+            if(isEmptyCart) {
+                categoryProductListAdapter.notifyItemRangeChanged(0,
+                    categoryProductListAdapter.itemCount)
+            }
+        }
+    }
+
+    private fun refreshUpdatedItem(product: ProductListResponse.Products) {
+        for ((index, item) in categoryProductListAdapter.list.withIndex()) {
+            if (item.product_id == product.product_id) {
+//                //todo work here
+//                item.available_in_cart = product.available_in_cart
+//                item.itemQuantity = product.itemQuantity
+//                item.cartPackingId = product.cartPackingId
+//                categoryProductListAdapter.notifyItemRangeChanged(
+//                    0, categoryProductListAdapter.list.size
+//                )
+                categoryProductListAdapter.notifyItemChanged(index)
+                break
+            }
         }
     }
 

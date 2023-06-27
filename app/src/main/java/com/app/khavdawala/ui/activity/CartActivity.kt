@@ -14,7 +14,6 @@ import com.app.khavdawala.ui.adapter.CartProductAdapter
 import com.app.khavdawala.viewmodel.OrderViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-
 class CartActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCartBinding
@@ -191,5 +190,13 @@ class CartActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onBackPressed() {
+        //super.onBackPressed()
+        //passing the searched result back to the home activity
+        val intent = Intent()
+        setResult(AppConstants.RequestCode.CART_ACTIVITY, intent)
+        finish()
     }
 }

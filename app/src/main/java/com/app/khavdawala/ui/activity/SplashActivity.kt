@@ -19,6 +19,7 @@ import com.app.khavdawala.apputils.isConnected
 import com.app.khavdawala.apputils.rateApp
 import com.app.khavdawala.apputils.showSnackBar
 import com.app.khavdawala.databinding.ActivitySplashBinding
+import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.pojo.response.SettingsResponse
 import com.app.khavdawala.viewmodel.SettingsViewModel
 
@@ -46,6 +47,8 @@ class SplashActivity : AppCompatActivity() {
 
     private fun openHome() {
         if (SPreferenceManager.getInstance(this).isLogin) {
+            //clear cart, todo here if need to not clear then remove this function
+            clearCart()
             startActivity(Intent(this, HomeActivity::class.java))
         } else {
             val p1 = Pair.create(binding.ivLogo as View, "logo")
@@ -54,6 +57,20 @@ class SplashActivity : AppCompatActivity() {
             startActivity(Intent(this, RegisterActivity::class.java), options.toBundle())
         }
         finish()
+    }
+
+    private fun clearCart() {
+        var productList: ArrayList<ProductListResponse.Products>? =
+            SPreferenceManager.getInstance(this)
+                .getList("product", ProductListResponse.Products::class.java)
+
+        if (productList.isNullOrEmpty()) {
+            productList = ArrayList()
+            SPreferenceManager.getInstance(this).putList("product", productList)
+        } else {
+            productList.clear()
+            SPreferenceManager.getInstance(this).putList("product", productList)
+        }
     }
 
     private fun fetchSettings() {

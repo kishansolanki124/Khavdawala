@@ -27,6 +27,7 @@ import com.app.khavdawala.ui.activity.HomeActivity
 import com.app.khavdawala.ui.adapter.HorizontalProductListAdapter
 import com.app.khavdawala.ui.adapter.ProductDetailImagesAdapter
 import com.app.khavdawala.viewmodel.ProductViewModel
+import com.app.khavdawala.viewmodel.SharedViewModel
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import java.io.Serializable
@@ -41,6 +42,8 @@ class ProductDetailFragment : Fragment() {
     private var products = ProductListResponse.Products()
     private var pid = ""
     private lateinit var categoryViewModel: ProductViewModel
+    private lateinit var sharedViewModelInstance: SharedViewModel
+
     private var fragmentList: ArrayList<Fragment> = ArrayList()
 
     override fun onCreateView(
@@ -81,8 +84,11 @@ class ProductDetailFragment : Fragment() {
             binding.tvProductCount.text = "1"
             binding.tvProductCount.text = "1"
             products.itemQuantity = 1
+
             (requireActivity() as HomeActivity).updateToCart(products)
             binding.ivCart.setBackgroundResource(R.drawable.cart_icon_active)
+
+            sharedViewModelInstance.setData(products)
         }
 
         binding.tvMinus.setOnClickListener {
@@ -91,7 +97,6 @@ class ProductDetailFragment : Fragment() {
                 currentProductCount -= 1
             }
             binding.tvProductCount.text = currentProductCount.toString()
-
 
             products.itemQuantity = currentProductCount
 
@@ -109,6 +114,8 @@ class ProductDetailFragment : Fragment() {
             } else {
                 (requireActivity() as HomeActivity).updateToCart(products)
             }
+            sharedViewModelInstance.setData(products)
+
         }
 
         binding.tvPlus.setOnClickListener {
@@ -118,12 +125,25 @@ class ProductDetailFragment : Fragment() {
             }
             binding.tvProductCount.text = currentProductCount.toString()
             products.itemQuantity = currentProductCount
+
             (requireActivity() as HomeActivity).updateToCart(products)
+            sharedViewModelInstance.setData(products)
         }
     }
 
     private fun setupViewModel() {
         categoryViewModel = ViewModelProvider(this)[ProductViewModel::class.java]
+        sharedViewModelInstance = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
+
+        sharedViewModelInstance.getData().observe(viewLifecycleOwner) {
+            checkItemExistInCart()
+        }
+
+        sharedViewModelInstance.cartIsEmpty().observe(viewLifecycleOwner) { isEmptyCart ->
+            if(isEmptyCart) {
+                checkItemExistInCart()
+            }
+        }
 
         categoryViewModel.addFavResponse().observe(requireActivity()) {
             handleFavResponse(it)
@@ -195,6 +215,9 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun checkItemExistInCart() {
+        if(products.product_id.isNullOrEmpty()) {
+            return
+        }
         if (requireContext().checkItemExistInCart(
                 products.product_id,
                 products.cartPackingId,
@@ -240,7 +263,7 @@ class ProductDetailFragment : Fragment() {
         if (!productDetailResponse.description.isNullOrEmpty()) {
             fragmentList.add(
                 WebViewFragment.newInstance(
-                    productDetailResponse.description!!,
+                    productDetailResponse.description,
                     false
                 )
             )
@@ -255,7 +278,7 @@ class ProductDetailFragment : Fragment() {
         }
 
         if (!productDetailResponse.nutrition.isNullOrEmpty()) {
-            fragmentList.add(ProductDescriptionFragment.newInstance((productDetailResponse.nutrition!!)))
+            fragmentList.add(ProductDescriptionFragment.newInstance((productDetailResponse.nutrition)))
             binding.tabLayout.addTab(binding.tabLayout.newTab().setText("Nutrition Value"))
         }
 
@@ -288,7 +311,7 @@ class ProductDetailFragment : Fragment() {
                         binding.wvProductDetail.visible()
                         binding.wvProductDetail.loadDataWithBaseURL(
                             null,
-                            productDetailResponse.nutrition!!,
+                            productDetailResponse.nutrition,
                             "text/html",
                             "UTF-8",
                             null

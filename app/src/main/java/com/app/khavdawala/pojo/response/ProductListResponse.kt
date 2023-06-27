@@ -20,7 +20,7 @@ data class ProductListResponse(
         var selectedItemPosition: Int = 0,
         var itemQuantity: Int = 0,
         var cartPackingId: String = "",
-        var product_availability: String = "",
+        var product_availability: String ?= null,
         var packing_list: ArrayList<Packing> = ArrayList(),
         var price: String = "",
         var product_id: String = "",

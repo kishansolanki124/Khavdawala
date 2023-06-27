@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.text.TextUtils
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -13,8 +14,9 @@ import com.app.khavdawala.apputils.SPreferenceManager
 import com.app.khavdawala.apputils.isConnected
 import com.app.khavdawala.apputils.showSnackBar
 import com.app.khavdawala.databinding.ActivityRegisterBinding
-import com.app.khavdawala.pojo.response.RegisterResponse
 import com.app.khavdawala.pojo.request.RegisterRequest
+import com.app.khavdawala.pojo.response.CheckUserResponse
+import com.app.khavdawala.pojo.response.RegisterResponse
 import com.app.khavdawala.viewmodel.RegisterViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -23,6 +25,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private lateinit var signupViewModel: RegisterViewModel
     private lateinit var binding: ActivityRegisterBinding
+    private var deviceId = ""
     private val myCalendar = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,8 +38,25 @@ class RegisterActivity : AppCompatActivity() {
 
         signupViewModel = ViewModelProvider(this)[RegisterViewModel::class.java]
 
+        deviceId = Settings.Secure.getString(
+            this.contentResolver,
+            Settings.Secure.ANDROID_ID
+        )
+
+        if (isConnected(this)) {
+            if (!deviceId.isNullOrEmpty()) {
+                binding.pbRegister.visibility = View.VISIBLE
+                binding.btSubmitRegister.visibility = View.INVISIBLE
+                signupViewModel.checkUser(deviceId)
+            }
+        }
+
         signupViewModel.registerResponse().observe(this) {
             handleResponse(it)
+        }
+
+        signupViewModel.checkUserResponse().observe(this) {
+            handleCheckUserResponse(it)
         }
 
         binding.btSubmitRegister.setOnClickListener {
@@ -49,13 +69,30 @@ class RegisterActivity : AppCompatActivity() {
                         RegisterRequest(
                             binding.etName.text.toString(),
                             binding.etMob.text.toString(),
-                            binding.etBirthDate.text.toString()
+                            binding.etBirthDate.text.toString(),
+                            deviceId
                         )
                     )
                 } else {
                     showSnackBar(getString(R.string.no_internet), this)
                 }
             }
+        }
+    }
+
+    private fun handleCheckUserResponse(checkUserResponse: CheckUserResponse?) {
+        binding.btSubmitRegister.visibility = View.VISIBLE
+        binding.pbRegister.visibility = View.GONE
+
+//        android:cursorVisible="false"
+//        android:focusable="false"
+//        android:focusableInTouchMode="false"
+//        android:clickable="false"
+
+        if (null != checkUserResponse && checkUserResponse.status == "1") {
+            binding.etMob.setText(checkUserResponse.mobile!!)
+            binding.etName.setText(checkUserResponse.name!!)
+            binding.etBirthDate.setText(checkUserResponse.birth_date!!)
         }
     }
 

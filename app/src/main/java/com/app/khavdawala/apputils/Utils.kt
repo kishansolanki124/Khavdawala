@@ -415,11 +415,26 @@ fun Context.checkItemExistInCart(
 ): Boolean {
     val index = getCartProductList().indexOfFirst { it.product_id == product_id } // -1 if not found
 
-    val index2 = if (cartPackingId.isEmpty()) {
-        getCartProductList().indexOfFirst { it.cartPackingId == packingList[0].packing_id } // -1 if not found
+    var index2 = -1
+    if (cartPackingId.isEmpty() && packingList.isNotEmpty()) {
+        getCartProductList()?.let { itemList ->
+            index2 = itemList.indexOfFirst {
+                it.cartPackingId == packingList[0].packing_id
+            }
+        }
     } else {
-        getCartProductList().indexOfFirst { it.cartPackingId == cartPackingId } // -1 if not found
+        getCartProductList()?.let { itemList ->
+            index2 = itemList.indexOfFirst {
+                it.cartPackingId == cartPackingId
+            }
+        }
     }
+
+//    val index2 = if (cartPackingId.isEmpty()) {
+//        getCartProductList().indexOfFirst { it.cartPackingId == packingList[0].packing_id } // -1 if not found
+//    } else {
+//        getCartProductList().indexOfFirst { it.cartPackingId == cartPackingId } // -1 if not found
+//    }
     return index2 >= 0 && index >= 0
 }
 

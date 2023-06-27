@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/dp_5"
@@ -9,25 +10,26 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvMLAName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/dp_5"
-        android:text="Khajli Pakwan"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_20"
+        app:layout_constraintEnd_toStartOf="@id/ll_item_count"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Roasted Salted Cashew" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_weight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/dp_5"
-        android:text="(250 gm)"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_16"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvMLAName" />
+        app:layout_constraintTop_toBottomOf="@id/tvMLAName"
+        tools:text="(250 gm)" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/ll_item_count"
@@ -48,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="-"
+            android:text="@string/minus_sign"
             android:textColor="@color/black"
             android:textSize="@dimen/sp_24" />
 
@@ -59,9 +61,9 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:paddingHorizontal="@dimen/dp_10"
-            android:text="1"
             android:textColor="@color/black"
-            android:textSize="@dimen/sp_20" />
+            android:textSize="@dimen/sp_20"
+            tools:text="1" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_plus"
@@ -69,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="+"
+            android:text="@string/plus_sign"
             android:textColor="@color/black"
             android:textSize="@dimen/sp_24" />
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -79,13 +81,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/dp_5"
-        android:text="Rs. 50"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_20"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/iv_delete"
         app:layout_constraintStart_toEndOf="@id/ll_item_count"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Rs. 50" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_delete"

@@ -20,6 +20,7 @@ import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.ui.activity.HomeActivity
 import com.app.khavdawala.ui.adapter.FavProductListAdapter
 import com.app.khavdawala.viewmodel.ProductViewModel
+import com.app.khavdawala.viewmodel.SharedViewModel
 
 class FavoriteListFragment : Fragment() {
 
@@ -29,6 +30,7 @@ class FavoriteListFragment : Fragment() {
 
     private lateinit var categoryProductListAdapter: FavProductListAdapter
     private lateinit var categoryViewModel: ProductViewModel
+    private lateinit var sharedViewModelInstance: SharedViewModel
     private var productList: ArrayList<ProductListResponse.Products> = ArrayList()
     private lateinit var binding: FragmentCategoryProductListBinding
     private lateinit var layoutManager: LinearLayoutManager
@@ -50,6 +52,19 @@ class FavoriteListFragment : Fragment() {
         initRecyclerView()
 
         categoryViewModel = ViewModelProvider(this)[ProductViewModel::class.java]
+
+        sharedViewModelInstance = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
+
+        sharedViewModelInstance.getData().observe(viewLifecycleOwner) { product ->
+            refreshUpdatedItem(product)
+        }
+
+        sharedViewModelInstance.cartIsEmpty().observe(viewLifecycleOwner) { isEmptyCart ->
+            if(isEmptyCart) {
+                categoryProductListAdapter.notifyItemRangeChanged(0,
+                    categoryProductListAdapter.itemCount)
+            }
+        }
 
         categoryViewModel.categoryResponse().observe(requireActivity()) {
             handleResponse(it)
@@ -191,6 +206,23 @@ class FavoriteListFragment : Fragment() {
             showSnackBar(getString(R.string.no_internet), requireActivity())
         }
     }
+
+    private fun refreshUpdatedItem(product: ProductListResponse.Products) {
+        for ((index, item) in categoryProductListAdapter.list.withIndex()) {
+            if (item.product_id == product.product_id) {
+//                //todo work here
+//                item.available_in_cart = product.available_in_cart
+//                item.itemQuantity = product.itemQuantity
+//                item.cartPackingId = product.cartPackingId
+//                categoryProductListAdapter.notifyItemRangeChanged(
+//                    0, categoryProductListAdapter.list.size
+//                )
+                categoryProductListAdapter.notifyItemChanged(index)
+                break
+            }
+        }
+    }
+
 
     private fun setupHorizontalMainNews(bannerList: java.util.ArrayList<ProductListResponse.Banner>) {
         if (bannerList.isNotEmpty()) {

@@ -9,17 +9,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModelProvider
 import com.app.khavdawala.R
 import com.app.khavdawala.apputils.*
 import com.app.khavdawala.databinding.ActivityHomeBinding
 import com.app.khavdawala.pojo.response.ProductListResponse
 import com.app.khavdawala.ui.fragment.*
+import com.app.khavdawala.viewmodel.SharedViewModel
 
 
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
     private lateinit var mTransaction: FragmentTransaction
+    private lateinit var sharedViewModelInstance: SharedViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,15 +30,7 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val android_id = Secure.getString(
-            this.contentResolver,
-            Secure.ANDROID_ID
-        )
-
-        android_id?.let {
-            showToast(it)
-        }
-
+        sharedViewModelInstance = ViewModelProvider(this)[SharedViewModel::class.java]
 
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -76,7 +71,8 @@ class HomeActivity : AppCompatActivity() {
         }
 
         binding.toolbar.rlCart.setOnClickListener {
-            startActivity(Intent(this, CartActivity::class.java))
+            val intent = Intent(this, CartActivity::class.java)
+            cartLauncher.launch(intent)
         }
 
         binding.toolbar.ivSearch.setOnClickListener {
@@ -245,6 +241,19 @@ class HomeActivity : AppCompatActivity() {
                         ProductDetailFragment.newInstance(data.getStringExtra(AppConstants.SEARCH_STRING)!!),
                         addToBackStack = true, addInsteadOfReplace = true
                     )
+                }
+            }
+        }
+
+    private var cartLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == AppConstants.RequestCode.CART_ACTIVITY) {
+                if (!getCartProductList().isNullOrEmpty()) {
+                    for (item in getCartProductList()) {
+                        sharedViewModelInstance.setData(item)
+                    }
+                } else {
+                    sharedViewModelInstance.setEmptyCart(true)
                 }
             }
         }
