@@ -11,7 +11,6 @@ import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import com.app.khavdawala.apputils.EndlessRecyclerOnScrollListener
 import com.app.khavdawala.R
 import com.app.khavdawala.apputils.*
 import com.app.khavdawala.databinding.ActivitySearchBinding
@@ -77,7 +76,8 @@ class SearchActivity : AppCompatActivity() {
         }
 
         binding.layoutToolbar.etSearch.imeOptions = EditorInfo.IME_ACTION_SEARCH
-        binding.layoutToolbar.etSearch.setRawInputType(InputType.TYPE_CLASS_TEXT)
+        binding.layoutToolbar.etSearch.inputType =
+            InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_WORDS
 
         binding.layoutToolbar.etSearch.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {

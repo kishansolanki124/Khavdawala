@@ -75,6 +75,10 @@ class HomeActivity : AppCompatActivity() {
             cartLauncher.launch(intent)
         }
 
+        binding.toolbar.ivShare.setOnClickListener {
+            shareApp()
+        }
+
         binding.toolbar.ivSearch.setOnClickListener {
             val intent = Intent(this, SearchActivity::class.java)
             searchLauncher.launch(intent)

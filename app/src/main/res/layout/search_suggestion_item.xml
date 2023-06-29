@@ -11,19 +11,22 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_product_search"
-        android:layout_width="@dimen/dp_50"
-        android:layout_height="@dimen/dp_50"
+        android:layout_width="@dimen/dp_70"
+        android:layout_height="@dimen/dp_70"
         android:layout_margin="@dimen/dp_5"
         android:scaleType="fitCenter"
         tools:src="@drawable/product_photo" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvSearchSuggestion"
+        style="@style/ProductTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_margin="@dimen/dp_5"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:maxLines="2"
         android:textColor="@color/black"
-        android:textSize="@dimen/sp_14"
         tools:text="Search Suggestion 1" />
 </androidx.appcompat.widget.LinearLayoutCompat>
