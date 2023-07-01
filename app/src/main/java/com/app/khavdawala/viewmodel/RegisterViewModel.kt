@@ -48,6 +48,11 @@ class RegisterViewModel : ViewModel() {
                     registerRequest.deviceId
                 )
 
+                requestBodyBuilder.addFormDataPart(
+                    AppConstants.RequestParameters.platform,
+                    registerRequest.platform
+                )
+
                 val apiResponse = apiEndPointsInterface.registration(requestBodyBuilder.build())
                 returnSignupResponse(apiResponse)
             } catch (e: Exception) {

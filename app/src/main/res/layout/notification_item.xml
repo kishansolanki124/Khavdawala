@@ -18,8 +18,9 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_not_desc"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:justificationMode="inter_word"
         android:paddingHorizontal="@dimen/dp_5"
         android:textColor="@color/black"
         android:textSize="@dimen/sp_14"

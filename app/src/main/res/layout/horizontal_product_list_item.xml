@@ -12,25 +12,36 @@
         android:layout_width="@dimen/dp_120"
         android:layout_height="@dimen/dp_120"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/border"
-        android:padding="@dimen/dp_1">
+        android:background="@drawable/dotted_rectangle_red"
+        android:padding="@dimen/dp_3">
+        <!--        android:background="@drawable/border"-->
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/ivMLA"
+            style="@style/RoundImageViewList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_margin="@dimen/dp_4"
             android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/roundedImageViewRounded"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize10Percent"
             tools:src="@drawable/product_photo" />
+        <!--        <com.google.android.material.imageview.ShapeableImageView-->
+        <!--            android:id="@+id/ivMLA"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_gravity="center"-->
+        <!--            android:layout_margin="@dimen/dp_4"-->
+        <!--            android:scaleType="centerCrop"-->
+        <!--            app:shapeAppearanceOverlay="@style/roundedImageViewRounded"-->
+        <!--            tools:src="@drawable/product_photo" />-->
     </FrameLayout>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvMLAName"
         style="@style/ProductTitle"
-        android:paddingTop="@dimen/dp_5"
         android:minLines="1"
+        android:paddingTop="@dimen/dp_5"
         android:textSize="@dimen/sp_16"
         tools:text="Sweet" />
 </androidx.appcompat.widget.LinearLayoutCompat>
