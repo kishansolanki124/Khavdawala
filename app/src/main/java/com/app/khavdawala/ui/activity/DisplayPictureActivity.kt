@@ -6,15 +6,14 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.app.khavdawala.R
 import com.app.khavdawala.apputils.AppConstants
 import com.app.khavdawala.apputils.TouchImageView2
 import com.app.khavdawala.databinding.ActivityDisplayPictureBinding
-
 import com.app.khavdawala.pojo.response.ProductDetailResponse
 import com.bumptech.glide.Glide
 
@@ -101,7 +100,7 @@ class DisplayPictureActivity : AppCompatActivity(), ViewPager.OnPageChangeListen
         }
 
         override fun destroyItem(container: ViewGroup, position: Int, anyType: Any) {
-            container.removeView(anyType as LinearLayout)
+            container.removeView(anyType as ConstraintLayout)
         }
     }
 }

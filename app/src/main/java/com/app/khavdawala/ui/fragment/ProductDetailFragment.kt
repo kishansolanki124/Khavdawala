@@ -15,7 +15,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.khavdawala.R
-import com.app.khavdawala.apputils.*
+import com.app.khavdawala.apputils.AppConstants
+import com.app.khavdawala.apputils.MySpinnerItemSelectionListener
+import com.app.khavdawala.apputils.SPreferenceManager
+import com.app.khavdawala.apputils.checkItemExistInCart
+import com.app.khavdawala.apputils.getCartItemCount
+import com.app.khavdawala.apputils.gone
+import com.app.khavdawala.apputils.invisible
+import com.app.khavdawala.apputils.isConnected
+import com.app.khavdawala.apputils.showSnackBar
+import com.app.khavdawala.apputils.visible
 import com.app.khavdawala.databinding.FragmentProductDetailBinding
 import com.app.khavdawala.pojo.request.AddFavRequest
 import com.app.khavdawala.pojo.request.ProductRequest
@@ -140,7 +149,7 @@ class ProductDetailFragment : Fragment() {
         }
 
         sharedViewModelInstance.cartIsEmpty().observe(viewLifecycleOwner) { isEmptyCart ->
-            if(isEmptyCart) {
+            if (isEmptyCart) {
                 checkItemExistInCart()
             }
         }
@@ -215,7 +224,7 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun checkItemExistInCart() {
-        if(products.product_id.isNullOrEmpty()) {
+        if (products.product_id.isNullOrEmpty()) {
             return
         }
         if (requireContext().checkItemExistInCart(
@@ -288,15 +297,29 @@ class ProductDetailFragment : Fragment() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 when (tab?.position) {
                     0 -> {
-                        binding.wvProductDetail.gone()
-                        binding.tvHtml.visible()
-                        binding.tvHtml.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                            Html.fromHtml(
-                                productDetailResponse.description,
-                                Html.FROM_HTML_MODE_COMPACT
+                        if (productDetailResponse.description.isNullOrEmpty()) {
+                            //product description not available, only nutrition available
+                            binding.tvHtml.gone()
+                            binding.wvProductDetail.visible()
+                            binding.wvProductDetail.loadDataWithBaseURL(
+                                null,
+                                productDetailResponse.nutrition,
+                                "text/html",
+                                "UTF-8",
+                                null
                             )
                         } else {
-                            Html.fromHtml(productDetailResponse.description)
+                            binding.wvProductDetail.gone()
+                            binding.tvHtml.visible()
+                            binding.tvHtml.text =
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    Html.fromHtml(
+                                        productDetailResponse.description,
+                                        Html.FROM_HTML_MODE_COMPACT
+                                    )
+                                } else {
+                                    Html.fromHtml(productDetailResponse.description)
+                                }
                         }
 //                        binding.wvProductDetail.loadDataWithBaseURL(
 //                            null,
@@ -306,6 +329,7 @@ class ProductDetailFragment : Fragment() {
 //                            null
 //                        )
                     }
+
                     else -> {
                         binding.tvHtml.gone()
                         binding.wvProductDetail.visible()

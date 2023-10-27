@@ -264,6 +264,10 @@ class CheckoutActivity : AppCompatActivity(), PaymentResultListener {
     private fun handleAddressResponse(addressResponse: OrderAddressResponse?) {
         binding.loadingAddress.pbCommon.gone()
         binding.llCheckoutDetails.visible()
+
+        //Scroll to new visible field to show it to user
+        binding.svAddress.post { binding.svAddress.smoothScrollTo(0, binding.llCheckoutDetails.top ) }
+
         if (null != addressResponse) {
             if (addressResponse.status == "1") {
                 setAddressField(addressResponse)

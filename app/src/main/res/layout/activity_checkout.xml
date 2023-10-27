@@ -8,6 +8,7 @@
     tools:context=".ui.activity.CheckoutActivity">
 
     <ScrollView
+        android:id="@+id/sv_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dp_10">
@@ -285,6 +286,7 @@
 
                     <androidx.appcompat.widget.AppCompatCheckBox
                         android:id="@+id/cbGiftPack"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:buttonTint="@color/black"
@@ -296,6 +298,7 @@
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/dp_10"
                         android:layout_marginBottom="@dimen/dp_10"
                         android:orientation="horizontal">
 
@@ -350,12 +353,13 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp_20">
+                        android:layout_marginTop="@dimen/dp_10">
 
                         <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/bt_place_order"
                             style="@style/CommonButton"
-                            android:layout_margin="@dimen/dp_0"
+                            android:layout_marginVertical="@dimen/dp_0"
+                            android:layout_marginHorizontal="@dimen/dp_10"
                             android:text="@string/Submit"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
