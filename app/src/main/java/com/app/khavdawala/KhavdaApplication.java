@@ -1,10 +1,15 @@
 package com.app.khavdawala;
 
 import android.app.Application;
+import android.content.Intent;
+
+import com.app.khavdawala.ui.activity.SplashActivity;
+import com.onesignal.OneSignal;
+import com.onesignal.debug.LogLevel;
 
 public class KhavdaApplication extends Application {
 
-    //private static final String ONESIGNAL_APP_ID = "68f70451-9f1d-4101-a3e1-bbbfe5f58ac1";
+    private static final String ONESIGNAL_APP_ID = "f4f617d5-f961-4ea7-8c02-cc3b5f53b3e5";
     private static KhavdaApplication application;
 
     public static KhavdaApplication getApplication() {
@@ -15,24 +20,26 @@ public class KhavdaApplication extends Application {
     public void onCreate() {
         super.onCreate();
         application = this;
-
-//        // Setting timeout globally for the download network requests:
-//        PRDownloaderConfig config = PRDownloaderConfig.newBuilder()
-//                //.setReadTimeout(30_000)
-//                //.setConnectTimeout(30_000)
-//                .build();
-//        PRDownloader.initialize(getApplicationContext(), config);
-        //MultiDex.install(this);
-        //initOneSignal();
+        initOneSignal();
     }
 
-//    private void initOneSignal() {
-//        // Enable verbose OneSignal logging to debug issues if needed.
-//        OneSignal.setLogLevel(OneSignal.LOG_LEVEL.VERBOSE, OneSignal.LOG_LEVEL.NONE);
-//        OneSignal.initWithContext(this);
-//        OneSignal.setAppId(ONESIGNAL_APP_ID);
-//
-//        OneSignal.setNotificationOpenedHandler(
+    private void initOneSignal() {
+        // Enable verbose OneSignal logging to debug issues if needed.
+        // Verbose Logging set to help debug issues, remove before releasing your app.
+        OneSignal.getDebug().setLogLevel(LogLevel.VERBOSE);
+
+        // OneSignal Initialization
+        OneSignal.initWithContext(this, ONESIGNAL_APP_ID);
+
+        OneSignal.getNotifications().addClickListener(iNotificationClickEvent ->
+
+                startActivity(new Intent(application,
+                        SplashActivity.class)
+                        .putExtra("Notification", true)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+        );
+
+//                setNotificationOpenedHandler(
 //                result -> {
 //                    JSONObject jsonObject = result.getNotification().getAdditionalData();
 //                    //try {
@@ -43,5 +50,5 @@ public class KhavdaApplication extends Application {
 //                        startActivity(new Intent(this, HomeActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 //                    }
 //                });
-//    }
+    }
 }

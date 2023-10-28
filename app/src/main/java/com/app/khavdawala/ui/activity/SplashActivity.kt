@@ -47,9 +47,12 @@ class SplashActivity : AppCompatActivity() {
 
     private fun openHome() {
         if (SPreferenceManager.getInstance(this).isLogin) {
-            //clear cart, todo here if need to not clear then remove this function
             clearCart()
-            startActivity(Intent(this, HomeActivity::class.java))
+            if (null != intent && intent.getBooleanExtra("Notification", false)) {
+                startActivity(Intent(this, HomeActivity::class.java).putExtra("Notification", true))
+            } else {
+                startActivity(Intent(this, HomeActivity::class.java))
+            }
         } else {
             val p1 = Pair.create(binding.ivLogo as View, "logo")
             val options =

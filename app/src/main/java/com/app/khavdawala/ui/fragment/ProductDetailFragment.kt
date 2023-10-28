@@ -401,14 +401,14 @@ class ProductDetailFragment : Fragment() {
 
     private fun setupHorizontalMainNews(scrollNewsList: List<ProductDetailResponse.ProductGallery>) {
         val adapter = ProductDetailImagesAdapter { item, position ->
-            startActivity(
-                Intent(requireActivity(), DisplayPictureActivity::class.java)
-                    .putExtra(AppConstants.IMAGE_POSITION, position)
-                    .putExtra(
-                        AppConstants.IMAGE_LIST,
-                        scrollNewsList as Serializable
-                    )
-            )
+//            startActivity(
+//                Intent(requireActivity(), DisplayPictureActivity::class.java)
+//                    .putExtra(AppConstants.IMAGE_POSITION, position)
+//                    .putExtra(
+//                        AppConstants.IMAGE_LIST,
+//                        scrollNewsList as Serializable
+//                    )
+//            )
         }
         adapter.setItem(scrollNewsList)
         binding.vpProductDetail.adapter = adapter

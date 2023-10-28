@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "484026719669",
+    "project_id": "khavdawala",
+    "storage_bucket": "khavdawala.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484026719669:android:1e4e888970fc3408100dfc",
+        "android_client_info": {
+          "package_name": "com.app.khavdawala"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeCP5djUspyuyW-J1S7ymgBWo_mvWbWKQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

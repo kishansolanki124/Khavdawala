@@ -1,8 +1,9 @@
 package com.app.khavdawala.ui.activity
 
+import android.Manifest
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import android.provider.Settings.Secure
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -11,11 +12,23 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.app.khavdawala.R
-import com.app.khavdawala.apputils.*
+import com.app.khavdawala.apputils.AppConstants
+import com.app.khavdawala.apputils.SPreferenceManager
+import com.app.khavdawala.apputils.getCartProductList
+import com.app.khavdawala.apputils.gone
+import com.app.khavdawala.apputils.shareApp
+import com.app.khavdawala.apputils.visible
 import com.app.khavdawala.databinding.ActivityHomeBinding
 import com.app.khavdawala.pojo.response.ProductListResponse
-import com.app.khavdawala.ui.fragment.*
+import com.app.khavdawala.ui.fragment.AboutFragment
+import com.app.khavdawala.ui.fragment.CategoryProductListFragment
+import com.app.khavdawala.ui.fragment.FavoriteListFragment
+import com.app.khavdawala.ui.fragment.GiftListFragment
+import com.app.khavdawala.ui.fragment.HomeFragment
+import com.app.khavdawala.ui.fragment.NotificationListFragment
+import com.app.khavdawala.ui.fragment.ProductDetailFragment
 import com.app.khavdawala.viewmodel.SharedViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
 class HomeActivity : AppCompatActivity() {
@@ -23,12 +36,69 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var mTransaction: FragmentTransaction
     private lateinit var sharedViewModelInstance: SharedViewModel
+    private var openNotificationFragment = false
+
+    private val notificationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            hasNotificationPermissionGranted = isGranted
+            if (!isGranted) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (Build.VERSION.SDK_INT >= 33) {
+                        if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+                            showNotificationPermissionRationale()
+                        }
+//                        else {
+//                            showSettingDialog()
+//                        }
+                    }
+                }
+            } else {
+//                Toast.makeText(applicationContext, "notification permission granted", Toast.LENGTH_SHORT)
+//                    .show()
+            }
+        }
+
+//    private fun showSettingDialog() {
+//        MaterialAlertDialogBuilder(this, com.google.android.material.R.style.MaterialAlertDialog_Material3)
+//            .setTitle("Notification Permission")
+//            .setMessage("Notification permission is required, Please allow notification permission from setting")
+//            .setPositiveButton("Ok") { _, _ ->
+//                val intent = Intent(ACTION_APPLICATION_DETAILS_SETTINGS)
+//                intent.data = Uri.parse("package:$packageName")
+//                startActivity(intent)
+//            }
+//            .setNegativeButton("Cancel", null)
+//            .show()
+//    }
+
+    private fun showNotificationPermissionRationale() {
+
+        MaterialAlertDialogBuilder(
+            this,
+            com.google.android.material.R.style.MaterialAlertDialog_Material3
+        )
+            .setTitle("Alert")
+            .setMessage("Notification permission is required, to show notification")
+            .setPositiveButton("Ok") { _, _ ->
+                if (Build.VERSION.SDK_INT >= 33) {
+                    notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    var hasNotificationPermissionGranted = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        if (intent != null) {
+            openNotificationFragment = intent.getBooleanExtra("Notification", false)
+        }
 
         sharedViewModelInstance = ViewModelProvider(this)[SharedViewModel::class.java]
 
@@ -39,21 +109,25 @@ class HomeActivity : AppCompatActivity() {
                     binding.toolbar.ivShare.visibility = View.VISIBLE
                     binding.toolbar.ibBack.visibility = View.GONE
                 }
+
                 R.id.navigation_fav -> {
                     switchFragment(FavoriteListFragment(), false)
                     binding.toolbar.ivShare.visibility = View.VISIBLE
                     binding.toolbar.ibBack.visibility = View.GONE
                 }
+
                 R.id.navigation_home -> {
                     switchFragment(HomeFragment(), false)
                     binding.toolbar.ivShare.visibility = View.VISIBLE
                     binding.toolbar.ibBack.visibility = View.GONE
                 }
+
                 R.id.navigation_not -> {
                     switchFragment(NotificationListFragment(), false)
                     binding.toolbar.ivShare.visibility = View.VISIBLE
                     binding.toolbar.ibBack.visibility = View.GONE
                 }
+
                 R.id.navigation_about -> {
                     switchFragment(AboutFragment(), false)
                     binding.toolbar.ivShare.visibility = View.VISIBLE
@@ -88,7 +162,15 @@ class HomeActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        binding.bottomNavigationView.selectedItemId = R.id.navigation_home
+        if (openNotificationFragment) {
+            binding.bottomNavigationView.selectedItemId = R.id.navigation_not
+        } else {
+            binding.bottomNavigationView.selectedItemId = R.id.navigation_home
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            notificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
     }
 
     fun switchFragment(
@@ -135,18 +217,22 @@ class HomeActivity : AppCompatActivity() {
                     binding.toolbar.ivShare.visibility = View.VISIBLE
                     binding.toolbar.ibBack.visibility = View.GONE
                 }
+
                 is HomeFragment -> {
                     binding.toolbar.ivShare.visibility = View.VISIBLE
                     binding.toolbar.ibBack.visibility = View.GONE
                 }
+
                 is NotificationListFragment -> {
                     binding.toolbar.ivShare.visibility = View.VISIBLE
                     binding.toolbar.ibBack.visibility = View.GONE
                 }
+
                 is AboutFragment -> {
                     binding.toolbar.ivShare.visibility = View.VISIBLE
                     binding.toolbar.ibBack.visibility = View.GONE
                 }
+
                 else -> {
                     binding.toolbar.ivShare.visibility = View.GONE
                     binding.toolbar.ibBack.visibility = View.VISIBLE
@@ -252,7 +338,7 @@ class HomeActivity : AppCompatActivity() {
     private var cartLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == AppConstants.RequestCode.CART_ACTIVITY) {
-                if (!getCartProductList().isNullOrEmpty()) {
+                if (getCartProductList().isNotEmpty()) {
                     for (item in getCartProductList()) {
                         sharedViewModelInstance.setData(item)
                     }
@@ -264,12 +350,11 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (!getCartProductList().isNullOrEmpty()) {
+        if (getCartProductList().isNotEmpty()) {
             binding.toolbar.tvCartCount.text = getCartProductList().size.toString()
             binding.toolbar.flCartCount.visible()
         } else {
             binding.toolbar.flCartCount.gone()
         }
     }
-
 }
